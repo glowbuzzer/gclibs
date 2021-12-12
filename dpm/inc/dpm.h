@@ -12,8 +12,8 @@
  */
 
 
-#ifndef MONOREPO_DPM_H
-#define MONOREPO_DPM_H
+#ifndef GCLIB__DPM_H
+#define GCLIB__DPM_H
 
 
 //#include "std_headers.h"

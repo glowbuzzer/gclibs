@@ -13,8 +13,8 @@
 
 
 
-#ifndef _STD_HEADERS
-#define _STD_HEADERS
+#ifndef GCLIB_STD_HEADERS
+#define GCLIB_STD_HEADERS
 
 
 #include <stdint.h>

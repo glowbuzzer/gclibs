@@ -13,11 +13,11 @@
 
 
 
-#ifndef MONOREPO_SLEEP_H
-#define MONOREPO_SLEEP_H
+#ifndef GCLIB__SLEEP_H
+#define GCLIB__SLEEP_H
 
 int nsleep_micro(uint64_t microseconds);
 void true_sleep(int sec);
 
 
-#endif //MONOREPO_SLEEP_H
+#endif //GCLIB__SLEEP_H

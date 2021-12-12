@@ -11,8 +11,8 @@
  ******************************************************************************
  */
 
-#ifndef MONOREPO_STD_UTILS_H
-#define MONOREPO_STD_UTILS_H
+#ifndef GCLIB__STD_UTILS_H
+#define GCLIB__STD_UTILS_H
 
 #include <stdint.h>
 #include <stddef.h>
@@ -51,4 +51,4 @@ uint32_t copy_set_bits_32(uint32_t destination, uint32_t source, uint32_t at, ui
 
 void print_current_time_with_ms(void);
 
-#endif //MONOREPO_STD_UTILS_H
+#endif //GCLIB__STD_UTILS_H

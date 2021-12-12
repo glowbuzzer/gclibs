@@ -12,8 +12,8 @@
  */
 
 
-#ifndef __LOG_H
-#define __LOG_H
+#ifndef GCLIB__LOG_H
+#define GCLIB__LOG_H
 
 #if defined(GB_APP_LINUX)
 

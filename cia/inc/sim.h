@@ -12,9 +12,9 @@
  */
 
 
-#ifndef MONOREPO_SIM_H
-#define MONOREPO_SIM_H
+#ifndef GCLIB__SIM_H
+#define GCLIB__SIM_H
 
 uint32_t cia_sim_control_word(uint32_t nextControlWord, uint32_t *machineState);
 
-#endif //MONOREPO_SIM_H
+#endif //GCLIB__SIM_H

@@ -12,8 +12,8 @@
  */
 
 
-#ifndef MONOREPO_FAULT_CAUSE_H
-#define MONOREPO_FAULT_CAUSE_H
+#ifndef GCLIB_FAULT_CAUSE_H
+#define GCLIB_FAULT_CAUSE_H
 
 
 /* fault cause bit numbers in machine status word */
@@ -34,4 +34,4 @@
 #define FAULT_CAUSE_HOMING_ERROR_BIT_NUM                (14)
 #define FAULT_CAUSE_GBC_TO_PLC_CON_ERROR_BIT_NUM        (15) //<< AK added
 
-#endif //MONOREPO_FAULT_CAUSE_H
+#endif //GCLIB_FAULT_CAUSE_H

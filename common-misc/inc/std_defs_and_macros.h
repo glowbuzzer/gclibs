@@ -13,8 +13,8 @@
 
 
 
-#ifndef _STD_DEFS_AND_MACROS
-#define _STD_DEFS_AND_MACROS
+#ifndef GCLIB_STD_DEFS_AND_MACROS
+#define GCLIB_STD_DEFS_AND_MACROS
 
 
 #include <setjmp.h>

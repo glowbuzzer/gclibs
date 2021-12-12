@@ -12,8 +12,8 @@
  */
 
 
-#ifndef GB_MONOREPO_USER_MESSAGE_H
-#define GB_MONOREPO_USER_MESSAGE_H
+#ifndef GCLIB_USER_MESSAGE_H
+#define GCLIB_USER_MESSAGE_H
 
 #include "printf.h"
 #include "gberror.h"
@@ -76,4 +76,4 @@ gberror_t logger_set_stdout(void);
 
 #define UFATAL(fmt, ...) gb_fatal_release_error(__LINE__, __FILE__, fmt, ##__VA_ARGS__ )
 
-#endif //GB_MONOREPO_USER_MESSAGE_H
+#endif //GCLIB_USER_MESSAGE_H

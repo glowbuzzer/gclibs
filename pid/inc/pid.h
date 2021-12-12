@@ -12,9 +12,9 @@
  */
 
 
-#ifndef MONOREPO_PID_H
-#define MONOREPO_PID_H
+#ifndef GCLIB__PID_H
+#define GCLIB__PID_H
 
 int find_matching_pid(char *proc_name, int um_en);
 
-#endif //MONOREPO_PID_H
+#endif //GCLIB__PID_H

@@ -11,8 +11,8 @@
  ******************************************************************************
  */
 
-#ifndef INC_CIA402_H_
-#define INC_CIA402_H_
+#ifndef GCLIB_CIA402_H_
+#define GCLIB_CIA402_H_
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -128,4 +128,4 @@ uint16_t cia_state_to_statwrd(cia_state_t state);
 
 
 
-#endif /* INC_CIA402_H_ */
+#endif /* GCLIB__CIA402_H_ */

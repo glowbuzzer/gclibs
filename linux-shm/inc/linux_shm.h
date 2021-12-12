@@ -12,8 +12,8 @@
  */
 
 
-#ifndef MONOREPO_LINUX_SHM_H
-#define MONOREPO_LINUX_SHM_H
+#ifndef GCLIB__LINUX_SHM_H
+#define GCLIB__LINUX_SHM_H
 #include "stdint.h"
 #include "gberror.h"
 #include <stdbool.h>
@@ -41,4 +41,4 @@ gberror_t establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char 
 gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en);
 
 
-#endif //MONOREPO_LINUX_SHM_H
+#endif //GCLIB__LINUX_SHM_H

@@ -12,8 +12,8 @@
  */
 
 
-#ifndef GB_MONOREPO_GBERROR_H
-#define GB_MONOREPO_GBERROR_H
+#ifndef GCLIB__GBERROR_H
+#define GCLIB__GBERROR_H
 
 #define NUMECODES (int)(sizeof(gberrordesc)/sizeof(gberrordesc[0]))
 
@@ -58,4 +58,4 @@ typedef enum {
 char * gb_strerror(int return_value);
 int gb_perror(int return_value);
 
-#endif //GB_MONOREPO_GBERROR_H
+#endif //GCLIB__GBERROR_H
