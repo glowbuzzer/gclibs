@@ -52,7 +52,11 @@ typedef enum {
     E_INIT_FAILURE = -31,
     E_NOT_STOPPED = -32,
     E_NOT_FOUND = -33,
-    E_GPIO_FAILURE = -34
+    E_GPIO_FAILURE = -34,
+    E_CHIP_MATCH_FAILURE = -35,
+    E_INVALID_COOKIE = -36,
+    E_DEVICE_IS_NOT_SLAVE = -37,
+    E_INVALID_PROTOCOL = -38,
 } gberror_t;
 
 char * gb_strerror(int return_value);

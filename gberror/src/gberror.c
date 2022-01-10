@@ -54,6 +54,10 @@ struct _gberrordesc {
         {E_NOT_STOPPED, "An action has been requested whilst motion is occurring"},
         {E_NOT_FOUND, "The searched for entity was not found"},
         {E_GPIO_FAILURE, "GPIO failure"},
+        {E_CHIP_MATCH_FAILURE,  "Chip does not match the requested one"},
+        {E_INVALID_COOKIE, "Cookie is not valid"},
+        {E_DEVICE_IS_NOT_SLAVE, "Device is not a slave"},
+        {E_INVALID_PROTOCOL, "Protocol is not valid"},
 };
 
 int gb_perror(int return_value){
