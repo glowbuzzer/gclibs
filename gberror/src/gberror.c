@@ -58,6 +58,9 @@ struct _gberrordesc {
         {E_INVALID_COOKIE, "Cookie is not valid"},
         {E_DEVICE_IS_NOT_SLAVE, "Device is not a slave"},
         {E_INVALID_PROTOCOL, "Protocol is not valid"},
+        {E_NO_SPACE, "No space for data"},
+        {E_NO_MESSAGES, "There are no messages available"},
+        {E_REG_FAILED, "Registration for the service failed"},
 };
 
 int gb_perror(int return_value){
