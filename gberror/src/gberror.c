@@ -61,6 +61,7 @@ struct _gberrordesc {
         {E_NO_SPACE, "No space for data"},
         {E_NO_MESSAGES, "There are no messages available"},
         {E_REG_FAILED, "Registration for the service failed"},
+        {E_NOT_READY, "Not ready"},
 };
 
 int gb_perror(int return_value){
