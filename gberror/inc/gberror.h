@@ -60,6 +60,7 @@ typedef enum {
     E_NO_SPACE = -38,
     E_NO_MESSAGES = -39,
     E_REG_FAILED = -40,
+    E_NOT_READY = -41,
 } gberror_t;
 
 char * gb_strerror(int return_value);
