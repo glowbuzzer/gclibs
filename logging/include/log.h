@@ -15,7 +15,7 @@
 #ifndef GCLIB__LOG_H
 #define GCLIB__LOG_H
 
-#if defined(GB_APP_LINUX)
+#if GB_APP_LINUX==0
 
 #include <stdio.h>
 #include <time.h>
@@ -90,7 +90,7 @@ static char *current_time() {
 #else
 */
 
-#if defined(GB_APP_LINUX)
+#if (GB_APP_LINUX==1)
 #define DEBUG_PREFIX "LL"
 #endif
 //for poverty stricken embedded developers who can't afford fancy coloured terminals like proper developers...

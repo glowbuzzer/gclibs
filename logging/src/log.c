@@ -16,17 +16,17 @@
 #include <string.h>
 #include "stdint.h"
 
-#if !defined(GB_APP_LINUX)  && !defined(CORE_CM4)
+#if GB_APP_LINUX ==0  && !defined(CORE_CM4)
 #include "FreeRTOS.h"
 #include "task.h"
 #endif
 
 
-int log_run_level = LOG_LEVEL;
+//int log_run_level = LOG_LEVEL;
 
 //int log_run_level = 0;
 
-#if !defined(GB_APP_LINUX)
+#if (GB_APP_LINUX==0)
 /**
  * @brief function to output formatted strings with [DEBUG ] prefix
  * Used by third party libs that can't integrate with the LOG macro
@@ -117,7 +117,7 @@ unsigned long error_line;
 //Make this the function that duktape, freertos etc. call
 void gb_fatal_error(unsigned long line, const char *file) {
 
-#if !defined(GB_APP_LINUX)
+#if (GB_APP_LINUX == 1)
 	printf("[FATAL ] Error handler called from [%s:%ld]", file, line);
 	exit(-1);
 #else
