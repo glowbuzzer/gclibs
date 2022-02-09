@@ -17,6 +17,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define CTRL_MACHINE_CTRL_WRD_REQUEST_FAULT_BIT_NUM     6
+
 #define CIA_NUM_STATE_NAMES     8
 #define CIA_NUM_COMMAND_NAMES   7
 

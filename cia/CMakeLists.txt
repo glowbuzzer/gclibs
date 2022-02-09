@@ -6,7 +6,7 @@ file(GLOB SOURCES "src/*.c")
 
 
 add_library(cia STATIC ${SOURCES})
-#target_link_libraries(cia shared)
+target_link_libraries(cia common-misc)
 target_include_directories(cia PUBLIC inc)
 
 
