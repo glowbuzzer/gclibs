@@ -50,8 +50,8 @@ typedef enum {
 
 extern const char* cia_command_names[CIA_NUM_COMMAND_NAMES];
 
-//so we are use bit 6 here - bit confusing
-#define GB_FAULT_PLC_CTRLWRD                      0b1000000
+//so we are use bit 16 here - bit confusing
+#define GB_FAULT_PLC_CTRLWRD                      0b10000000000000000
 
 /* Control words to command a transition to a state - e.g. send to a drive to change its state */
 /* The switch on ctrl word and the disable operation control words are identical */

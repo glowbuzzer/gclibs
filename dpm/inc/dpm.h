@@ -46,8 +46,8 @@ typedef struct {
 
 typedef struct {
     uint32_t machine_word; // commanded (CiA-402) state of machine
-    uint32_t hlc_control_word; // commands from the high-level-control to GBC
-    uint32_t gbc_control_word; // commands from GBC to
+    uint32_t hlc_control_word; // we dont what this is for
+    uint32_t gbc_control_word; // move gbc fault and move not op en
     uint32_t  heartbeat; // a periodically increasing heartbeat used to detect we are connected
     uint16_t  joint_controlword[DPM_NUM_JOINTS]; // CiA-402 control word for the drives (not used if say GBEM is commanding teh drives)
     int32_t joint_set_position[DPM_NUM_JOINTS]; // set position for drives (usually only this is used not velocity and torque)
