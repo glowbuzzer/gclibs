@@ -27,7 +27,7 @@
 #define FAULT_CAUSE_DRIVE_NO_REMOTE_BIT_NUM         	(7)
 #define FAULT_CAUSE_ECAT_BIT_NUM                        (8)
 #define FAULT_CAUSE_DRIVE_ALARM_BIT_NUM                 (9)
-#define FAULT_CAUSE_GBC_TO_GBEM_CON_ERROR_BIT_NUM       (10) //<<chnaged
+//#define FAULT_CAUSE_GBC_TO_GBEM_CON_ERROR_BIT_NUM       (10) //<<chnaged
 #define FAULT_CAUSE_DRIVE_MOOERROR_BIT_NUM              (11)
 #define FAULT_CAUSE_ECAT_SLAVE_ERROR_BIT_NUM            (12)
 #define FAULT_CAUSE_PLC_SIGNALLED_ERROR_BIT_NUM         (13)

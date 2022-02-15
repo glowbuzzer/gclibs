@@ -163,7 +163,8 @@ int rc;
     *shared_mem = mmap(0, sizeof(struct shm_msg), PROT_READ | PROT_WRITE, MAP_SHARED, shm_open_fd, 0);
 
 if (*shared_mem == NULL){
-    printf("null pointer\n");
+    UM_ERROR(um_en, "LINUX_SHM: The shared memory region was a NULL pointer. This is very bad");
+    return E_SHARED_MEM_INIT_FAILURE;
 }
 
 
