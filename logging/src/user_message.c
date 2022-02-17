@@ -184,7 +184,7 @@ void log_generic(const int level, const char* fmt, ...)
 
 
 
-const char *um_level_strings[] = { "FATAL ", "ERROR ", "WARN  ", "INFO  " };
+const char *um_level_strings[] = { "FATAL    ", "ERROR    ", "WARN     ", "INFO     " };
 
 void gb_fatal_release_error(unsigned long line, const char *file, const char* fmt, ...) {
 

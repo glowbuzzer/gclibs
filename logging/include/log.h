@@ -15,15 +15,7 @@
 #ifndef GCLIB__LOG_H
 #define GCLIB__LOG_H
 
-#if GB_APP_LINUX==0
-
-#include <stdio.h>
-#include <time.h>
-#include <sys/time.h>
 #include "printf.h"
-#else
-#include "printf.h"
-#endif
 
 #include <stdlib.h>
 #include <stdarg.h>
@@ -90,13 +82,12 @@ static char *current_time() {
 #else
 */
 
-#if (GB_APP_LINUX==1)
-#define DEBUG_PREFIX "LL"
-#endif
+#define DEBUG_PREFIX "DEBUG-LOG"
+
 //for poverty stricken embedded developers who can't afford fancy coloured terminals like proper developers...
 #define LOG(enabled, level, fmt, ...) do {    \
     if ( (enabled >= 1) && LOG_SHOULD_I(level) ) { \
-        printf("[%s] [%s] " fmt " (%s:%d)\n", log_level_strings[level],DEBUG_PREFIX, ##__VA_ARGS__, __FILE__,__LINE__); \
+        printf("[%s] " fmt " (%s:%d)\n", log_level_strings[level], ##__VA_ARGS__, __FILE__,__LINE__); \
     } \
     if ( level == LOG_LVL_FATAL ) { \
         FATAL; \

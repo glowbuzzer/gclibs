@@ -64,7 +64,7 @@ void printf_log_function(const char *fmt, ...) {
 	}
 }
 #endif
-const char *log_level_strings[] = { "FATAL ", "ERROR ", "WARN  ", "INFO  ", "DEBUG ", "TRACE " };
+const char *log_level_strings[] = { "LL-FATAL ", "LL-ERROR ", "LL-WARN  ", "LL-INFO  ", "LL-DEBUG ", "LL-TRACE " };
 
 void LL_HEX(char *addr, int len) {
 	if (!LOG_SHOULD_I(LOG_LVL_DEBUG)) {
