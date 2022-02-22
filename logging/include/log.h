@@ -124,6 +124,6 @@ static char *current_time() {
 #define FATAL gb_fatal_error(__LINE__, __FILE__)
 #define FATAL_IF(x) if ((x)==1) gb_fatal_error(__LINE__, __FILE__)
 #define FATAL_UNLESS(x) if ((x)==0) gb_fatal_error(__LINE__, __FILE__)
-#define ASSERT(x) if (ASSERT_EN && (x)==0) gb_fatal_error(__LINE__, __FILE__)
+//#define ASSERT(x) if (ASSERT_EN && (x)==0) gb_fatal_error(__LINE__, __FILE__)
 
 #endif

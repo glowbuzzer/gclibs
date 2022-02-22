@@ -27,7 +27,7 @@
 
 extern char gbc_shared_mem_name[100];
 
-//todo make these uint32 !
+
 struct shm_msg {
     int gbc_alive;
     int in_busy;
