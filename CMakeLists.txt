@@ -26,7 +26,7 @@ add_subdirectory("sleep")
 add_subdirectory("gberror")
 add_subdirectory("minini")
 add_subdirectory("state_machine")
-
+add_subdirectory("unity")
 
 if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
     message(FATAL_ERROR “GB: In-source builds not allowed! Create a build directory and run CMake from there.”)
