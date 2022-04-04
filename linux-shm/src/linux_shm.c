@@ -73,13 +73,12 @@ gberror_t establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char 
                 *pid = 0;
             }
 
-
             //single process matching name found
             if (*pid > 0) {
                 UM_INFO(um_en, "LINUX_SHM: [%s] is running as process id [%d]", proc, *pid);
-
                 //magic number is useful but persists after gbc is closed and rerun
-                if ((*shared_mem)->gbc_alive == SHM_MAGIC_NUMBER) {
+                if (1){
+//                if ((*shared_mem)->gbc_alive == SHM_MAGIC_NUMBER) {
                     UM_INFO(um_en,
                             "LINUX_SHM: The shared mem has had the correct magic number written to it [0x%02X]",
                             SHM_MAGIC_NUMBER);
