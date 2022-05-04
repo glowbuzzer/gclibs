@@ -6,9 +6,9 @@ project(gclibs)
 message(STATUS "GB: This is a dummy build of clibs, we don't use the output from this build!")
 message(STATUS "GB: Using cmake version [${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}]")
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wsign-conversion -Og -fPIC -std=gnu99 -DGB_APP_LINUX -DLOG_LEVEL=0 -DENABLE_LOGGING=0")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wsign-conversion -fPIC -std=gnu99 -DGB_APP_LINUX -DLOG_LEVEL=0 -DENABLE_LOGGING=0")
 
-set(CMAKE_C_FLAGS_DEBUG "-O0 -g3")
+set(CMAKE_C_FLAGS_DEBUG "-Og -g3")
 set(CMAKE_C_FLAGS_RELEASE "-O3")
 
 message(STATUS "GB: PROJECT_BINARY_DIR [${PROJECT_BINARY_DIR} ]")
