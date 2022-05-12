@@ -191,7 +191,7 @@ void gb_fatal_release_error(unsigned long line, const char *file, const char* fm
 #if GB_APP_LINUX == 1
     va_list args;
     va_start(args, fmt);
-    printf("[FATAL ] ");
+    printf("[FATAL    ] ");
     vprintf(fmt, args);
     printf("\n");
     printf("[FATAL ] error handler called from %s:%ld", file, line);
