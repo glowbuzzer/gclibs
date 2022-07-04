@@ -62,6 +62,11 @@ struct _gberrordesc {
         {E_NO_MESSAGES, "There are no messages available"},
         {E_REG_FAILED, "Registration for the service failed"},
         {E_NOT_READY, "Not ready"},
+        {E_NOT_ENOUGH_SLAVES, "Too few slaves on the network"},
+        {E_SLAVE_NAME_MATCH_FAILURE, "Slave name match failure"},
+        {E_SLAVE_EEP_MAN_MATCH_FAILURE, "Slave EEP MAN match failure"},
+        {E_SLAVE_EEP_ID_MATCH_FAILURE, "Slave EEP ID match failure"},
+        {E_SLAVE_EEP_REV_MATCH_FAILURE, "Slave EEP REV match failure"},
 };
 
 int gb_perror(int return_value){

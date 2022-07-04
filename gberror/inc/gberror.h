@@ -61,6 +61,11 @@ typedef enum {
     E_NO_MESSAGES = -39,
     E_REG_FAILED = -40,
     E_NOT_READY = -41,
+    E_NOT_ENOUGH_SLAVES = -42,
+    E_SLAVE_NAME_MATCH_FAILURE = -43,
+    E_SLAVE_EEP_MAN_MATCH_FAILURE = -44,
+    E_SLAVE_EEP_ID_MATCH_FAILURE = -45,
+    E_SLAVE_EEP_REV_MATCH_FAILURE = -46
 } gberror_t;
 
 char * gb_strerror(int return_value);
