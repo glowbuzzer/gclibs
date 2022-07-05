@@ -39,14 +39,6 @@ gberror_t logger_set_log_file(const char* filename, int um_en);
 gberror_t logger_set_syslog(char * log_ident);
 gberror_t logger_set_stdout(void);
 
-//#define UM(enabled, level, fmt, ...) do {    \
-//    if ( (enabled >= 1)) { \
-//        printf("[%s] " fmt "\n", um_level_strings[level], ##__VA_ARGS__); \
-//    } \
-//    if ( level == UM_LVL_FATAL ) { \
-//        UFATAL; \
-//    } \
-//} while(0)
 
 #define UM(enabled, level, fmt, ...) do {    \
     if ( (enabled >= 1 && level != UM_LVL_FATAL)) {                   \
@@ -58,15 +50,6 @@ gberror_t logger_set_stdout(void);
 } while(0)
 
 
-
-//#define LOG(enabled, level, fmt, ...) do {    \
-//if ( (enabled >= 1) && LOG_SHOULD_I(level) ) { \
-//printf("[%s] (%s) " fmt " (%s:%d)\n", log_level_strings[level],CORE_DEBUG_PREFIX, ##__VA_ARGS__, __FILE__,__LINE__); \
-//} \
-//if ( level == LOG_LVL_FATAL ) { \
-//FATAL; \
-//} \
-//} while(0)
 
 
 #define UM_INFO(enabled, fmt, ...) UM( enabled, UM_LVL_INFO, fmt, ##__VA_ARGS__ )
