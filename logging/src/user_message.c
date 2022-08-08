@@ -194,7 +194,9 @@ void gb_fatal_release_error(unsigned long line, const char *file, const char* fm
     printf("[FATAL    ] ");
     vprintf(fmt, args);
     printf("\n");
-    printf("[FATAL    ] error handler called from %s:%ld", file, line);
+#if DEBUG_BUILD == 1
+    printf("[FATAL    ] Error handler called from %s:%ld", file, line);
+#endif
     exit(-1);
 #else
     volatile uint32_t setToNonZeroInDebuggerToContinue = 0;
