@@ -137,7 +137,7 @@
 }))
 
 
-#define DUMP(varname) printf("%s, %d", #varname, (varname).index);
+//#define DUMP(varname) printf("%s, %d", #varname, (varname).index);
 
 
 // Generic mask/shift macros

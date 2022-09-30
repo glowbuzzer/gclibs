@@ -20,10 +20,10 @@ int nsleep_micro(uint64_t microseconds) {
 
     if (microseconds > 999) {
         req.tv_sec = (int) (microseconds / 1000000);                            /* Must be Non-Negative */
-        req.tv_nsec = (microseconds - ((uint64_t) req.tv_sec * 1000)) * 1000; /* Must be in range of 0 to 999999999 */
+        req.tv_nsec = (__syscall_slong_t) (microseconds - ((uint64_t) req.tv_sec * 1000)) * 1000; /* Must be in range of 0 to 999999999 */
     } else {
         req.tv_sec = 0;                         /* Must be Non-Negative */
-        req.tv_nsec = microseconds * 1000;    /* Must be in range of 0 to 999999999 */
+        req.tv_nsec = (__syscall_slong_t) microseconds * 1000;    /* Must be in range of 0 to 999999999 */
     }
 
     return nanosleep(&req, &rem);

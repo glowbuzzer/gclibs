@@ -246,13 +246,13 @@ static int getkeystring(INI_FILETYPE *fp, const TCHAR *Section, const TCHAR *Key
       sp = skipleading(LocalBuffer);
       ep = _tcsrchr(sp, ']');
     } while (*sp != '[' || ep == NULL ||
-             (((int)(ep-sp-1) != len || Section == NULL || _tcsnicmp(sp+1,Section,len) != 0) && ++idx != idxSection));
+             (((int)(ep-sp-1) != len || Section == NULL || _tcsnicmp(sp+1,Section,(size_t) len) != 0) && ++idx != idxSection));
     if (idxSection >= 0) {
       if (idx == idxSection) {
         assert(ep != NULL);
         assert(*ep == ']');
         *ep = '\0';
-        ini_strncpy(Buffer, sp + 1, BufferSize, QUOTE_NONE);
+        ini_strncpy(Buffer, sp + 1, (size_t) BufferSize, QUOTE_NONE);
         return 1;
       } /* if */
       return 0; /* no more section found */
@@ -275,14 +275,14 @@ static int getkeystring(INI_FILETYPE *fp, const TCHAR *Section, const TCHAR *Key
     if (ep == NULL)
       ep = _tcschr(sp, ':');
   } while (*sp == ';' || *sp == '#' || ep == NULL
-           || ((len == 0 || (int)(skiptrailing(ep,sp)-sp) != len || _tcsnicmp(sp,Key,len) != 0) && ++idx != idxKey));
+           || ((len == 0 || (int)(skiptrailing(ep,sp)-sp) != len || _tcsnicmp(sp,Key,(size_t) len) != 0) && ++idx != idxKey));
   if (idxKey >= 0) {
     if (idx == idxKey) {
       assert(ep != NULL);
       assert(*ep == '=' || *ep == ':');
       *ep = '\0';
       striptrailing(sp);
-      ini_strncpy(Buffer, sp, BufferSize, QUOTE_NONE);
+      ini_strncpy(Buffer, sp, (size_t) BufferSize, QUOTE_NONE);
       return 1;
     } /* if */
     return 0;   /* no more key found (in this section) */
@@ -293,7 +293,7 @@ static int getkeystring(INI_FILETYPE *fp, const TCHAR *Section, const TCHAR *Key
   assert(*ep == '=' || *ep == ':');
   sp = skipleading(ep + 1);
   sp = cleanstring(sp, &quotes);  /* Remove a trailing comment */
-  ini_strncpy(Buffer, sp, BufferSize, quotes);
+  ini_strncpy(Buffer, sp, (size_t) BufferSize, quotes);
   return 1;
 }
 
@@ -320,7 +320,7 @@ int ini_gets(const TCHAR *Section, const TCHAR *Key, const TCHAR *DefValue,
     (void)ini_close(&fp);
   } /* if */
   if (!ok)
-    ini_strncpy(Buffer, (DefValue != NULL) ? DefValue : __T(""), BufferSize, QUOTE_NONE);
+    ini_strncpy(Buffer, (DefValue != NULL) ? DefValue : __T(""), (size_t) BufferSize, QUOTE_NONE);
   return (int)_tcslen(Buffer);
 }
 
@@ -498,12 +498,12 @@ int ini_browse(INI_CALLBACK Callback, void *UserData, const TCHAR *Filename)
       continue;               /* invalid line, ignore */
     *ep++ = '\0';             /* split the key from the value */
     striptrailing(sp);
-    ini_strncpy(LocalBuffer + lenSec, sp, INI_BUFFERSIZE - lenSec, QUOTE_NONE);
+    ini_strncpy(LocalBuffer + lenSec, sp, (size_t) (INI_BUFFERSIZE - lenSec), QUOTE_NONE);
     lenKey = (int)_tcslen(LocalBuffer + lenSec) + 1;
     /* clean up the value */
     sp = skipleading(ep);
     sp = cleanstring(sp, &quotes);  /* Remove a trailing comment */
-    ini_strncpy(LocalBuffer + lenSec + lenKey, sp, INI_BUFFERSIZE - lenSec - lenKey, quotes);
+    ini_strncpy(LocalBuffer + lenSec + lenKey, sp, (size_t) (INI_BUFFERSIZE - lenSec - lenKey), quotes);
     /* call the callback */
     if (!Callback(LocalBuffer, LocalBuffer + lenSec, LocalBuffer + lenSec + lenKey, UserData))
       break;
@@ -519,7 +519,7 @@ static void ini_tempname(TCHAR *dest, const TCHAR *source, int maxlength)
 {
   TCHAR *p;
 
-  ini_strncpy(dest, source, maxlength, QUOTE_NONE);
+  ini_strncpy(dest, source, (size_t) maxlength, QUOTE_NONE);
   p = _tcschr(dest, '\0');
   assert(p != NULL);
   *(p - 1) = '~';
@@ -557,11 +557,11 @@ static void writekey(TCHAR *LocalBuffer, const TCHAR *Key, const TCHAR *Value, I
 {
   TCHAR *p;
   enum quote_option option = check_enquote(Value);
-  ini_strncpy(LocalBuffer, Key, INI_BUFFERSIZE - 3, QUOTE_NONE);  /* -1 for '=', -2 for '\r\n' */
+  ini_strncpy(LocalBuffer, Key, (size_t) (INI_BUFFERSIZE - 3), QUOTE_NONE);  /* -1 for '=', -2 for '\r\n' */
   p = _tcschr(LocalBuffer, '\0');
   assert(p != NULL);
   *p++ = '=';
-  ini_strncpy(p, Value, INI_BUFFERSIZE - (p - LocalBuffer) - 2, option); /* -2 for '\r\n' */
+  ini_strncpy(p, Value, (size_t) (INI_BUFFERSIZE - (p - LocalBuffer) - 2), option); /* -2 for '\r\n' */
   p = _tcschr(LocalBuffer, '\0');
   assert(p != NULL);
   _tcscpy(p, INI_LINETERM); /* copy line terminator (typically "\n") */
@@ -742,7 +742,7 @@ int ini_puts(const TCHAR *Section, const TCHAR *Key, const TCHAR *Value, const T
        */
       sp = skipleading(LocalBuffer);
       ep = _tcsrchr(sp, ']');
-      match = (*sp == '[' && ep != NULL && (int)(ep-sp-1) == len && _tcsnicmp(sp + 1,Section,len) == 0);
+      match = (*sp == '[' && ep != NULL && (int)(ep-sp-1) == len && _tcsnicmp(sp + 1,Section,(size_t) len) == 0);
       if (!match || Key != NULL) {
         if (!cache_accum(LocalBuffer, &cachelen, INI_BUFFERSIZE)) {
           cache_flush(LocalBuffer, &cachelen, &rfp, &wfp, &mark);
@@ -783,7 +783,7 @@ int ini_puts(const TCHAR *Section, const TCHAR *Key, const TCHAR *Value, const T
     ep = _tcschr(sp, '='); /* Parse out the equal sign */
     if (ep == NULL)
       ep = _tcschr(sp, ':');
-    match = (ep != NULL && len > 0 && (int)(skiptrailing(ep,sp)-sp) == len && _tcsnicmp(sp,Key,len) == 0);
+    match = (ep != NULL && len > 0 && (int)(skiptrailing(ep,sp)-sp) == len && _tcsnicmp(sp,Key,(size_t) len) == 0);
     if ((Key != NULL && match) || *sp == '[')
       break;  /* found the key, or found a new section */
     /* copy other keys in the section */

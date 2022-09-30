@@ -13,12 +13,12 @@
 
 
 #include "std_utils.h"
-//#include <stdio.h>
 #include <stdint.h>
 #include <ctype.h>
 #include <time.h>
 #include <math.h>
 #include <inttypes.h>
+#include <stdio.h>
 
 void print_register_32(void const *const ptr) {
     unsigned char *b = (unsigned char *) ptr;
@@ -110,7 +110,7 @@ void remove_spaces(char* s) {
         while (*d == ' ') {
             ++d;
         }
-    } while (*s++ = *d++);
+    } while ((*s++ = *d++));
 }
 
 
@@ -161,8 +161,8 @@ size_t sltoa(char *s, long int n) {
     long int sign_mask;
     unsigned long int nn;
 
-    sign_mask = n >> sizeof(long int) * 8 - 1;
-    nn = (n + sign_mask) ^ sign_mask;
+    sign_mask = n >> (sizeof(long int) * 8 - 1);
+    nn = (unsigned long) ((n + sign_mask) ^ sign_mask);
     do {
         s[i++] = nn % 10 + '0';
     } while (nn /= 10);
