@@ -35,12 +35,11 @@ char gbc_shared_mem_name[100] = GBC_SHARED_MEMORY_NAME;
  * @param proc (process name (of GBC)
  * @return
  */
-gberror_t establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char *proc, const bool retry, int *pid, int um_en) {
+gberror_t
+establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char *proc, const bool retry, int *pid, int um_en) {
     int gbc_alive_timeout = 0;
     bool connected = false;
     gberror_t grc = 0;
-
-    //todo-crit check shm con
 
     UM_INFO(um_en,
             "LINUX_SHM: Check if other process is running and has notified us to start processing messages from the shared memory");
@@ -50,7 +49,7 @@ gberror_t establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char 
         grc = establish_shared_mem_con(shared_mem, um_en);
 
 
-        if (*shared_mem==NULL){
+        if (*shared_mem == NULL) {
             UM_FATAL("LINUX_SHM: Null shared mem pointer");
         }
 
@@ -77,7 +76,7 @@ gberror_t establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char 
             if (*pid > 0) {
                 UM_INFO(um_en, "LINUX_SHM: [%s] is running as process id [%d]", proc, *pid);
                 //magic number is useful but persists after gbc is closed and rerun
-                if (1){
+                if (1) {
 //                if ((*shared_mem)->gbc_alive == SHM_MAGIC_NUMBER) {
                     UM_INFO(um_en,
                             "LINUX_SHM: The shared mem has had the correct magic number written to it [0x%02X]",
@@ -117,9 +116,9 @@ gberror_t establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char 
 
 
 gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en) {
-int rc;
+    int rc;
 //    int shm_open_fd = shm_open(gbc_shared_mem_name, O_CREAT | O_RDWR, S_IRWXU | S_IRWXG);
-    int shm_open_fd = shm_open(gbc_shared_mem_name, O_CREAT | O_RDWR , 0777);
+    int shm_open_fd = shm_open(gbc_shared_mem_name, O_CREAT | O_RDWR, 0777);
 
 
     //O_CREAT Create the shared memory object if it does not exist
@@ -135,13 +134,15 @@ int rc;
             UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region. Invalid name for shared memory region");
             return E_SHARED_MEM_INIT_FAILURE;
         } else if (shm_open_fd == EMFILE) {
-            UM_ERROR(um_en, "LINUX_SHM: Could not open the shared memory region. The per-process limit on the number of open file descriptors has been reached");
+            UM_ERROR(um_en,
+                     "LINUX_SHM: Could not open the shared memory region. The per-process limit on the number of open file descriptors has been reached");
             return E_SHARED_MEM_INIT_FAILURE;
         } else if (shm_open_fd == ENAMETOOLONG) {
             UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region. The length of name exceeds PATH_MAX");
             return E_SHARED_MEM_INIT_FAILURE;
         } else if (shm_open_fd == ENFILE) {
-            UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region. The system-wide limit on the total number of open files has been reached. This is fatal and we can't continue");
+            UM_ERROR(um_en,
+                     "LINUX_SHM: Could not open shared memory region. The system-wide limit on the total number of open files has been reached. This is fatal and we can't continue");
             return E_SHARED_MEM_INIT_FAILURE;
         } else {
             UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region");
@@ -154,18 +155,17 @@ int rc;
 
 
     rc = ftruncate(shm_open_fd, sizeof(struct shm_msg));
-    if(rc!=0){
+    if (rc != 0) {
         UM_ERROR(um_en, "LINUX_SHM: Could not truncate shared memory region [%s]", strerror(errno));
         return E_SHARED_MEM_INIT_FAILURE;
     }
 
     *shared_mem = mmap(0, sizeof(struct shm_msg), PROT_READ | PROT_WRITE, MAP_SHARED, shm_open_fd, 0);
 
-if (*shared_mem == NULL){
-    UM_ERROR(um_en, "LINUX_SHM: The shared memory region was a NULL pointer. This is very bad");
-    return E_SHARED_MEM_INIT_FAILURE;
-}
-
+    if (*shared_mem == NULL) {
+        UM_ERROR(um_en, "LINUX_SHM: The shared memory region was a NULL pointer. This is very bad");
+        return E_SHARED_MEM_INIT_FAILURE;
+    }
 
 
     if (*shared_mem == MAP_FAILED) {
