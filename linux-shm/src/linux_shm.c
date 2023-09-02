@@ -126,29 +126,30 @@ gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en) {
 //    S_IRWXU user rw permission bit
 //    S_IRWXG group rw permission bit
 
-    if (shm_open_fd < 0) {
-        if (shm_open_fd == EACCES) {
-            UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region. Permission was denied");
-            return E_SHARED_MEM_INIT_FAILURE;
-        } else if (shm_open_fd == EINVAL) {
-            UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region. Invalid name for shared memory region");
-            return E_SHARED_MEM_INIT_FAILURE;
-        } else if (shm_open_fd == EMFILE) {
-            UM_ERROR(um_en,
-                     "LINUX_SHM: Could not open the shared memory region. The per-process limit on the number of open file descriptors has been reached");
-            return E_SHARED_MEM_INIT_FAILURE;
-        } else if (shm_open_fd == ENAMETOOLONG) {
-            UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region. The length of name exceeds PATH_MAX");
-            return E_SHARED_MEM_INIT_FAILURE;
-        } else if (shm_open_fd == ENFILE) {
-            UM_ERROR(um_en,
-                     "LINUX_SHM: Could not open shared memory region. The system-wide limit on the total number of open files has been reached. This is fatal and we can't continue");
-            return E_SHARED_MEM_INIT_FAILURE;
-        } else {
-            UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region");
-            return E_SHARED_MEM_INIT_FAILURE;
-        }
-    }
+//todo crit
+//    if (shm_open_fd > 0) {
+//        if (shm_open_fd == EACCES) {
+//            UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region. Permission was denied");
+//            return E_SHARED_MEM_INIT_FAILURE;
+//        } else if (shm_open_fd == EINVAL) {
+//            UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region. Invalid name for shared memory region");
+//            return E_SHARED_MEM_INIT_FAILURE;
+//        } else if (shm_open_fd == EMFILE) {
+//            UM_ERROR(um_en,
+//                     "LINUX_SHM: Could not open the shared memory region. The per-process limit on the number of open file descriptors has been reached");
+//            return E_SHARED_MEM_INIT_FAILURE;
+//        } else if (shm_open_fd == ENAMETOOLONG) {
+//            UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region. The length of name exceeds PATH_MAX");
+//            return E_SHARED_MEM_INIT_FAILURE;
+//        } else if (shm_open_fd == ENFILE) {
+//            UM_ERROR(um_en,
+//                     "LINUX_SHM: Could not open shared memory region. The system-wide limit on the total number of open files has been reached. This is fatal and we can't continue");
+//            return E_SHARED_MEM_INIT_FAILURE;
+//        } else {
+//            UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region");
+//            return E_SHARED_MEM_INIT_FAILURE;
+//        }
+//    }
 
     UM_INFO(um_en, "LINUX_SHM: Shared Memory opened successfully. Name [%s], size [%d]", gbc_shared_mem_name,
             sizeof(struct shm_msg));
