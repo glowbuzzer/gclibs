@@ -19,6 +19,10 @@
 #include "gberror.h"
 #include <stdbool.h>
 
+/**The size of the shared memory buffer for offline NON real-time comms */
+#define SHM_OFFLINE_BUF_SIZE    20000
+
+/**The size of the shared memory buffer for real-time cyclic comms */
 #define SHM_BUF_SIZE            200
 //#define SHM_KEY                 0x1234
 
@@ -35,6 +39,8 @@ struct shm_msg {
     int out_busy;
     uint8_t sm_buf_in[SHM_BUF_SIZE];
     uint8_t sm_buf_out[SHM_BUF_SIZE];
+    uint8_t sm_offline_buf_in[SHM_OFFLINE_BUF_SIZE];
+    uint8_t sm_offline_buf_out[SHM_OFFLINE_BUF_SIZE];
 };
 
 
