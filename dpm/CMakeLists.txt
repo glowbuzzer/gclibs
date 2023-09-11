@@ -6,7 +6,7 @@ file(GLOB SOURCES "src/*.c")
 
 
 add_library(dpm STATIC ${SOURCES})
-#target_link_libraries(cia shared)
+target_link_libraries(dpm ecm_status cia)
 target_include_directories(dpm PUBLIC inc)
 
 

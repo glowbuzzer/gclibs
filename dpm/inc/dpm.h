@@ -18,6 +18,7 @@
 
 //#include "std_headers.h"
 //#include "shared.h"
+#include "ecm_status.h"
 
 #include <stdint.h>
 
@@ -27,6 +28,7 @@
 #define DPM_NUM_UINT32S 0
 #define DPM_NUM_DIGITALS 64
 #define SIZE_OF_GBC_PDO 200
+#define SIZE_OF_GBC_OFFLINE 20000
 
 typedef struct {
     uint32_t machine_word; //the machine's overall status (CiA-402)
@@ -72,12 +74,12 @@ extern dpm_out_t *dpm_out;
 
 //gbem->gbc
 typedef struct {
-    uint32_t drive_error_string[300][DPM_NUM_JOINTS];
+    ecm_status_t ecm_status;
 }__attribute__((packed)) dpm_offline_in_t;
 
 //gbc->gbem
 typedef struct {
-    uint32_t gbem_boot_mode;
+    uint32_t tbd;
 }__attribute__((packed)) dpm_offline_out_t;
 
 
