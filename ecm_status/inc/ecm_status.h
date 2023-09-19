@@ -17,7 +17,7 @@
 
 #include "cia402.h"
 
-//todo these are plucked from teh gbem code base
+//todo these are plucked from the gbem code base
 #define EC_MAXNAME                                      40
 #define EC_MAXERRORNAME                                 127
 #define MAX_NUM_SLAVE_ERROR_MESSAGES                    10

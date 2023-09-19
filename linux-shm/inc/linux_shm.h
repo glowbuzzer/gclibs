@@ -18,6 +18,7 @@
 #include "stdint.h"
 #include "gberror.h"
 #include <stdbool.h>
+#include <semaphore.h>
 
 /**The size of the shared memory buffer for offline NON real-time comms */
 #define SHM_OFFLINE_BUF_SIZE    20000
@@ -32,6 +33,7 @@
 
 extern char gbc_shared_mem_name[100];
 
+extern sem_t *gbc_named_semaphore;
 
 struct shm_msg {
     int gbc_alive;
@@ -47,6 +49,8 @@ struct shm_msg {
 gberror_t establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char *proc, bool retry, int *pid, int um_en);
 
 gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en);
+
+sem_t *create_named_semaphore(const char *name, const int value);
 
 
 #endif //GCLIB__LINUX_SHM_H

@@ -24,6 +24,7 @@
 
 
 #define GBC_SHARED_MEMORY_NAME "gbc_shared_memory"
+#define GBC_NAMED_SEMAPHORE_NAME "/gbc_named_semaphore"
 
 char gbc_shared_mem_name[100] = GBC_SHARED_MEMORY_NAME;
 
@@ -39,21 +40,21 @@ gberror_t
 establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char *proc, const bool retry, int *pid, int um_en) {
     int gbc_alive_timeout = 0;
     bool connected = false;
-    gberror_t grc = 0;
+    gberror_t grc_sm = 0;
 
     UM_INFO(um_en,
             "LINUX_SHM: Check if other process is running and has notified us to start processing messages from the shared memory");
 
     while (1) {
 
-        grc = establish_shared_mem_con(shared_mem, um_en);
-
+        grc_sm = establish_shared_mem_con(shared_mem, um_en);
+        gbc_named_semaphore = create_named_semaphore(GBC_NAMED_SEMAPHORE_NAME, 1);
 
         if (*shared_mem == NULL) {
             UM_FATAL("LINUX_SHM: Null shared mem pointer");
         }
 
-        if (grc == E_SUCCESS) {
+        if (grc_sm == E_SUCCESS) {
             //we have a shared mem connection to GBC
             *pid = find_matching_pid(proc, um_en);
 
@@ -89,7 +90,7 @@ establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char *proc, con
                 }
             }
         } else {
-            UM_ERROR(um_en, "LINUX_SHM: Could not connect to shared memory [%s]", gb_strerror(grc));
+            UM_ERROR(um_en, "LINUX_SHM: Could not connect to shared memory [%s]", gb_strerror(grc_sm));
         }
         if (retry) {
             sleep(5);
@@ -126,6 +127,10 @@ gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en) {
     //O_RDWR Open the object for read-write access
 //    S_IRWXU user rw permission bit
 //    S_IRWXG group rw permission bit
+
+//    0666 (rw-rw-rw-): This permission mode allows both read and write access to all users on the system. It's quite permissive and should be used with caution. If you use 0666, any process on the system can potentially access and modify the semaphore, which might not be suitable for all use cases.
+//  0777 (rwxrwxrwx): This permission mode grants full read, write, and execute permissions to all users. It's even more permissive than 0666 and is generally discouraged for most situations because it allows any user to execute the semaphore as if it were a program.
+
 
     if (shm_open_fd < 0) {
         if (errno == EACCES) {
@@ -175,5 +180,16 @@ gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en) {
     }
     close(shm_open_fd);
     return E_SUCCESS;
+}
+
+
+/** create a named sempahore */
+sem_t *create_named_semaphore(const char *name, const int value) {
+    sem_t *semaphore = sem_open(name, O_CREAT, 0777, value);
+    if (semaphore == SEM_FAILED) {
+        UM_FATAL("LINUX_SHM: Could not create semaphore [%s]", strerror(errno));
+        return NULL;
+    }
+    return semaphore;
 }
 
