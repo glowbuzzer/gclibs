@@ -177,7 +177,9 @@ void log_generic(const int level, const char* fmt, ...)
     if (!um_disable_logging) {
         vsnprintf(buffer, 1024, fmt, args);
         if (log_global_set.logger_func != NULL) {
+            pthread_mutex_lock(&console_mutex);
             log_global_set.logger_func(level, buffer);
+            pthread_mutex_unlock(&console_mutex);
         }
     }
 }
@@ -191,11 +193,17 @@ void gb_fatal_release_error(unsigned long line, const char *file, const char* fm
 #if GB_APP_LINUX == 1
     va_list args;
     va_start(args, fmt);
+    pthread_mutex_lock(&console_mutex);
     printf("[FATAL    ] ");
+    pthread_mutex_unlock(&console_mutex);
     vprintf(fmt, args);
+    pthread_mutex_lock(&console_mutex);
     printf("\n");
+    pthread_mutex_unlock(&console_mutex);
 #if DEBUG_BUILD == 1
+    pthread_mutex_lock(&console_mutex);
     printf("[FATAL    ] Error handler called from %s:%ld", file, line);
+    pthread_mutex_unlock(&console_mutex);
 #endif
     exit(-1);
 #else

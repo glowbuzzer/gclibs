@@ -18,6 +18,7 @@
 #include "printf.h"
 #include "gberror.h"
 #include <stdbool.h>
+#include <pthread.h>
 
 void gb_fatal_release_error(unsigned long line, const char *file, const char* fmt, ...);
 
@@ -25,6 +26,7 @@ extern const char *um_level_strings[];
 
 extern bool um_disable_logging;
 
+extern pthread_mutex_t console_mutex;
 
 enum {
     UM_LVL_FATAL, // 0
