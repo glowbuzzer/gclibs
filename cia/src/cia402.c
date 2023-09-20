@@ -24,12 +24,15 @@
 
 #include "cia402.h"
 
-const char *cia_state_names[CIA_NUM_STATE_NAMES] = {"Not ready to switch on", "Switch on disabled", "Ready to switch on", "Switched on",
-                                 "Operation enabled", "Quick stop active", "Fault reaction active", "Fault"};
+const char *cia_state_names[CIA_NUM_STATE_NAMES] = {"Not ready to switch on", "Switch on disabled",
+                                                    "Ready to switch on", "Switched on",
+                                                    "Operation enabled", "Quick stop active", "Fault reaction active",
+                                                    "Fault"};
 
 
-const char *cia_command_names[CIA_NUM_COMMAND_NAMES] = {"Shutdown", "Switch on", "Disable voltage", "Quick stop", "Disable operation",
-                                   "Enable operation", "Fault reset"};
+const char *cia_command_names[CIA_NUM_COMMAND_NAMES] = {"Shutdown", "Switch on", "Disable voltage", "Quick stop",
+                                                        "Disable operation",
+                                                        "Enable operation", "Fault reset"};
 
 
 /**
@@ -158,3 +161,18 @@ cia_state_t cia_statwrd_to_state(const uint16_t statusWord) {
     }
     return 99;
 }
+
+
+const char *cia_moo_strings[CIA_HIGHEST_MOO_DEFINED] = {
+        "CIA_MOO_OP_DISABLED", //0
+        "CIA_MOO_PROFILE_POS", //1
+        "CIA_MOO_PROFILE_VEL", //2
+        "", // Placeholder for 3 (not defined)
+        "", // Placeholder for 4 (not defined)
+        "", // Placeholder for 5 (not defined)
+        "CIA_MOO_HOMING", //6
+        "", // Placeholder for 7 (not defined)
+        "CIA_MOO_CSP", //8
+        "CIA_MOO_CSV", //9
+        "CIA_MOO_CST" //10
+};

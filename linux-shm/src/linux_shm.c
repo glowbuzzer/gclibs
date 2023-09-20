@@ -24,7 +24,9 @@
 
 
 #define GBC_SHARED_MEMORY_NAME "gbc_shared_memory"
-#define GBC_NAMED_SEMAPHORE_NAME "/gbc_named_semaphore"
+#define GBC_NAMED_TRIGGER_SEMAPHORE_NAME "/gbc_named_trigger_semaphore"
+#define GBC_NAMED_MEM_PROTECTION_SEMAPHORE_NAME "/gbc_named_mem_protection_semaphore"
+
 
 char gbc_shared_mem_name[100] = GBC_SHARED_MEMORY_NAME;
 
@@ -37,80 +39,76 @@ char gbc_shared_mem_name[100] = GBC_SHARED_MEMORY_NAME;
  * @return
  */
 gberror_t
-establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char *proc, const bool retry, int *pid, int um_en) {
+establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, int um_en) {
     int gbc_alive_timeout = 0;
     bool connected = false;
     gberror_t grc_sm = 0;
 
     UM_INFO(um_en,
-            "LINUX_SHM: Check if other process is running and has notified us to start processing messages from the shared memory");
+            "LINUX_SHM: Create shared memory and semaphores");
 
-    while (1) {
+//    while (1) {
 
-        grc_sm = establish_shared_mem_con(shared_mem, um_en);
-        gbc_named_semaphore = create_named_semaphore(GBC_NAMED_SEMAPHORE_NAME, 1);
+    grc_sm = establish_shared_mem_con(shared_mem, um_en);
+
+    if (grc_sm == E_SUCCESS) {
+        gbc_named_trigger_semaphore = create_named_semaphore(GBC_NAMED_TRIGGER_SEMAPHORE_NAME, 1);
+        gbc_named_mem_protection_semaphore = create_named_semaphore(GBC_NAMED_MEM_PROTECTION_SEMAPHORE_NAME, 1);
 
         if (*shared_mem == NULL) {
             UM_FATAL("LINUX_SHM: Null shared mem pointer");
         }
-
-        if (grc_sm == E_SUCCESS) {
-            //we have a shared mem connection to GBC
-            *pid = find_matching_pid(proc, um_en);
-
-            //no process matching name found
-            if (*pid == -1) {
-                UM_ERROR(um_en,
-                         "LINUX_SHM: No [%s] process found - we need a matching PID",
-                         proc);
-                *pid = 0;
-            }
-
-            //multiple processes matching name found
-            if (*pid == -2) {
-                UM_ERROR(um_en,
-                         "LINUX_SHM: Multiple processes found, please kill the superfluous one");
-                *pid = 0;
-            }
-
-            //single process matching name found
-            if (*pid > 0) {
-                UM_INFO(um_en, "LINUX_SHM: [%s] is running as process id [%d]", proc, *pid);
-                //magic number is useful but persists after gbc is closed and rerun
-                if (1) {
-//                if ((*shared_mem)->gbc_alive == SHM_MAGIC_NUMBER) {
-                    UM_INFO(um_en,
-                            "LINUX_SHM: The shared mem has had the correct magic number written to it [0x%02X]",
-                            SHM_MAGIC_NUMBER);
-                    connected = true;
-                    break;
-                } else {
-                    UM_INFO(um_en,
-                            "LINUX_SHM: The shared mem does NOT have the correct magic number written to it");
-                }
-            }
-        } else {
-            UM_ERROR(um_en, "LINUX_SHM: Could not connect to shared memory [%s]", gb_strerror(grc_sm));
-        }
-        if (retry) {
-            sleep(5);
-            gbc_alive_timeout++;
-            if (gbc_alive_timeout > ALIVE_TIMEOUT_SECS / 5) {
-                break;
-            }
-        } else {
-            break;
-        }
-    } //end while(1) loop
-
-
-    if (!connected) {
-        UM_ERROR(um_en,
-                 "LINUX_SHM: We failed to respond over shared memory or no process found");
-        return E_TIMEOOUT;
-    } else {
-        UM_INFO(um_en, "LINUX_SHM: We have a shared memory and signal connection to the other process");
     }
+//        if (grc_sm == E_SUCCESS) {
+//            //we have a shared mem connection to GBC
+//            *pid = find_matching_pid(proc, um_en);
+//
+//            //no process matching name found
+//            if (*pid == -1) {
+//                UM_ERROR(um_en,
+//                         "LINUX_SHM: No [%s] process found - we need a matching PID",
+//                         proc);
+//                *pid = 0;
+//            }
+//
+//            //multiple processes matching name found
+//            if (*pid == -2) {
+//                UM_ERROR(um_en,
+//                         "LINUX_SHM: Multiple processes found, please kill the superfluous one");
+//                *pid = 0;
+//            }
+//
+//            //single process matching name found
+//            if (*pid > 0) {
+//                UM_INFO(um_en, "LINUX_SHM: [%s] is running as process id [%d]", proc, *pid);
+//                //magic number is useful but persists after gbc is closed and rerun
+//                if (1) {
+////                if ((*shared_mem)->gbc_alive == SHM_MAGIC_NUMBER) {
+//                    UM_INFO(um_en,
+//                            "LINUX_SHM: The shared mem has had the correct magic number written to it [0x%02X]",
+//                            SHM_MAGIC_NUMBER);
+//                    connected = true;
+//                    break;
+//                } else {
+//                    UM_INFO(um_en,
+//                            "LINUX_SHM: The shared mem does NOT have the correct magic number written to it");
+//                }
+//            }
+//        } else {
+//            UM_ERROR(um_en, "LINUX_SHM: Could not connect to shared memory [%s]", gb_strerror(grc_sm));
+//        }
+//        if (retry) {
+//            sleep(5);
+//            gbc_alive_timeout++;
+//            if (gbc_alive_timeout > ALIVE_TIMEOUT_SECS / 5) {
+//                break;
+//            }
+//        } else {
+//            break;
+//        }
+//    } //end while(1) loop
+
+
     return E_SUCCESS;
 
 }
@@ -119,7 +117,6 @@ establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, char *proc, con
 gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en) {
     int rc;
 
-//    int shm_open_fd = shm_open(gbc_shared_mem_name, O_CREAT | O_RDWR, S_IRWXU | S_IRWXG);
     int shm_open_fd = shm_open(gbc_shared_mem_name, O_CREAT | O_RDWR, 0777);
 
 

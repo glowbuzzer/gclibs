@@ -18,7 +18,6 @@
 #include <stdbool.h>
 
 
-
 #define CIA_NUM_STATE_NAMES     8
 #define CIA_NUM_COMMAND_NAMES   7
 
@@ -33,7 +32,7 @@ typedef enum {
     CIA_FAULT
 } cia_state_t;
 
-extern const char* cia_state_names[CIA_NUM_STATE_NAMES];
+extern const char *cia_state_names[CIA_NUM_STATE_NAMES];
 
 
 typedef enum {
@@ -47,7 +46,7 @@ typedef enum {
     CIA_FAULT_RESET
 } cia_commands_t;
 
-extern const char* cia_command_names[CIA_NUM_COMMAND_NAMES];
+extern const char *cia_command_names[CIA_NUM_COMMAND_NAMES];
 
 //so we are use bit 16 here - bit confusing
 
@@ -107,7 +106,6 @@ extern const char* cia_command_names[CIA_NUM_COMMAND_NAMES];
 #define CIA_FAULT_BIT_MASK                              0b01001111
 
 
-
 #define CIA_WARNING_BIT_NUM                     (7)
 //bit 8 can be STO or isMoving
 #define CIA_REMOTE_BIT_NUM                      (9)
@@ -115,23 +113,25 @@ extern const char* cia_command_names[CIA_NUM_COMMAND_NAMES];
 #define CIA_INTERNAL_LIMIT_BIT_NUM              (11)
 #define CIA_FOLLOW_ERROR_BIT_NUM                (13)
 
-
+#define CIA_HIGHEST_MOO_DEFINED                         (11)
 /*  modes of operation (MOO) */
-#define CIA_MOO_OP_DISABLED                        		0
-#define CIA_MOO_PROFILE_POS                        		1
-#define CIA_MOO_PROFILE_VEL                       	 	3
-#define CIA_MOO_HOMING                            		6
-#define CIA_MOO_CSP                                		8 //we use this
-#define CIA_MOO_CSV                                		9
+#define CIA_MOO_OP_DISABLED                                0
+#define CIA_MOO_PROFILE_POS                                1
+#define CIA_MOO_PROFILE_VEL                                3
+#define CIA_MOO_HOMING                                     6
+#define CIA_MOO_CSP                                        8
+#define CIA_MOO_CSV                                        9
+#define CIA_MOO_CST                                        10
 
-
-
+const char *cia_moo_strings[CIA_HIGHEST_MOO_DEFINED];
 
 cia_commands_t cia_ctrlwrd_to_command(uint16_t controlWord);
-cia_state_t cia_statwrd_to_state(uint16_t statusWord);
-uint16_t cia_command_to_ctrlwrd(cia_commands_t command);
-uint16_t cia_state_to_statwrd(cia_state_t state);
 
+cia_state_t cia_statwrd_to_state(uint16_t statusWord);
+
+uint16_t cia_command_to_ctrlwrd(cia_commands_t command);
+
+uint16_t cia_state_to_statwrd(cia_state_t state);
 
 
 #endif /* GCLIB__CIA402_H_ */
