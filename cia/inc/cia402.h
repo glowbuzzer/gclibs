@@ -123,7 +123,7 @@ extern const char *cia_command_names[CIA_NUM_COMMAND_NAMES];
 #define CIA_MOO_CSV                                        9
 #define CIA_MOO_CST                                        10
 
-const char *cia_moo_strings[CIA_HIGHEST_MOO_DEFINED];
+extern const char *cia_moo_strings[CIA_HIGHEST_MOO_DEFINED];
 
 cia_commands_t cia_ctrlwrd_to_command(uint16_t controlWord);
 
@@ -134,4 +134,4 @@ uint16_t cia_command_to_ctrlwrd(cia_commands_t command);
 uint16_t cia_state_to_statwrd(cia_state_t state);
 
 
-#endif /* GCLIB__CIA402_H_ */
+#endif /* GCLIB_CIA402_H_ */
