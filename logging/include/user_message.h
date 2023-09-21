@@ -15,10 +15,12 @@
 #ifndef GCLIB_USER_MESSAGE_H
 #define GCLIB_USER_MESSAGE_H
 
-#include "printf.h"
+//#include "printf.h"
 #include "gberror.h"
 #include <stdbool.h>
 #include <pthread.h>
+#include <stdio.h>
+#include <stdarg.h>
 
 void gb_fatal_release_error(unsigned long line, const char *file, const char* fmt, ...);
 

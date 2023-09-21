@@ -15,10 +15,11 @@
 #ifndef GCLIB__LOG_H
 #define GCLIB__LOG_H
 
-#include "printf.h"
+//#include "printf.h"
 
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 /*
  * defines for strings used to prefix the log output to let you know which core is logging

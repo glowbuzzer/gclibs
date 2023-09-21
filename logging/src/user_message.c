@@ -20,6 +20,7 @@
 #include <stdbool.h>
 #include <errno.h>
 #include "user_message.h"
+#include <stdarg.h>
 
 /* global variable used to disable user messages */
 bool um_disable_logging = false;
