@@ -124,6 +124,7 @@ gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en) {
             UM_ERROR(um_en, "LINUX_SHM: Could not open shared memory region");
             return E_SHARED_MEM_INIT_FAILURE;
         }
+
     }
 
     UM_INFO(um_en, "LINUX_SHM: Shared Memory opened successfully. Name [%s], size [%d]", gbc_shared_mem_name,
