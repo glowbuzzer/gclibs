@@ -26,28 +26,34 @@
 bool um_disable_logging = false;
 
 /* enum whose states represent the different output channels for user messages */
-typedef enum {LOG_TO_STDOUT, LOG_TO_SYSLOG, LOG_TO_FILE} logger_output_type_t;
+typedef enum {
+    LOG_TO_STDOUT, LOG_TO_SYSLOG, LOG_TO_FILE
+} logger_output_type_t;
 
 
 /** struct to hole user message state */
 typedef struct {
     logger_output_type_t op;
-    FILE* out_file;
-    void (*logger_func) (const int level, const char*);
-}logger_t;
+    FILE *out_file;
+
+    void (*logger_func)(const int level, const char *);
+} logger_t;
 
 logger_t log_global_set;
-void print_to_stdout(int level, const char* message);
-void print_to_syslog(int level, const char* message);
-void print_to_file(int level, const char* message);
+
+void print_to_stdout(int level, const char *message);
+
+void print_to_syslog(int level, const char *message);
+
+void print_to_file(int level, const char *message);
+
 void cleanup_internal(void);
 
 
 /**
  * @brief Reset internal state and set stdout as defaul
  */
-gberror_t logger_set_stdout(void)
-{
+gberror_t logger_set_stdout(void) {
     cleanup_internal();
     log_global_set.op = LOG_TO_STDOUT;
     log_global_set.logger_func = print_to_stdout;
@@ -58,9 +64,8 @@ gberror_t logger_set_stdout(void)
 /**
  * @brief Close remaining file descriptor and reset global params
  */
-void cleanup_internal(void)
-{
-    if (log_global_set.out_file){
+void cleanup_internal(void) {
+    if (log_global_set.out_file) {
         fclose(log_global_set.out_file);
     }
 
@@ -74,7 +79,7 @@ void cleanup_internal(void)
  * @param log_ident string to use in syslog as prefix to identify output
  * @return
  */
-gberror_t logger_set_syslog(char * log_ident){
+gberror_t logger_set_syslog(char *log_ident) {
     cleanup_internal();
     openlog(log_ident, LOG_NDELAY, LOG_USER);
     log_global_set.op = LOG_TO_SYSLOG;
@@ -87,8 +92,7 @@ gberror_t logger_set_syslog(char * log_ident){
  * @param filename
  * @return
  */
-gberror_t logger_set_log_file(const char* filename, int um_en)
-{
+gberror_t logger_set_log_file(const char *filename, int um_en) {
     cleanup_internal();
     if ((filename != NULL) && (filename[0] == '\0')) {
         UM_ERROR(um_en, "Filename not valid");
@@ -117,7 +121,7 @@ gberror_t logger_set_log_file(const char* filename, int um_en)
 * #define	LOG_DEBUG	7	 debug-level messages
 */
 
-void print_to_syslog(const int level, const char* message){
+void print_to_syslog(const int level, const char *message) {
 
     switch (level) {
         case UM_LVL_INFO:
@@ -142,7 +146,7 @@ void print_to_syslog(const int level, const char* message){
  * @param level
  * @param message
  */
-void print_to_stdout(const int level, const char* message){
+void print_to_stdout(const int level, const char *message) {
     printf("[%s] %s\n", um_level_strings[level], message);
 }
 
@@ -151,11 +155,10 @@ void print_to_stdout(const int level, const char* message){
  * @param level
  * @param message
  */
-void print_to_file(const int level, const char* message){
+void print_to_file(const int level, const char *message) {
     int res = fprintf(log_global_set.out_file,
-    "[%s] %s\n"
-            , um_level_strings[level],
-            message);
+                      "[%s] %s\n", um_level_strings[level],
+                      message);
     if (res == -1) {
         print_to_syslog(UM_LVL_ERROR, "Unable to write to log file!");
         return;
@@ -170,8 +173,7 @@ void print_to_file(const int level, const char* message){
  * @param fmt
  * @param ...
  */
-void log_generic(const int level, const char* fmt, ...)
-{
+void log_generic(const int level, const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
     char buffer[1024];
@@ -186,10 +188,9 @@ void log_generic(const int level, const char* fmt, ...)
 }
 
 
+const char *um_level_strings[] = {"FATAL    ", "ERROR    ", "WARN     ", "INFO     "};
 
-const char *um_level_strings[] = { "FATAL    ", "ERROR    ", "WARN     ", "INFO     " };
-
-void gb_fatal_release_error(unsigned long line, const char *file, const char* fmt, ...) {
+void gb_fatal_release_error(unsigned long line, const char *file, const char *fmt, ...) {
 
 #if GB_APP_LINUX == 1
     va_list args;
@@ -206,6 +207,7 @@ void gb_fatal_release_error(unsigned long line, const char *file, const char* fm
     printf("[FATAL    ] Error handler called from %s:%ld", file, line);
     pthread_mutex_unlock(&console_mutex);
 #endif
+    gb_fatal_cleanup();
     exit(-1);
 #else
     volatile uint32_t setToNonZeroInDebuggerToContinue = 0;

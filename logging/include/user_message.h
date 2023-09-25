@@ -22,13 +22,15 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-void gb_fatal_release_error(unsigned long line, const char *file, const char* fmt, ...);
+void gb_fatal_release_error(unsigned long line, const char *file, const char *fmt, ...);
 
 extern const char *um_level_strings[];
 
 extern bool um_disable_logging;
 
 extern pthread_mutex_t console_mutex;
+
+extern void gb_fatal_cleanup(void);
 
 enum {
     UM_LVL_FATAL, // 0
@@ -38,9 +40,12 @@ enum {
 };
 
 
-void log_generic(int level, const char* fmt, ...);
-gberror_t logger_set_log_file(const char* filename, int um_en);
-gberror_t logger_set_syslog(char * log_ident);
+void log_generic(int level, const char *fmt, ...);
+
+gberror_t logger_set_log_file(const char *filename, int um_en);
+
+gberror_t logger_set_syslog(char *log_ident);
+
 gberror_t logger_set_stdout(void);
 
 
@@ -52,8 +57,6 @@ gberror_t logger_set_stdout(void);
         UFATAL(fmt, ##__VA_ARGS__); \
     } \
 } while(0)
-
-
 
 
 #define UM_INFO(enabled, fmt, ...) UM( enabled, UM_LVL_INFO, fmt, ##__VA_ARGS__ )
