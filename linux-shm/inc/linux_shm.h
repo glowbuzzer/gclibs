@@ -48,7 +48,7 @@ struct shm_msg {
 };
 
 
-gberror_t establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, int um_en);
+gberror_t establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, int um_en, bool gbem_or_gbc);
 
 gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en);
 
