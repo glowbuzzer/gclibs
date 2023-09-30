@@ -26,6 +26,7 @@
 #define GBC_SHARED_MEMORY_NAME "gbc_shared_memory"
 #define GBC_NAMED_TRIGGER_SEMAPHORE_NAME "/gbc_named_trigger_semaphore"
 #define GBC_NAMED_MEM_PROTECTION_SEMAPHORE_NAME "/gbc_named_mem_protection_semaphore"
+#define GBC_NAMED_OFFLINE_MEM_PROTECTION_SEMAPHORE_NAME "/gbc_named_offline_mem_protection_semaphore"
 
 char gbc_shared_mem_name[100] = GBC_SHARED_MEMORY_NAME;
 
@@ -52,13 +53,13 @@ establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, int um_en, bool
 
     if (grc_sm == E_SUCCESS) {
 
-
         if (gbem_or_gbc == true) {
             //we have been called from gbem
 
             gbc_named_trigger_semaphore = create_named_semaphore(GBC_NAMED_TRIGGER_SEMAPHORE_NAME, 1);
             gbc_named_mem_protection_semaphore = create_named_semaphore(GBC_NAMED_MEM_PROTECTION_SEMAPHORE_NAME, 1);
-
+            gbc_named_offline_mem_protection_semaphore = create_named_semaphore(
+                    GBC_NAMED_OFFLINE_MEM_PROTECTION_SEMAPHORE_NAME, 1);
 
             if (sem_init(gbc_named_trigger_semaphore, 1, 1) == -1) {
                 UM_FATAL("LINUX_SHM: Could not reset gbc_named_trigger_semaphore semaphore [%s]", strerror(errno));
@@ -69,11 +70,18 @@ establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, int um_en, bool
                          strerror(errno));
             }
 
+            if (sem_init(gbc_named_offline_mem_protection_semaphore, 1, 1) == -1) {
+                UM_FATAL("LINUX_SHM: Could not reset gbc_named_offline_mem_protection_semaphore semaphore [%s]",
+                         strerror(errno));
+            }
+
 
         } else {
             //we have been called from gbc
             gbc_named_trigger_semaphore = create_named_semaphore(GBC_NAMED_TRIGGER_SEMAPHORE_NAME, 1);
             gbc_named_mem_protection_semaphore = create_named_semaphore(GBC_NAMED_MEM_PROTECTION_SEMAPHORE_NAME, 1);
+            gbc_named_offline_mem_protection_semaphore = create_named_semaphore(
+                    GBC_NAMED_OFFLINE_MEM_PROTECTION_SEMAPHORE_NAME, 1);
 
 
         }

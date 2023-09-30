@@ -21,20 +21,17 @@
 #include <semaphore.h>
 
 /**The size of the shared memory buffer for offline NON real-time comms */
-#define SHM_OFFLINE_BUF_SIZE    20000
+#define SHM_OFFLINE_BUF_SIZE    10000
 
 /**The size of the shared memory buffer for real-time cyclic comms */
 #define SHM_BUF_SIZE            200
-//#define SHM_KEY                 0x1234
-
-/*magic number used to detect if gbc is alive */
-#define SHM_MAGIC_NUMBER        0x13a
 
 
 extern char gbc_shared_mem_name[100];
 
 extern sem_t *gbc_named_trigger_semaphore;
 extern sem_t *gbc_named_mem_protection_semaphore;
+extern sem_t *gbc_named_offline_mem_protection_semaphore;
 
 
 struct shm_msg {
