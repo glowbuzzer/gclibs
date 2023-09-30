@@ -23,7 +23,7 @@
 #define MAX_NUM_SLAVE_ERROR_MESSAGES                    10
 #define MAX_DRIVE_ERROR_MSG_LENGTH                      300
 #define MAX_DRIVE_NAME_LENGTH                           30
-#define EC_MAXSLAVE                                     200
+#define EC_MAXSLAVE                                     30
 #define MAP_MAX_NUM_DRIVES                              10
 
 /* enums for the state of the different programs that can be run */
