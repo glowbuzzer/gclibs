@@ -71,6 +71,7 @@ typedef struct {
 typedef struct {
     uint8_t slave_error_message[MAX_NUM_SLAVE_ERROR_MESSAGES][EC_MAXERRORNAME];
     int head;
+    int tail;
     uint8_t num_slots_full;
 } ec_circular_slave_error_message_t;
 
