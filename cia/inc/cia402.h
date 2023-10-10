@@ -51,9 +51,6 @@ extern const char *cia_command_names[CIA_NUM_COMMAND_NAMES];
 //so we are use bit 16 here - bit confusing
 
 
-#define CTRL_MACHINE_CTRL_WRD_REQUEST_FAULT_BIT_NUM     16
-#define CTRL_MOVE_NOT_OP_ENABLED_FAULT_REQ_BIT_NUM     17
-#define CTRL_GBC_INTERNAL_FAULT_REQ_BIT_NUM 18
 
 /* Control words to command a transition to a state - e.g. send to a drive to change its state */
 /* The switch on ctrl word and the disable operation control words are identical */
