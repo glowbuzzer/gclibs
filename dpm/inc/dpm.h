@@ -27,7 +27,7 @@
 #define DPM_NUM_INT32S 2
 #define DPM_NUM_UINT32S 0
 #define DPM_NUM_DIGITALS 64
-#define SIZE_OF_GBC_PDO 200
+#define SIZE_OF_GBC_PDO 240
 #define SIZE_OF_GBC_OFFLINE 20000
 
 typedef struct {
@@ -39,6 +39,7 @@ typedef struct {
     int32_t joint_actual_position[DPM_NUM_JOINTS]; //actual position of the drives
     int32_t joint_actual_velocity[DPM_NUM_JOINTS]; //actual velocity of the drives
     int32_t joint_actual_torque[DPM_NUM_JOINTS]; //actual torque applied by the drives
+    int32_t joint_actual_follow_error[DPM_NUM_JOINTS]; //actual follow error of the drives
     uint64_t digital; //state of upto 64 digital ins
     float analog[DPM_NUM_ANALOGS]; //state of float ins
     int32_t integer32[DPM_NUM_INT32S]; //status of signed integers ins
@@ -55,6 +56,7 @@ typedef struct {
     int32_t joint_set_position[DPM_NUM_JOINTS]; // set position for drives (usually only this is used not velocity and torque)
     int32_t joint_set_velocity[DPM_NUM_JOINTS]; // set velocity for drives
     int32_t joint_set_torque[DPM_NUM_JOINTS]; // set torque for drives
+    int32_t joint_set_torque_offset[DPM_NUM_JOINTS]; // set torque offset for drives
     uint64_t digital; //commanded state for digital outs
     float analog[DPM_NUM_ANALOGS]; // commanded values for float outs
     int32_t integer32[DPM_NUM_INT32S]; // commanded values for signed integer outs
