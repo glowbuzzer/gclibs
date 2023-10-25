@@ -81,7 +81,8 @@ typedef struct {
     cia_commands_t command;
     cia_state_t state;
     char name[MAX_DRIVE_NAME_LENGTH];
-    int8_t moo;
+    int8_t cmd_moo;
+    int8_t act_mool;
 } ecm_status_drive_t;
 
 
