@@ -16,13 +16,49 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "1211da4f13f97fc9ce77f8de5c08695c"
+#define GBC_MD5_SUM "4135dbab12c61c242a11492de8f92251"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
 #define JOINT_CONTROL_WORD_CST_POS_VEL_DISABLE_BIT 1
 
 // ENUMS
+    enum FAULT_CAUSE {
+        FAULT_CAUSE_ESTOP_BIT_NUM                          = (0),
+        FAULT_CAUSE_DRIVE_FAULT_BIT_NUM                    = (1),
+        FAULT_CAUSE_GBC_FAULT_REQUEST_BIT_NUM              = (2),
+        FAULT_CAUSE_HEARTBEAT_LOST_BIT_NUM                 = (3),
+        FAULT_CAUSE_LIMIT_REACHED_BIT_NUM                  = (4),
+        FAULT_CAUSE_DRIVE_STATE_CHANGE_TIMEOUT_BIT_NUM     = (5),
+        FAULT_CAUSE_DRIVE_FOLLOW_ERROR_BIT_NUM             = (6),
+        FAULT_CAUSE_DRIVE_NO_REMOTE_BIT_NUM                = (7),
+        FAULT_CAUSE_ECAT_BIT_NUM                           = (8),
+        FAULT_CAUSE_DRIVE_ALARM_BIT_NUM                    = (9),
+        FAULT_CAUSE_GBC_OPERATION_ERROR_BIT_NUM            = (10),
+        FAULT_CAUSE_DRIVE_MOOERROR_BIT_NUM                 = (11),
+        FAULT_CAUSE_ECAT_SLAVE_ERROR_BIT_NUM               = (12),
+        FAULT_CAUSE_PLC_SIGNALLED_ERROR_BIT_NUM            = (13),
+        FAULT_CAUSE_HOMING_ERROR_BIT_NUM                   = (14),
+        FAULT_CAUSE_GBC_TO_PLC_CON_ERROR_BIT_NUM           = (15),
+        FAULT_CAUSE_MOVE_NOT_OP_EN_BIT_NUM                 = (16),
+        FAULT_CAUSE_CST_CSV_POSITION_LIMIT_ERROR_BIT_NUM   = (17),
+    };
+    enum STATUS_WORD_GBEM {
+        STATUS_WORD_GBEM_ALIVE_BIT_NUM                      = (16),
+        STATUS_WORD_GBEM_BOOT_IN_PROGRESS_BIT_NUM           = (17),
+        STATUS_WORD_GBEM_BOOTED_BIT_NUM                     = (18),
+        STATUS_WORD_GBEM_HOMING_NEEDED_BIT_NUM              = (19),
+        STATUS_WORD_GBEM_WAITING_FOR_START_HOMING_BIT_NUM   = (20),
+        STATUS_WORD_GBEM_HOMING_IN_PROGRESS_BIT_NUM         = (21),
+        STATUS_WORD_GBEM_HOMING_ERROR_BIT_NUM               = (23),
+        STATUS_WORD_GBEM_HOMING_ATTAINED_BIT_NUM            = (24),
+    };
+    enum CONTROL_WORD_GBC_GBEM {
+        CONTROL_WORD_GBC_OPERATION_ERROR_BIT_NUM           = (16),
+        CONTROL_WORD_GBEM_START_HOMING_BIT_NUM             = (17),
+        CONTROL_WORD_GBC_REQUEST_FAULT_BIT_NUM             = (18),
+        CONTROL_WORD_GBEM_REBOOT_BIT_NUM                   = (20),
+    };
     enum CONFIG_STATUS {
         CONFIG_STATUS_NONE,
         CONFIG_STATUS_RELOAD,
