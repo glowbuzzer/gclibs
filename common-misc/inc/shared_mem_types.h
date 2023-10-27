@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "4135dbab12c61c242a11492de8f92251"
+#define GBC_MD5_SUM "dd2a251591e22c3e6dbfd038e1f41cbc"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -181,6 +181,13 @@
     enum JOINT_TYPE {
         JOINT_PRISMATIC,
         JOINT_REVOLUTE,
+    };
+    enum JOINT_MODEOFOPERATION {
+        JOINT_MODEOFOPERATION_CSP,
+        JOINT_MODEOFOPERATION_CSV,
+        JOINT_MODEOFOPERATION_CST,
+        JOINT_MODEOFOPERATION_HOMING,
+        JOINT_MODEOFOPERATION_CST_DIRECT,
     };
     enum JOINT_FINITECONTINUOUS {
         JOINT_FINITE,
@@ -431,8 +438,18 @@ struct taskCommand {
         enum TASK_COMMAND taskCommand;
 };
 
+struct pidConfig {
+        double kp;
+        double ki;
+        double kd;
+        double maxIntegral;
+        double minIntegral;
+        uint16_t sampleTime;
+};
+
 struct jointConfig {
         enum JOINT_TYPE jointType;
+        enum JOINT_MODEOFOPERATION mode;
         struct limitConfiguration limits[MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION];
         double scale;
         double scalePos;
@@ -447,6 +464,7 @@ struct jointConfig {
         bool isVirtualFromEncoder;
         uint8_t correspondingJointNumberOnPhysicalFieldbus;
         uint8_t correspondingJointNumberOnVirtualFieldbus;
+        struct pidConfig pidConfig[3];
 };
 
 struct jointStatus {
