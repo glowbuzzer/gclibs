@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "70d7c8ef9adf86f3bb53488636ec8512"
+#define GBC_MD5_SUM "dd2a251591e22c3e6dbfd038e1f41cbc"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -42,7 +42,6 @@
         FAULT_CAUSE_GBC_TO_PLC_CON_ERROR_BIT_NUM           = (15),
         FAULT_CAUSE_MOVE_NOT_OP_EN_BIT_NUM                 = (16),
         FAULT_CAUSE_CST_CSV_POSITION_LIMIT_ERROR_BIT_NUM   = (17),
-        FAULT_CAUSE_CST_CSV_VELOCITY_LIMIT_ERROR_BIT_NUM   = (18),
     };
     enum STATUS_WORD_GBEM {
         STATUS_WORD_GBEM_ALIVE_BIT_NUM                      = (16),
@@ -182,6 +181,13 @@
     enum JOINT_TYPE {
         JOINT_PRISMATIC,
         JOINT_REVOLUTE,
+    };
+    enum JOINT_MODEOFOPERATION {
+        JOINT_MODEOFOPERATION_CSP,
+        JOINT_MODEOFOPERATION_CSV,
+        JOINT_MODEOFOPERATION_CST,
+        JOINT_MODEOFOPERATION_HOMING,
+        JOINT_MODEOFOPERATION_CST_DIRECT,
     };
     enum JOINT_FINITECONTINUOUS {
         JOINT_FINITE,
@@ -432,8 +438,18 @@ struct taskCommand {
         enum TASK_COMMAND taskCommand;
 };
 
+struct pidConfig {
+        double kp;
+        double ki;
+        double kd;
+        double maxIntegral;
+        double minIntegral;
+        uint16_t sampleTime;
+};
+
 struct jointConfig {
         enum JOINT_TYPE jointType;
+        enum JOINT_MODEOFOPERATION mode;
         struct limitConfiguration limits[MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION];
         double scale;
         double scalePos;
@@ -448,6 +464,7 @@ struct jointConfig {
         bool isVirtualFromEncoder;
         uint8_t correspondingJointNumberOnPhysicalFieldbus;
         uint8_t correspondingJointNumberOnVirtualFieldbus;
+        struct pidConfig pidConfig[3];
 };
 
 struct jointStatus {
