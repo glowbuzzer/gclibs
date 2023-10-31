@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "120ad507e7ad627d95be67b01730c044"
+#define GBC_MD5_SUM "a85bc7a41630263ce9c9bb89ef1fd0f8"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -184,21 +184,20 @@
         JOINT_REVOLUTE,
     };
     enum JOINT_MODEOFOPERATION {
-        JOINT_MODEOFOPERATION_NONE,
-        JOINT_MODEOFOPERATION_CSP,
-        JOINT_MODEOFOPERATION_CSV,
-        JOINT_MODEOFOPERATION_CST,
-        JOINT_MODEOFOPERATION_HOMING,
-        JOINT_MODEOFOPERATION_CST_DIRECT,
+        JOINT_MODEOFOPERATION_NONE   = 0,
+        JOINT_MODEOFOPERATION_CSP    = 1,
+        JOINT_MODEOFOPERATION_CSV    = 2,
+        JOINT_MODEOFOPERATION_CST    = 4,
+        JOINT_MODEOFOPERATION_HOMING = 8,
     };
     enum JOINT_FINITECONTINUOUS {
         JOINT_FINITE,
         JOINT_CONTINUOUS,
     };
-    enum JOINT_DIRECT_TORQUE_MODE {
-        JOINT_DIRECT_TORQUE_MODE_OFF,
-        JOINT_DIRECT_TORQUE_MODE_ADDITIVE,
-        JOINT_DIRECT_TORQUE_MODE_OVERRIDE,
+    enum JOINT_TORQUE_MODE {
+        JOINT_TORQUE_MODE_DEFAULT   = 0,
+        JOINT_TORQUE_MODE_GRAVITY   = 1,
+        JOINT_TORQUE_MODE_DIRECT    = 2,
     };
     enum KC_KINEMATICSCONFIGURATIONTYPE {
         KC_NAKED,
@@ -453,6 +452,8 @@ struct jointConfig {
         enum JOINT_TYPE jointType;
         enum JOINT_MODEOFOPERATION mode;
         struct limitConfiguration limits[MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION];
+        enum JOINT_MODEOFOPERATION preferredMode;
+        uint8_t supportedModes;
         double scale;
         double scalePos;
         double scaleVel;
@@ -479,7 +480,7 @@ struct jointStatus {
 struct jointCommand {
         uint16_t controlWord;
         double setTorque;
-        enum JOINT_DIRECT_TORQUE_MODE directTorqueMode;
+        enum JOINT_TORQUE_MODE torqueMode;
 };
 
 struct matrixInstanceDouble {
