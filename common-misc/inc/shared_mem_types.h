@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "887fc316b0100beeb3c2a8b3314b835e"
+#define GBC_MD5_SUM "46e3787c5c4e6e04f50b5e8b39605448"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -453,6 +453,7 @@ struct jointConfig {
         struct limitConfiguration limits[MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION];
         enum JOINT_MODEOFOPERATION preferredMode;
         uint8_t supportedModes;
+        uint8_t supportedTorqueModes;
         double scale;
         double scalePos;
         double scaleVel;
