@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "a85bc7a41630263ce9c9bb89ef1fd0f8"
+#define GBC_MD5_SUM "887fc316b0100beeb3c2a8b3314b835e"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -450,7 +450,6 @@ struct pidConfig {
 
 struct jointConfig {
         enum JOINT_TYPE jointType;
-        enum JOINT_MODEOFOPERATION mode;
         struct limitConfiguration limits[MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION];
         enum JOINT_MODEOFOPERATION preferredMode;
         uint8_t supportedModes;
