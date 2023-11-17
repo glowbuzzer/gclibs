@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "46e3787c5c4e6e04f50b5e8b39605448"
+#define GBC_MD5_SUM "1198e294432c81f1a112630240f39aa4"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -528,6 +528,12 @@ struct sphericalEnvelope {
         double radius[2];
 };
 
+struct velocityScaling {
+        bool enabled;
+        struct triggerOnDigitalInput trigger;
+        double scaleFactor;
+};
+
 struct kinematicsConfigurationConfig {
         enum KC_KINEMATICSCONFIGURATIONTYPE kinematicsConfigurationType;
         uint8_t supportedConfigurationBits;
@@ -542,6 +548,7 @@ struct kinematicsConfigurationConfig {
         double scaleZ;
         struct limitConfiguration linearLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
         struct limitConfiguration angularLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
+        struct velocityScaling velocityScaling;
         struct matrixInstanceDouble kinChainParams;
         struct inverseDynamicParameters inverseDynamicParams[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
         struct sphericalEnvelope sphericalEnvelope;
