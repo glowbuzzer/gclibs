@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "1198e294432c81f1a112630240f39aa4"
+#define GBC_MD5_SUM "c0c2c1fb42a7f4bdda74c2ce10769590"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -584,6 +584,11 @@ struct dinStatus {
         bool actValue;
 };
 
+struct dinCommand {
+        bool override;
+        bool setValue;
+};
+
 struct doutConfig {
         bool inverted;
         uint8_t loopback;
@@ -607,6 +612,11 @@ struct ainStatus {
         float actValue;
 };
 
+struct ainCommand {
+        bool override;
+        bool setValue;
+};
+
 struct aoutConfig {
 };
 
@@ -624,6 +634,11 @@ struct iinConfig {
 
 struct iinStatus {
         uint32_t actValue;
+};
+
+struct iinCommand {
+        bool override;
+        bool setValue;
 };
 
 struct ioutConfig {
@@ -1082,6 +1097,7 @@ struct offsets {
 
     uint32_t addrDinConfig;
     uint32_t addrDinStatus;
+    uint32_t addrDinCommand;
 
 
     uint32_t addrAoutConfig;
@@ -1091,6 +1107,7 @@ struct offsets {
 
     uint32_t addrAinConfig;
     uint32_t addrAinStatus;
+    uint32_t addrAinCommand;
 
 
     uint32_t addrIoutConfig;
@@ -1100,6 +1117,7 @@ struct offsets {
 
     uint32_t addrIinConfig;
     uint32_t addrIinStatus;
+    uint32_t addrIinCommand;
 
 
     uint32_t addrSpindleConfig;
