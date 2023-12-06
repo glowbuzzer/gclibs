@@ -24,8 +24,8 @@
 
 #define DPM_NUM_JOINTS 10
 #define DPM_NUM_ANALOGS 6
-#define DPM_NUM_INT32S 2
-#define DPM_NUM_UINT32S 0
+#define DPM_NUM_INT32S 0
+#define DPM_NUM_UINT32S 2
 #define DPM_NUM_DIGITALS 64
 #define SIZE_OF_GBC_PDO 240
 #define SIZE_OF_GBC_OFFLINE 20000
@@ -59,9 +59,10 @@ typedef struct {
     int32_t joint_set_torque_offset[DPM_NUM_JOINTS]; // set torque offset for drives
     uint64_t digital; //commanded state for digital outs
     float analog[DPM_NUM_ANALOGS]; // commanded values for float outs
-    int32_t integer32[DPM_NUM_INT32S]; // commanded values for signed integer outs
-    uint8_t reserved[4];
     uint32_t unsigned32[DPM_NUM_UINT32S]; // commandsed values for unsigned integer outs
+    uint8_t reserved[4];
+    int32_t integer32[DPM_NUM_INT32S]; // commanded values for signed integer outs
+
 }__attribute__((packed)) dpm_out_t;
 
 
