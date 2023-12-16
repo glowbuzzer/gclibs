@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "f99b58856cbfd4d57a7df29b43f0fc84"
+#define GBC_MD5_SUM "c0c2c1fb42a7f4bdda74c2ce10769590"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -184,20 +184,20 @@
         JOINT_REVOLUTE,
     };
     enum JOINT_MODEOFOPERATION {
-        JOINT_MODEOFOPERATION_CSP,
-        JOINT_MODEOFOPERATION_CSV,
-        JOINT_MODEOFOPERATION_CST,
-        JOINT_MODEOFOPERATION_HOMING,
-        JOINT_MODEOFOPERATION_CST_DIRECT,
+        JOINT_MODEOFOPERATION_NONE   = 0,
+        JOINT_MODEOFOPERATION_CSP    = 1,
+        JOINT_MODEOFOPERATION_CSV    = 2,
+        JOINT_MODEOFOPERATION_CST    = 4,
+        JOINT_MODEOFOPERATION_HOMING = 8,
     };
     enum JOINT_FINITECONTINUOUS {
         JOINT_FINITE,
         JOINT_CONTINUOUS,
     };
-    enum JOINT_DIRECT_TORQUE_MODE {
-        JOINT_DIRECT_TORQUE_MODE_OFF,
-        JOINT_DIRECT_TORQUE_MODE_ADDITIVE,
-        JOINT_DIRECT_TORQUE_MODE_OVERRIDE,
+    enum JOINT_TORQUE_MODE {
+        JOINT_TORQUE_MODE_DEFAULT   = 0,
+        JOINT_TORQUE_MODE_GRAVITY   = 1,
+        JOINT_TORQUE_MODE_DIRECT    = 2,
     };
     enum KC_KINEMATICSCONFIGURATIONTYPE {
         KC_NAKED,
@@ -450,8 +450,10 @@ struct pidConfig {
 
 struct jointConfig {
         enum JOINT_TYPE jointType;
-        enum JOINT_MODEOFOPERATION mode;
         struct limitConfiguration limits[MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION];
+        enum JOINT_MODEOFOPERATION preferredMode;
+        uint8_t supportedModes;
+        uint8_t supportedTorqueModes;
         double scale;
         double scalePos;
         double scaleVel;
@@ -478,7 +480,7 @@ struct jointStatus {
 struct jointCommand {
         uint16_t controlWord;
         double setTorque;
-        enum JOINT_DIRECT_TORQUE_MODE directTorqueMode;
+        enum JOINT_TORQUE_MODE torqueMode;
 };
 
 struct matrixInstanceDouble {
@@ -526,6 +528,12 @@ struct sphericalEnvelope {
         double radius[2];
 };
 
+struct velocityScaling {
+        bool enabled;
+        struct triggerOnDigitalInput trigger;
+        double scaleFactor;
+};
+
 struct kinematicsConfigurationConfig {
         enum KC_KINEMATICSCONFIGURATIONTYPE kinematicsConfigurationType;
         uint8_t supportedConfigurationBits;
@@ -540,6 +548,7 @@ struct kinematicsConfigurationConfig {
         double scaleZ;
         struct limitConfiguration linearLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
         struct limitConfiguration angularLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
+        struct velocityScaling velocityScaling;
         struct matrixInstanceDouble kinChainParams;
         struct inverseDynamicParameters inverseDynamicParams[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
         struct sphericalEnvelope sphericalEnvelope;
@@ -575,6 +584,11 @@ struct dinStatus {
         bool actValue;
 };
 
+struct dinCommand {
+        bool override;
+        bool setValue;
+};
+
 struct doutConfig {
         bool inverted;
         uint8_t loopback;
@@ -598,6 +612,11 @@ struct ainStatus {
         float actValue;
 };
 
+struct ainCommand {
+        bool override;
+        bool setValue;
+};
+
 struct aoutConfig {
 };
 
@@ -615,6 +634,11 @@ struct iinConfig {
 
 struct iinStatus {
         uint32_t actValue;
+};
+
+struct iinCommand {
+        bool override;
+        bool setValue;
 };
 
 struct ioutConfig {
@@ -1073,6 +1097,7 @@ struct offsets {
 
     uint32_t addrDinConfig;
     uint32_t addrDinStatus;
+    uint32_t addrDinCommand;
 
 
     uint32_t addrAoutConfig;
@@ -1082,6 +1107,7 @@ struct offsets {
 
     uint32_t addrAinConfig;
     uint32_t addrAinStatus;
+    uint32_t addrAinCommand;
 
 
     uint32_t addrIoutConfig;
@@ -1091,6 +1117,7 @@ struct offsets {
 
     uint32_t addrIinConfig;
     uint32_t addrIinStatus;
+    uint32_t addrIinCommand;
 
 
     uint32_t addrSpindleConfig;
