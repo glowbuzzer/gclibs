@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "c0c2c1fb42a7f4bdda74c2ce10769590"
+#define GBC_MD5_SUM "307de018b1b335b387e0a04864dd63aa"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -139,7 +139,7 @@
         ACTIVITYTYPE_SETAOUT,
         ACTIVITYTYPE_DWELL,
         ACTIVITYTYPE_SPINDLE,
-        ACTIVITYTYPE_RESERVED2,
+        ACTIVITYTYPE_MOVEJOINTSINTERPOLATED,
         ACTIVITYTYPE_RESERVED3,
         ACTIVITYTYPE_RESERVED4,
         ACTIVITYTYPE_GEARINPOS,
@@ -675,6 +675,28 @@ struct moveJointsStream {
         struct moveParametersConfig moveParams;
 };
 
+struct moveJointsInterpolatedActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        double timecode;
+        uint16_t moveParamsIndex;
+};
+
+struct moveJointsInterpolatedActivityStatus {
+};
+
+struct moveJointsInterpolatedActivityCommand {
+};
+
+struct moveJointsInterpolatedStream {
+        uint8_t kinematicsConfigurationIndex;
+        double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        double duration;
+        struct moveParametersConfig moveParams;
+};
+
 struct moveJointsAtVelocityActivityParams {
         uint8_t kinematicsConfigurationIndex;
         uint16_t moveParamsIndex;
@@ -944,6 +966,7 @@ struct activityConfig {
         struct triggerParams triggers[3];
     union {
         struct moveJointsActivityParams moveJoints;
+        struct moveJointsInterpolatedActivityParams moveJointsInterpolated;
         struct moveJointsAtVelocityActivityParams moveJointsAtVelocity;
         struct moveLineActivityParams moveLine;
         struct moveVectorAtVelocityActivityParams moveVectorAtVelocity;
@@ -967,6 +990,7 @@ struct activityStatus {
         uint32_t tag;
     union {
         struct moveJointsActivityStatus moveJoints;
+        struct moveJointsInterpolatedActivityStatus moveJointsInterpolated;
         struct moveJointsAtVelocityActivityStatus moveJointsAtVelocity;
         struct moveLineActivityStatus moveLine;
         struct moveVectorAtVelocityActivityStatus moveVectorAtVelocity;
@@ -988,6 +1012,7 @@ struct activityStatus {
 struct activityCommand {
     union {
         struct moveJointsActivityCommand moveJoints;
+        struct moveJointsInterpolatedActivityCommand moveJointsInterpolated;
         struct moveJointsAtVelocityActivityCommand moveJointsAtVelocity;
         struct moveLineActivityCommand moveLine;
         struct moveVectorAtVelocityActivityCommand moveVectorAtVelocity;
@@ -1012,6 +1037,7 @@ struct activityStreamItem {
         struct triggerParams triggers[3];
     union {
         struct moveJointsStream moveJoints;
+        struct moveJointsInterpolatedStream moveJointsInterpolated;
         struct moveJointsAtVelocityStream moveJointsAtVelocity;
         struct moveLineStream moveLine;
         struct moveVectorAtVelocityStream moveVectorAtVelocity;
