@@ -28,13 +28,27 @@
 
 /* enums for the state of the different programs that can be run */
 typedef enum {
-    ECM_PRE_BOOT, ECM_BOOT_FINISHED, ECM_CYCLIC_RUNNING, ECM_ERROR
+    ECM_PRE_BOOT,
+    ECM_BOOT_FINISHED,
+    ECM_CYCLIC_RUNNING,
+    ECM_ERROR
 } ecm_cyclic_state_t;
+
 typedef enum {
-    ECM_NO_PROG, ECM_NET_SCAN_PROG, ECM_CYCLIC_PROG, ECM_PRINT_CONFIG_PROG, ECM_WRITE_NVRAM_PROG, ECM_NET_SCAN_PDO_PROG
+    ECM_NO_PROG,
+    ECM_NET_SCAN_PROG,
+    ECM_CYCLIC_PROG,
+    ECM_PRINT_CONFIG_PROG,
+    ECM_WRITE_NVRAM_PROG,
+    ECM_NET_SCAN_PDO_PROG
 } ecm_active_program_t;
+
 typedef enum {
-    ECM_NET_SCAN_PRE_START, ECM_NET_SCAN_START, ECM_NET_SCAN_ERROR, ECM_NET_SCAN_NO_SLAVES_FOUND, ECM_NET_SCAN_FINISHED
+    ECM_NET_SCAN_PRE_START,
+    ECM_NET_SCAN_START,
+    ECM_NET_SCAN_ERROR,
+    ECM_NET_SCAN_NO_SLAVES_FOUND,
+    ECM_NET_SCAN_FINISHED
 } ecm_net_scan_state_t;
 
 /** used in ecm_status to track the progress of the main boot*/
@@ -85,6 +99,41 @@ typedef struct {
     int8_t act_moo;
 } ecm_status_drive_t;
 
+typedef enum {
+    FSOE_MASTER_TYPE_NONE,
+    FSOE_MASTER_TYPE_SCU_1_EC,
+    FSOE_MASTER_TYPE_EL6900,
+    FSOE_MASTER_TYPE_EL6910
+} ecm_fsoe_master_type_t;
+
+typedef enum {
+    BBH_SCU_MODE_NONE,
+    //0
+    BBH_SCU_MODE_START_UP,
+    //1
+    BBH_SCU_MODE_SENDCONFIG,
+    //2
+    BBH_SCU_MODE_STARTUP_BUS,
+    //3
+    BBH_SCU_MODE_RUN,
+    //4
+    BBH_SCU_MODE_STOP,
+    //5
+    BBH_SCU_MODE_ERROR,
+    //6
+    BBH_SCU_MODE_ALARM,
+    //7
+    BBH_SCU_MODE_LOCAL_MODE,
+    //8
+} bbh_scu_mode_t;
+
+typedef struct {
+    uint8_t master_slave_no;
+    uint8_t slave_count;
+    uint8_t slave_no[10];
+    ecm_fsoe_master_type_t master_type;
+    uint8_t master_state;
+} ecm_status_fsoe;
 
 /** This struct holds the config and status of whole machine
  *  It is used by the status writing program
