@@ -97,6 +97,7 @@ typedef struct {
     char name[MAX_DRIVE_NAME_LENGTH];
     int8_t cmd_moo;
     int8_t act_moo;
+    uint16_t fsoe_state;
 } ecm_status_drive_t;
 
 typedef enum {
@@ -105,6 +106,45 @@ typedef enum {
     FSOE_MASTER_TYPE_EL6900,
     FSOE_MASTER_TYPE_EL6910
 } ecm_fsoe_master_type_t;
+
+
+/* Status word 0
+    0.0 - STO state
+    0.1 - res
+    0.2 - res
+    0.3 - SOS state
+    0.4 - res
+    0.5 - res
+    0.6 - res
+    0.7 - Error active
+    1.0 - SS1 state
+    1.1 - SS2 state
+    1.2 - res
+    1.3 - res
+    1.4 - SLS1 state
+    1.5 - SLS2 state
+    1.6 - SLS3 state
+    1.7 - SLS4 state
+ */
+/* Status word 1
+    0.0 - restart ack required
+    0.1 - SBC state
+    0.2 - Temp warning
+    0.3 - Safe pos valid
+    0.4 - Safe speed active
+    0.5 - res
+    0.6 - res
+    0.7 - res
+    1.0 - safe input 1
+    1.1 - safe input 2
+    1.2 - res
+    1.3 - res
+    1.4 - safe ouput 1
+    1.5 - res
+    1.6 - analog inpuut diagnostic active
+    1.7 - analog input valid
+
+ */
 
 typedef enum {
     BBH_SCU_MODE_NONE,
@@ -128,12 +168,18 @@ typedef enum {
 } bbh_scu_mode_t;
 
 typedef struct {
+
+} bbh_scu_1_status_word;
+
+
+typedef struct {
     uint8_t master_slave_no;
     uint8_t slave_count;
     uint8_t slave_no[10];
     ecm_fsoe_master_type_t master_type;
     uint8_t master_state;
-} ecm_status_fsoe;
+    uint16_t connection_id;
+} ecm_status_fsoe_t;
 
 /** This struct holds the config and status of whole machine
  *  It is used by the status writing program
@@ -173,6 +219,7 @@ typedef struct {
     ecm_status_drive_t drives[MAP_MAX_NUM_DRIVES];
     cia_state_t machine_state;
     uint64_t shared_mem_busy_count;
+    ecm_status_fsoe_t fsoe;
 } ecm_status_t;
 
 //#ifdef GB_APP_LINUX
