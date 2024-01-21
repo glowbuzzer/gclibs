@@ -25,6 +25,8 @@
 #define MAX_DRIVE_NAME_LENGTH                           30
 #define EC_MAXSLAVE                                     30
 #define MAP_MAX_NUM_DRIVES                              10
+#define MAP_MAX_NUM_FSOE_SLAVES                         10
+
 
 /* enums for the state of the different programs that can be run */
 typedef enum {
@@ -92,59 +94,26 @@ typedef struct {
 /** nested in ecm_status and holds drive status info */
 typedef struct {
     char error_message[MAX_DRIVE_ERROR_MSG_LENGTH];
+    char historical_error_message[MAX_DRIVE_ERROR_MSG_LENGTH];
     cia_commands_t command;
     cia_state_t state;
     char name[MAX_DRIVE_NAME_LENGTH];
+    char secondary_name[MAX_DRIVE_NAME_LENGTH];
     int8_t cmd_moo;
     int8_t act_moo;
-    uint16_t fsoe_state;
 } ecm_status_drive_t;
 
+
 typedef enum {
-    FSOE_MASTER_TYPE_NONE,
-    FSOE_MASTER_TYPE_SCU_1_EC,
-    FSOE_MASTER_TYPE_EL6900,
-    FSOE_MASTER_TYPE_EL6910
-} ecm_fsoe_master_type_t;
+    FSOE_SLAVE_TYPE_NONE,
+    FSOE_SLAVE_TYPE_SYNAPTICON,
+    FSOE_SLAVE_TYPE_EL1904,
+    FSOE_SLAVE_TYPE_EL2904,
+    FSOE_SLAVE_TYPE_SCU_1_EC,
+    FSOE_SLAVE_TYPE_EL6900,
+    FSOE_SLAVE_TYPE_EL6910
+} ecm_fsoe_slave_type_t;
 
-
-/* Status word 0
-    0.0 - STO state
-    0.1 - res
-    0.2 - res
-    0.3 - SOS state
-    0.4 - res
-    0.5 - res
-    0.6 - res
-    0.7 - Error active
-    1.0 - SS1 state
-    1.1 - SS2 state
-    1.2 - res
-    1.3 - res
-    1.4 - SLS1 state
-    1.5 - SLS2 state
-    1.6 - SLS3 state
-    1.7 - SLS4 state
- */
-/* Status word 1
-    0.0 - restart ack required
-    0.1 - SBC state
-    0.2 - Temp warning
-    0.3 - Safe pos valid
-    0.4 - Safe speed active
-    0.5 - res
-    0.6 - res
-    0.7 - res
-    1.0 - safe input 1
-    1.1 - safe input 2
-    1.2 - res
-    1.3 - res
-    1.4 - safe ouput 1
-    1.5 - res
-    1.6 - analog inpuut diagnostic active
-    1.7 - analog input valid
-
- */
 
 typedef enum {
     BBH_SCU_MODE_NONE,
@@ -167,18 +136,37 @@ typedef enum {
     //8
 } bbh_scu_mode_t;
 
+
+typedef enum {
+    FSOE_SLAVE_HIGH_LEVEL_STATE_NONE,
+    FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR,
+    FSOE_SLAVE_HIGH_LEVEL_STATE_ACK_REQ,
+    FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR_AND_ACK_REQ,
+} fsoe_slave_high_level_state_t;
+
+typedef enum {
+    FSOE_MASTER_HIGH_LEVEL_STATE_NONE,
+    FSOE_MASTER_HIGH_LEVEL_STATE_START_UP,
+    FSOE_MASTER_HIGH_LEVEL_STATE_SENDCONFIG,
+    FSOE_MASTER_HIGH_LEVEL_STATE_STARTUP_BUS,
+    FSOE_MASTER_HIGH_LEVEL_STATE_RUN,
+    FSOE_MASTER_HIGH_LEVEL_STATE_STOP,
+    FSOE_MASTER_HIGH_LEVEL_STATE_ERROR,
+    FSOE_MASTER_HIGH_LEVEL_STATE_ALARM,
+    FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK
+} fsoe_master_high_level_state_t;
+
+
 typedef struct {
-
-} bbh_scu_1_status_word;
-
-
-typedef struct {
-    uint8_t master_slave_no;
-    uint8_t slave_count;
-    uint8_t slave_no[10];
-    ecm_fsoe_master_type_t master_type;
-    uint8_t master_state;
-    uint16_t connection_id;
+    uint8_t master_slave_no; //set in control.c
+    uint8_t slave_count; // set in ec_functions.c
+    ecm_fsoe_slave_type_t slave_type[EC_MAXSLAVE]; // set in ec_functions.c
+    uint32_t master_state;
+    uint32_t master_error_code;
+    uint32_t slave_state[EC_MAXSLAVE];
+    uint16_t slave_connection_id[EC_MAXSLAVE];
+    fsoe_slave_high_level_state_t slave_high_level_state[EC_MAXSLAVE];
+    fsoe_master_high_level_state_t master_high_level_state;
 } ecm_status_fsoe_t;
 
 /** This struct holds the config and status of whole machine
