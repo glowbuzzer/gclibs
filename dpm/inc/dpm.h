@@ -24,10 +24,13 @@
 
 #define DPM_NUM_JOINTS 10
 #define DPM_NUM_ANALOGS 6
-#define DPM_NUM_INT32S 0
-#define DPM_NUM_UINT32S 2
+#define DPM_NUM_INT32S 2
+#define DPM_NUM_UINT32S 0
+#define DPM_SIZE_OF_EXTERNAL 32
+// ensure digitals is multiple of 64
+// NOTE: if more than a single uint64_t is used, order will be confusing - be warned!
 #define DPM_NUM_DIGITALS 64
-#define SIZE_OF_GBC_PDO 240
+#define DPM_NUM_SAFETY_DIGITALS 64
 #define SIZE_OF_GBC_OFFLINE 20000
 
 typedef struct {
@@ -40,11 +43,13 @@ typedef struct {
     int32_t joint_actual_velocity[DPM_NUM_JOINTS]; //actual velocity of the drives
     int32_t joint_actual_torque[DPM_NUM_JOINTS]; //actual torque applied by the drives
     int32_t joint_actual_follow_error[DPM_NUM_JOINTS]; //actual follow error of the drives
-    uint64_t digital; //state of upto 64 digital ins
+    uint64_t digital[DPM_NUM_DIGITALS / 64]; // state of digital ins
+    uint64_t safetyDigital[DPM_NUM_SAFETY_DIGITALS / 64]; // state of digital ins
     float analog[DPM_NUM_ANALOGS]; //state of float ins
     int32_t integer32[DPM_NUM_INT32S]; //status of signed integers ins
     uint8_t reserved[4];
     uint32_t unsigned32[DPM_NUM_UINT32S]; //status of unsigned integer ins
+    uint8_t external[DPM_SIZE_OF_EXTERNAL]; //status of external ins
 }__attribute__((packed)) dpm_in_t;
 
 typedef struct {
@@ -57,14 +62,16 @@ typedef struct {
     int32_t joint_set_velocity[DPM_NUM_JOINTS]; // set velocity for drives
     int32_t joint_set_torque[DPM_NUM_JOINTS]; // set torque for drives
     int32_t joint_set_torque_offset[DPM_NUM_JOINTS]; // set torque offset for drives
-    uint64_t digital; //commanded state for digital outs
+    uint64_t digital[DPM_NUM_DIGITALS / 64]; // state of digital ins
+    uint64_t safetyDigital[DPM_NUM_SAFETY_DIGITALS / 64]; // state of digital ins
     float analog[DPM_NUM_ANALOGS]; // commanded values for float outs
     uint32_t unsigned32[DPM_NUM_UINT32S]; // commandsed values for unsigned integer outs
     uint8_t reserved[4];
     int32_t integer32[DPM_NUM_INT32S]; // commanded values for signed integer outs
-
+    uint8_t external[DPM_SIZE_OF_EXTERNAL]; //status of external outs
 }__attribute__((packed)) dpm_out_t;
 
+#define SIZE_OF_GBC_PDO (sizeof(dpm_in_t))
 
 extern uint8_t inA[SIZE_OF_GBC_PDO];
 extern uint8_t outA[SIZE_OF_GBC_PDO];
@@ -73,7 +80,6 @@ extern uint8_t outB[SIZE_OF_GBC_PDO];
 
 extern dpm_in_t *dpm_in;
 extern dpm_out_t *dpm_out;
-
 
 //gbem->gbc
 typedef struct {

@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "307de018b1b335b387e0a04864dd63aa"
+#define GBC_MD5_SUM "25f0c591958dd09cc9d8086b7178ba09"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -140,13 +140,13 @@
         ACTIVITYTYPE_DWELL,
         ACTIVITYTYPE_SPINDLE,
         ACTIVITYTYPE_MOVEJOINTSINTERPOLATED,
-        ACTIVITYTYPE_RESERVED3,
-        ACTIVITYTYPE_RESERVED4,
+        ACTIVITYTYPE_SET_UIOUT,
+        ACTIVITYTYPE_SET_EXTERNAL_IOUT,
         ACTIVITYTYPE_GEARINPOS,
         ACTIVITYTYPE_GEARINVELO,
-        ACTIVITYTYPE_RESERVED5,
+        ACTIVITYTYPE_SET_EXTERNAL_DOUT,
         ACTIVITYTYPE_TOOLOFFSET,
-        ACTIVITYTYPE_LATCH,
+        ACTIVITYTYPE_SET_EXTERNAL_UIOUT,
         ACTIVITYTYPE_STRESSTEST,
     };
     enum ACTIVITYSTATE {
@@ -267,6 +267,10 @@
         TRIGGERACTION_NONE,
         TRIGGERACTION_CANCEL,
         TRIGGERACTION_START,
+    };
+    enum DIN_SAFETY_TYPE {
+        DIN_SAFETY_TYPE_NORMAL,
+        DIN_SAFETY_TYPE_HIDDEN,
     };
 
 
@@ -395,6 +399,7 @@ struct triggerOnAnalogInput {
 
 struct triggerOnDigitalInput {
         uint8_t input;
+        bool safeInput;
         enum TRIGGERTYPE when;
 };
 
@@ -589,6 +594,33 @@ struct dinCommand {
         bool setValue;
 };
 
+struct safetyDinConfig {
+        bool inverted;
+        enum DIN_SAFETY_TYPE type;
+};
+
+struct safetyDinStatus {
+        bool actValue;
+};
+
+struct safetyDinCommand {
+        bool override;
+        bool setValue;
+};
+
+struct externalDinConfig {
+        bool inverted;
+};
+
+struct externalDinStatus {
+        bool actValue;
+};
+
+struct externalDinCommand {
+        bool override;
+        bool setValue;
+};
+
 struct doutConfig {
         bool inverted;
         uint8_t loopback;
@@ -599,6 +631,34 @@ struct doutStatus {
 };
 
 struct doutCommand {
+        bool override;
+        bool setValue;
+};
+
+struct safetyDoutConfig {
+        bool inverted;
+        uint8_t loopback;
+};
+
+struct safetyDoutStatus {
+        bool effectiveValue;
+};
+
+struct safetyDoutCommand {
+        bool override;
+        bool setValue;
+};
+
+struct externalDoutConfig {
+        bool inverted;
+        uint8_t loopback;
+};
+
+struct externalDoutStatus {
+        bool effectiveValue;
+};
+
+struct externalDoutCommand {
         bool override;
         bool setValue;
 };
@@ -614,7 +674,7 @@ struct ainStatus {
 
 struct ainCommand {
         bool override;
-        bool setValue;
+        float setValue;
 };
 
 struct aoutConfig {
@@ -629,28 +689,100 @@ struct aoutCommand {
         float setValue;
 };
 
+struct uiinConfig {
+};
+
+struct uiinStatus {
+        uint32_t actValue;
+};
+
+struct uiinCommand {
+        bool override;
+        uint32_t setValue;
+};
+
 struct iinConfig {
 };
 
 struct iinStatus {
-        uint32_t actValue;
+        int32_t actValue;
 };
 
 struct iinCommand {
         bool override;
-        bool setValue;
+        int32_t setValue;
+};
+
+struct externalUiinConfig {
+};
+
+struct externalUiinStatus {
+        uint32_t actValue;
+};
+
+struct externalUiinCommand {
+        bool override;
+        uint32_t setValue;
+};
+
+struct externalIinConfig {
+};
+
+struct externalIinStatus {
+        int32_t actValue;
+};
+
+struct externalIinCommand {
+        bool override;
+        int32_t setValue;
+};
+
+struct uioutConfig {
+};
+
+struct uioutStatus {
+        uint32_t effectiveValue;
+};
+
+struct uioutCommand {
+        bool override;
+        uint32_t setValue;
 };
 
 struct ioutConfig {
 };
 
 struct ioutStatus {
-        uint32_t effectiveValue;
+        int32_t effectiveValue;
 };
 
 struct ioutCommand {
         bool override;
+        int32_t setValue;
+};
+
+struct externalUioutConfig {
+};
+
+struct externalUioutStatus {
+        uint32_t effectiveValue;
+};
+
+struct externalUioutCommand {
+        bool override;
         uint32_t setValue;
+};
+
+struct externalIoutConfig {
+};
+
+struct externalIoutStatus {
+        int32_t effectiveValue;
+};
+
+struct externalIoutCommand {
+        bool override;
+        int32_t setValue;
 };
 
 struct moveJointsActivityParams {
@@ -857,13 +989,24 @@ struct setAoutActivityCommand {
 
 struct setIoutActivityParams {
         uint8_t ioutToSet;
-        uint32_t valueToSet;
+        int32_t valueToSet;
 };
 
 struct setIoutActivityStatus {
 };
 
 struct setIoutActivityCommand {
+};
+
+struct setUioutActivityParams {
+        uint8_t ioutToSet;
+        uint32_t valueToSet;
+};
+
+struct setUioutActivityStatus {
+};
+
+struct setUioutActivityCommand {
 };
 
 struct dwellActivityParams {
@@ -977,8 +1120,12 @@ struct activityConfig {
         struct gearInPosActivityParams gearInPos;
         struct gearInVeloActivityParams gearInVelo;
         struct setDoutActivityParams setDout;
+        struct setDoutActivityParams setExternalDout;
         struct setAoutActivityParams setAout;
         struct setIoutActivityParams setIout;
+        struct setUioutActivityParams setUiout;
+        struct setIoutActivityParams setExternalIout;
+        struct setUioutActivityParams setExternalUiout;
         struct dwellActivityParams dwell;
         struct spindleActivityParams spindle;
         struct stressTestActivityParams stressTest;
@@ -1001,8 +1148,12 @@ struct activityStatus {
         struct gearInPosActivityStatus gearInPos;
         struct gearInVeloActivityStatus gearInVelo;
         struct setDoutActivityStatus setDout;
+        struct setDoutActivityStatus setExternalDout;
         struct setAoutActivityStatus setAout;
         struct setIoutActivityStatus setIout;
+        struct setUioutActivityStatus setUiout;
+        struct setIoutActivityStatus setExternalIout;
+        struct setUioutActivityStatus setExternalUiout;
         struct dwellActivityStatus dwell;
         struct spindleActivityStatus spindle;
         struct stressTestActivityStatus stressTest;
@@ -1023,8 +1174,12 @@ struct activityCommand {
         struct gearInPosActivityCommand gearInPos;
         struct gearInVeloActivityCommand gearInVelo;
         struct setDoutActivityCommand setDout;
+        struct setDoutActivityCommand setExternalDout;
         struct setAoutActivityCommand setAout;
         struct setIoutActivityCommand setIout;
+        struct setUioutActivityCommand setUiout;
+        struct setIoutActivityCommand setExternalIout;
+        struct setUioutActivityCommand setExternalUiout;
         struct dwellActivityCommand dwell;
         struct spindleActivityCommand spindle;
         struct stressTestActivityCommand stressTest;
@@ -1046,8 +1201,12 @@ struct activityStreamItem {
         struct moveInstantStream moveInstant;
         struct moveToPositionStream moveToPosition;
         struct setDoutActivityParams setDout;
+        struct setDoutActivityParams setExternalDout;
         struct setAoutActivityParams setAout;
         struct setIoutActivityParams setIout;
+        struct setUioutActivityParams setUiout;
+        struct setIoutActivityParams setExternalIout;
+        struct setUioutActivityParams setExternalUiout;
         struct dwellActivityParams dwell;
         struct spindleActivityParams spindle;
         struct toolOffsetActivityParams setToolOffset;
@@ -1121,9 +1280,24 @@ struct offsets {
     uint32_t addrDoutCommand;
 
 
+    uint32_t addrExternalDoutConfig;
+    uint32_t addrExternalDoutStatus;
+    uint32_t addrExternalDoutCommand;
+
+
     uint32_t addrDinConfig;
     uint32_t addrDinStatus;
     uint32_t addrDinCommand;
+
+
+    uint32_t addrSafetyDinConfig;
+    uint32_t addrSafetyDinStatus;
+    uint32_t addrSafetyDinCommand;
+
+
+    uint32_t addrExternalDinConfig;
+    uint32_t addrExternalDinStatus;
+    uint32_t addrExternalDinCommand;
 
 
     uint32_t addrAoutConfig;
@@ -1141,9 +1315,39 @@ struct offsets {
     uint32_t addrIoutCommand;
 
 
+    uint32_t addrUioutConfig;
+    uint32_t addrUioutStatus;
+    uint32_t addrUioutCommand;
+
+
+    uint32_t addrExternalIoutConfig;
+    uint32_t addrExternalIoutStatus;
+    uint32_t addrExternalIoutCommand;
+
+
+    uint32_t addrExternalUioutConfig;
+    uint32_t addrExternalUioutStatus;
+    uint32_t addrExternalUioutCommand;
+
+
     uint32_t addrIinConfig;
     uint32_t addrIinStatus;
     uint32_t addrIinCommand;
+
+
+    uint32_t addrUiinConfig;
+    uint32_t addrUiinStatus;
+    uint32_t addrUiinCommand;
+
+
+    uint32_t addrExternalIinConfig;
+    uint32_t addrExternalIinStatus;
+    uint32_t addrExternalIinCommand;
+
+
+    uint32_t addrExternalUiinConfig;
+    uint32_t addrExternalUiinStatus;
+    uint32_t addrExternalUiinCommand;
 
 
     uint32_t addrSpindleConfig;
@@ -1185,11 +1389,20 @@ struct counts {
             uint16_t numJoint;
             uint16_t numKinematicsConfiguration;
             uint16_t numDout;
+            uint16_t numExternalDout;
             uint16_t numDin;
+            uint16_t numSafetyDin;
+            uint16_t numExternalDin;
             uint16_t numAout;
             uint16_t numAin;
             uint16_t numIout;
+            uint16_t numUiout;
+            uint16_t numExternalIout;
+            uint16_t numExternalUiout;
             uint16_t numIin;
+            uint16_t numUiin;
+            uint16_t numExternalIin;
+            uint16_t numExternalUiin;
             uint16_t numSpindle;
             uint16_t numSoloActivity;
             uint16_t numTool;
