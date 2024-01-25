@@ -39,9 +39,9 @@ void upcase(char *s);
 
 void remove_spaces(char* s);
 
-void printBits(size_t const size, void const * const ptr);
+void printBits(int size, const void *ptr);
 
-void print_register_32(void const *const ptr);
+void print_register_32(const void *ptr);
 
         uint32_t set_bits_32 (uint32_t data, uint8_t offset, uint8_t n);
 

@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "25f0c591958dd09cc9d8086b7178ba09"
+#define GBC_MD5_SUM "8d13bb9226582541094f667d409baaf4"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -480,6 +480,7 @@ struct jointStatus {
         double actPos;
         double actVel;
         double actTorque;
+        int32_t actControlEffort;
 };
 
 struct jointCommand {

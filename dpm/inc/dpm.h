@@ -42,7 +42,7 @@ typedef struct {
     int32_t joint_actual_position[DPM_NUM_JOINTS]; //actual position of the drives
     int32_t joint_actual_velocity[DPM_NUM_JOINTS]; //actual velocity of the drives
     int32_t joint_actual_torque[DPM_NUM_JOINTS]; //actual torque applied by the drives
-    int32_t joint_actual_follow_error[DPM_NUM_JOINTS]; //actual follow error of the drives
+    int32_t joint_actual_control_effort[DPM_NUM_JOINTS]; //actual control effort of the drives
     uint64_t digital[DPM_NUM_DIGITALS / 64]; // state of digital ins
     uint64_t safetyDigital[DPM_NUM_SAFETY_DIGITALS / 64]; // state of digital ins
     float analog[DPM_NUM_ANALOGS]; //state of float ins

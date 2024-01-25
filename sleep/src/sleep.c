@@ -67,9 +67,9 @@ void true_sleep(int sec) {
             break;
         }
         if (ts_remaining.tv_sec > 0) {
-            sleep(ts_remaining.tv_sec);
+            sleep((unsigned int) ts_remaining.tv_sec);
         } else {
-            usleep(ts_remaining.tv_nsec / 1000);
+            usleep((unsigned int) ts_remaining.tv_nsec / 1000);
         }
     }
 }

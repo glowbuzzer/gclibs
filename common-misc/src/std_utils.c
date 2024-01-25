@@ -40,7 +40,7 @@ void print_register_32(void const *const ptr) {
 
 }
 
-void printBits(size_t const size, void const * const ptr)
+void printBits(int size, const void *ptr)
 {
     unsigned char *b = (unsigned char*) ptr;
     unsigned char byte;
