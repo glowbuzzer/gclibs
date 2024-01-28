@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "6768fd7245ec80aa5c52247e48eb66f0"
+#define GBC_MD5_SUM "9b0ec46243802728307767467bbcb630"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -61,10 +61,19 @@
         CONTROL_WORD_GBEM_REBOOT_BIT_NUM                   = (20),
     };
     enum FSOE_SLAVE_HIGH_LEVEL_STATE {
-        FSOE_SLAVE_HIGH_LEVEL_STATE_NONE = (0),
-        FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR = (1),
-        FSOE_SLAVE_HIGH_LEVEL_STATE_ACK_REQ = (2),
-        FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR_AND_ACK_REQ = (3),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_NONE                   = (0),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR                  = (1),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_ACK_REQ                = (2),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR_AND_ACK_REQ      = (3),
+    };
+    enum FSOE_SLAVE_TYPE {
+        FSOE_SLAVE_TYPE_NONE                               = (0),
+        FSOE_SLAVE_TYPE_SYNAPTICON                         = (1),
+        FSOE_SLAVE_TYPE_EL1904                             = (2),
+        FSOE_SLAVE_TYPE_EL2904                             = (3),
+        FSOE_SLAVE_TYPE_SCU_1_EC                           = (4),
+        FSOE_SLAVE_TYPE_EL6900                             = (5),
+        FSOE_SLAVE_TYPE_EL691                              = (6),
     };
     enum CONFIG_STATUS {
         CONFIG_STATUS_NONE,
