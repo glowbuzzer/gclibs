@@ -101,6 +101,10 @@ typedef struct {
     char secondary_name[MAX_DRIVE_NAME_LENGTH];
     int8_t cmd_moo;
     int8_t act_moo;
+    bool active_internal_limit;
+    bool historic_internal_limit;
+    bool active_follow_error;
+    bool historic_follow_error;
 } ecm_status_drive_t;
 
 
@@ -146,14 +150,22 @@ typedef enum {
 
 typedef enum {
     FSOE_MASTER_HIGH_LEVEL_STATE_NONE,
+    //0
     FSOE_MASTER_HIGH_LEVEL_STATE_START_UP,
+    //1
     FSOE_MASTER_HIGH_LEVEL_STATE_SENDCONFIG,
+    //2
     FSOE_MASTER_HIGH_LEVEL_STATE_STARTUP_BUS,
+    //3
     FSOE_MASTER_HIGH_LEVEL_STATE_RUN,
+    //4
     FSOE_MASTER_HIGH_LEVEL_STATE_STOP,
+    //5
     FSOE_MASTER_HIGH_LEVEL_STATE_ERROR,
+    //6
     FSOE_MASTER_HIGH_LEVEL_STATE_ALARM,
-    FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK
+    //7
+    FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK //8
 } fsoe_master_high_level_state_t;
 
 
@@ -183,23 +195,23 @@ typedef struct {
     ecm_status_map_t map[EC_MAXSLAVE]; //this is key bits of the slave state struct
     uint64_t cycle_count;
     uint8_t drive_count; //const
-    uint8_t gbc_max_float_in_count; //const
-    uint8_t gbc_max_float_out_count; //const
-    uint8_t gbc_max_digital_in_count; //const
-    uint8_t gbc_max_digital_out_count; //const
-    uint8_t gbc_max_int32_in_count; //const
-    uint8_t gbc_max_int32_out_count; //const
-    uint8_t gbc_max_uint32_in_count; //const
-    uint8_t gbc_max_uint32_out_count; //const
-
-    uint8_t plc_float_in_count; //const
-    uint8_t plc_float_out_count; //const
-    uint8_t plc_digital_in_count; //const
-    uint8_t plc_digital_out_count; //const
-    uint8_t plc_int32_in_count; //const
-    uint8_t plc_int32_out_count; //const
-    uint8_t plc_uint32_in_count; //const
-    uint8_t plc_uint32_out_count; //const
+    // uint8_t gbc_max_float_in_count; //const
+    // uint8_t gbc_max_float_out_count; //const
+    // uint8_t gbc_max_digital_in_count; //const
+    // uint8_t gbc_max_digital_out_count; //const
+    // uint8_t gbc_max_int32_in_count; //const
+    // uint8_t gbc_max_int32_out_count; //const
+    // uint8_t gbc_max_uint32_in_count; //const
+    // uint8_t gbc_max_uint32_out_count; //const
+    //
+    // uint8_t plc_float_in_count; //const
+    // uint8_t plc_float_out_count; //const
+    // uint8_t plc_digital_in_count; //const
+    // uint8_t plc_digital_out_count; //const
+    // uint8_t plc_int32_in_count; //const
+    // uint8_t plc_int32_out_count; //const
+    // uint8_t plc_uint32_in_count; //const
+    // uint8_t plc_uint32_out_count; //const
     bool gbc_connected;
     ec_circular_slave_error_message_t slave_error_messages;
     bool ec_check_found_error;
