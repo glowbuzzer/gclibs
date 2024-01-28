@@ -16,6 +16,7 @@
 #define GBEM_ECM_STATUS_H
 
 #include "cia402.h"
+#include "shared_mem_types.h"
 
 //todo these are plucked from the gbem code base
 #define EC_MAXNAME                                      40
