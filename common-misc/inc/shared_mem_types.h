@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "9b0ec46243802728307767467bbcb630"
+#define GBC_MD5_SUM "86bb25a56f41f5918188703aad06271e"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -73,7 +73,7 @@
         FSOE_SLAVE_TYPE_EL2904                             = (3),
         FSOE_SLAVE_TYPE_SCU_1_EC                           = (4),
         FSOE_SLAVE_TYPE_EL6900                             = (5),
-        FSOE_SLAVE_TYPE_EL691                              = (6),
+        FSOE_SLAVE_TYPE_EL6910                              = (6),
     };
     enum CONFIG_STATUS {
         CONFIG_STATUS_NONE,
