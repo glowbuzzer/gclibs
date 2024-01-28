@@ -109,15 +109,16 @@ typedef struct {
 } ecm_status_drive_t;
 
 
-typedef enum {
-    FSOE_SLAVE_TYPE_NONE,
-    FSOE_SLAVE_TYPE_SYNAPTICON,
-    FSOE_SLAVE_TYPE_EL1904,
-    FSOE_SLAVE_TYPE_EL2904,
-    FSOE_SLAVE_TYPE_SCU_1_EC,
-    FSOE_SLAVE_TYPE_EL6900,
-    FSOE_SLAVE_TYPE_EL6910
-} ecm_fsoe_slave_type_t;
+// typedef enum {
+//     FSOE_SLAVE_TYPE_NONE,
+//     FSOE_SLAVE_TYPE_SYNAPTICON,
+//     FSOE_SLAVE_TYPE_EL1904,
+//     FSOE_SLAVE_TYPE_EL2904,
+//     FSOE_SLAVE_TYPE_SCU_1_EC,
+//     FSOE_SLAVE_TYPE_EL6900,
+//     FSOE_SLAVE_TYPE_EL6910,
+//     FSOE_SLAVE_TYPE_SICK_MICROSCAN3
+// } ecm_fsoe_slave_type_t;
 
 
 typedef enum {
@@ -173,7 +174,7 @@ typedef enum {
 typedef struct {
     uint8_t master_slave_no; //set in control.c
     uint8_t slave_count; // set in ec_functions.c
-    ecm_fsoe_slave_type_t slave_type[EC_MAXSLAVE]; // set in ec_functions.c
+    enum FSOE_SLAVE_TYPE slave_type[EC_MAXSLAVE]; // set in ec_functions.c
     uint32_t master_state;
     uint32_t master_error_code;
     uint32_t slave_state[EC_MAXSLAVE];
