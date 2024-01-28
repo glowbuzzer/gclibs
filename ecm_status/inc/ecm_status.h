@@ -141,12 +141,12 @@ typedef enum {
 } bbh_scu_mode_t;
 
 
-typedef enum {
-    FSOE_SLAVE_HIGH_LEVEL_STATE_NONE,
-    FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR,
-    FSOE_SLAVE_HIGH_LEVEL_STATE_ACK_REQ,
-    FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR_AND_ACK_REQ,
-} fsoe_slave_high_level_state_t;
+// typedef enum {
+//     FSOE_SLAVE_HIGH_LEVEL_STATE_NONE,
+//     FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR,
+//     FSOE_SLAVE_HIGH_LEVEL_STATE_ACK_REQ,
+//     FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR_AND_ACK_REQ,
+// } fsoe_slave_high_level_state_t;
 
 typedef enum {
     FSOE_MASTER_HIGH_LEVEL_STATE_NONE,
@@ -177,7 +177,7 @@ typedef struct {
     uint32_t master_error_code;
     uint32_t slave_state[EC_MAXSLAVE];
     uint16_t slave_connection_id[EC_MAXSLAVE];
-    fsoe_slave_high_level_state_t slave_high_level_state[EC_MAXSLAVE];
+    enum FSOE_SLAVE_HIGH_LEVEL_STATE slave_high_level_state[EC_MAXSLAVE];
     fsoe_master_high_level_state_t master_high_level_state;
 } ecm_status_fsoe_t;
 
