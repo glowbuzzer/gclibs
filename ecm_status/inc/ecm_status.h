@@ -197,29 +197,13 @@ typedef struct {
     ecm_status_map_t map[EC_MAXSLAVE]; //this is key bits of the slave state struct
     uint64_t cycle_count;
     uint8_t drive_count; //const
-    // uint8_t gbc_max_float_in_count; //const
-    // uint8_t gbc_max_float_out_count; //const
-    // uint8_t gbc_max_digital_in_count; //const
-    // uint8_t gbc_max_digital_out_count; //const
-    // uint8_t gbc_max_int32_in_count; //const
-    // uint8_t gbc_max_int32_out_count; //const
-    // uint8_t gbc_max_uint32_in_count; //const
-    // uint8_t gbc_max_uint32_out_count; //const
-    //
-    // uint8_t plc_float_in_count; //const
-    // uint8_t plc_float_out_count; //const
-    // uint8_t plc_digital_in_count; //const
-    // uint8_t plc_digital_out_count; //const
-    // uint8_t plc_int32_in_count; //const
-    // uint8_t plc_int32_out_count; //const
-    // uint8_t plc_uint32_in_count; //const
-    // uint8_t plc_uint32_out_count; //const
     bool gbc_connected;
     ec_circular_slave_error_message_t slave_error_messages;
     bool ec_check_found_error;
     uint8_t slavecount;
     ecm_status_drive_t drives[MAP_MAX_NUM_DRIVES];
     cia_state_t machine_state;
+    cia_state_t commanded_machine_state;
     uint64_t shared_mem_busy_count;
     ecm_status_fsoe_t fsoe;
 } ecm_status_t;
