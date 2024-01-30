@@ -150,25 +150,25 @@ typedef enum {
 //     FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR_AND_ACK_REQ,
 // } fsoe_slave_high_level_state_t;
 
-typedef enum {
-    FSOE_MASTER_HIGH_LEVEL_STATE_NONE,
-    //0
-    FSOE_MASTER_HIGH_LEVEL_STATE_START_UP,
-    //1
-    FSOE_MASTER_HIGH_LEVEL_STATE_SENDCONFIG,
-    //2
-    FSOE_MASTER_HIGH_LEVEL_STATE_STARTUP_BUS,
-    //3
-    FSOE_MASTER_HIGH_LEVEL_STATE_RUN,
-    //4
-    FSOE_MASTER_HIGH_LEVEL_STATE_STOP,
-    //5
-    FSOE_MASTER_HIGH_LEVEL_STATE_ERROR,
-    //6
-    FSOE_MASTER_HIGH_LEVEL_STATE_ALARM,
-    //7
-    FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK //8
-} fsoe_master_high_level_state_t;
+// typedef enum {
+//     FSOE_MASTER_HIGH_LEVEL_STATE_NONE,
+//     //0
+//     FSOE_MASTER_HIGH_LEVEL_STATE_START_UP,
+//     //1
+//     FSOE_MASTER_HIGH_LEVEL_STATE_SENDCONFIG,
+//     //2
+//     FSOE_MASTER_HIGH_LEVEL_STATE_STARTUP_BUS,
+//     //3
+//     FSOE_MASTER_HIGH_LEVEL_STATE_RUN,
+//     //4
+//     FSOE_MASTER_HIGH_LEVEL_STATE_STOP,
+//     //5
+//     FSOE_MASTER_HIGH_LEVEL_STATE_ERROR,
+//     //6
+//     FSOE_MASTER_HIGH_LEVEL_STATE_ALARM,
+//     //7
+//     FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK //8
+// } fsoe_master_high_level_state_t;
 
 
 typedef struct {
@@ -180,7 +180,7 @@ typedef struct {
     uint32_t slave_state[EC_MAXSLAVE];
     uint16_t slave_connection_id[EC_MAXSLAVE];
     enum FSOE_SLAVE_HIGH_LEVEL_STATE slave_high_level_state[EC_MAXSLAVE];
-    fsoe_master_high_level_state_t master_high_level_state;
+    enum FSOE_MASTER_HIGH_LEVEL_STATE master_high_level_state;
 } ecm_status_fsoe_t;
 
 /** This struct holds the config and status of whole machine
