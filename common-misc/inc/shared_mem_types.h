@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "86bb25a56f41f5918188703aad06271e"
+#define GBC_MD5_SUM "2a7e3f3941aa3b5b2abe9fa34a1cef13"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -41,8 +41,8 @@
         FAULT_CAUSE_HOMING_ERROR_BIT_NUM                   = (14),
         FAULT_CAUSE_GBC_TO_PLC_CON_ERROR_BIT_NUM           = (15),
         FAULT_CAUSE_MOVE_NOT_OP_EN_BIT_NUM                 = (16),
-        FAULT_CAUSE_CST_CSV_POSITION_LIMIT_ERROR_BIT_NUM   = (17),
-        FAULT_CAUSE_CST_CSV_VELOCITY_LIMIT_ERROR_BIT_NUM   = (18),
+        FAULT_CAUSE_DRIVE_STATE_MISMATCH_BIT_NUM           = (17),
+        FAULT_CAUSE_FSOE_ERROR_BIT_NUM                     = (18),
     };
     enum STATUS_WORD_GBEM {
         STATUS_WORD_GBEM_ALIVE_BIT_NUM                      = (16),
@@ -74,6 +74,17 @@
         FSOE_SLAVE_TYPE_SCU_1_EC                           = (4),
         FSOE_SLAVE_TYPE_EL6900                             = (5),
         FSOE_SLAVE_TYPE_EL6910                              = (6),
+    };
+    enum FSOE_MASTER_HIGH_LEVEL_STATE {
+        FSOE_MASTER_HIGH_LEVEL_STATE_NONE = (0),
+        FSOE_MASTER_HIGH_LEVEL_STATE_START_UP = (1),
+        FSOE_MASTER_HIGH_LEVEL_STATE_SENDCONFIG = (2),
+        FSOE_MASTER_HIGH_LEVEL_STATE_STARTUP_BUS = (3),
+        FSOE_MASTER_HIGH_LEVEL_STATE_RUN = (4),
+        FSOE_MASTER_HIGH_LEVEL_STATE_STOP = (5),
+        FSOE_MASTER_HIGH_LEVEL_STATE_ERROR = (6),
+        FSOE_MASTER_HIGH_LEVEL_STATE_ALARM = (7),
+        FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK = (8),
     };
     enum CONFIG_STATUS {
         CONFIG_STATUS_NONE,
@@ -1296,6 +1307,11 @@ struct offsets {
     uint32_t addrDoutCommand;
 
 
+    uint32_t addrSafetyDoutConfig;
+    uint32_t addrSafetyDoutStatus;
+    uint32_t addrSafetyDoutCommand;
+
+
     uint32_t addrExternalDoutConfig;
     uint32_t addrExternalDoutStatus;
     uint32_t addrExternalDoutCommand;
@@ -1405,6 +1421,7 @@ struct counts {
             uint16_t numJoint;
             uint16_t numKinematicsConfiguration;
             uint16_t numDout;
+            uint16_t numSafetyDout;
             uint16_t numExternalDout;
             uint16_t numDin;
             uint16_t numSafetyDin;
