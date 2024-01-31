@@ -22,7 +22,7 @@
 #define EC_MAXNAME                                      40
 #define EC_MAXERRORNAME                                 127
 #define MAX_NUM_SLAVE_ERROR_MESSAGES                    10
-#define MAX_DRIVE_ERROR_MSG_LENGTH                      300
+#define MAX_DRIVE_ERROR_MSG_LENGTH                      150
 #define MAX_DRIVE_NAME_LENGTH                           30
 #define EC_MAXSLAVE                                     20
 #define MAP_MAX_NUM_DRIVES                              10
@@ -106,6 +106,10 @@ typedef struct {
     bool historic_internal_limit;
     bool active_follow_error;
     bool historic_follow_error;
+    bool active_warning;
+    bool historic_warning;
+    bool active_fault;
+    bool historic_fault;
 } ecm_status_drive_t;
 
 
