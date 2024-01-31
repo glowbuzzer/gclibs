@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "2a7e3f3941aa3b5b2abe9fa34a1cef13"
+#define GBC_MD5_SUM "8d0bc3f584757e76e15b4565ca4ada93"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -33,7 +33,7 @@
         FAULT_CAUSE_DRIVE_FOLLOW_ERROR_BIT_NUM             = (6),
         FAULT_CAUSE_DRIVE_NO_REMOTE_BIT_NUM                = (7),
         FAULT_CAUSE_ECAT_BIT_NUM                           = (8),
-        FAULT_CAUSE_DRIVE_ALARM_BIT_NUM                    = (9),
+        FAULT_CAUSE_DRIVE_WARNING_BIT_NUM                  = (9),
         FAULT_CAUSE_GBC_OPERATION_ERROR_BIT_NUM            = (10),
         FAULT_CAUSE_DRIVE_MOOERROR_BIT_NUM                 = (11),
         FAULT_CAUSE_ECAT_SLAVE_ERROR_BIT_NUM               = (12),
