@@ -24,7 +24,7 @@
 #define MAX_NUM_SLAVE_ERROR_MESSAGES                    10
 #define MAX_DRIVE_ERROR_MSG_LENGTH                      300
 #define MAX_DRIVE_NAME_LENGTH                           30
-#define EC_MAXSLAVE                                     30
+#define EC_MAXSLAVE                                     20
 #define MAP_MAX_NUM_DRIVES                              10
 #define MAP_MAX_NUM_FSOE_SLAVES                         10
 
@@ -207,6 +207,7 @@ typedef struct {
     uint64_t shared_mem_busy_count;
     ecm_status_fsoe_t fsoe;
 } ecm_status_t;
+
 
 //#ifdef GB_APP_LINUX
 extern ecm_status_t ecm_status;
