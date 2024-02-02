@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "8d0bc3f584757e76e15b4565ca4ada93"
+#define GBC_MD5_SUM "5af131e7078c161670efca2664381f26"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -62,9 +62,12 @@
     };
     enum FSOE_SLAVE_HIGH_LEVEL_STATE {
         FSOE_SLAVE_HIGH_LEVEL_STATE_NONE                   = (0),
-        FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR                  = (1),
-        FSOE_SLAVE_HIGH_LEVEL_STATE_ACK_REQ                = (2),
-        FSOE_SLAVE_HIGH_LEVEL_STATE_ERROR_AND_ACK_REQ      = (3),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_PROCESS_DATA           = (1),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_RESET                  = (2),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_SESSION                = (3),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_CONNECTION             = (4),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_PARAMETER              = (5),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_FAILSAFEDATA           = (6),
     };
     enum FSOE_SLAVE_TYPE {
         FSOE_SLAVE_TYPE_NONE                               = (0),
@@ -73,18 +76,18 @@
         FSOE_SLAVE_TYPE_EL2904                             = (3),
         FSOE_SLAVE_TYPE_SCU_1_EC                           = (4),
         FSOE_SLAVE_TYPE_EL6900                             = (5),
-        FSOE_SLAVE_TYPE_EL6910                              = (6),
+        FSOE_SLAVE_TYPE_EL6910                             = (6),
     };
     enum FSOE_MASTER_HIGH_LEVEL_STATE {
-        FSOE_MASTER_HIGH_LEVEL_STATE_NONE = (0),
-        FSOE_MASTER_HIGH_LEVEL_STATE_START_UP = (1),
-        FSOE_MASTER_HIGH_LEVEL_STATE_SENDCONFIG = (2),
-        FSOE_MASTER_HIGH_LEVEL_STATE_STARTUP_BUS = (3),
-        FSOE_MASTER_HIGH_LEVEL_STATE_RUN = (4),
-        FSOE_MASTER_HIGH_LEVEL_STATE_STOP = (5),
-        FSOE_MASTER_HIGH_LEVEL_STATE_ERROR = (6),
-        FSOE_MASTER_HIGH_LEVEL_STATE_ALARM = (7),
-        FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK = (8),
+        FSOE_MASTER_HIGH_LEVEL_STATE_NONE                  = (0),
+        FSOE_MASTER_HIGH_LEVEL_STATE_START_UP              = (1),
+        FSOE_MASTER_HIGH_LEVEL_STATE_SENDCONFIG            = (2),
+        FSOE_MASTER_HIGH_LEVEL_STATE_STARTUP_BUS           = (3),
+        FSOE_MASTER_HIGH_LEVEL_STATE_RUN                   = (4),
+        FSOE_MASTER_HIGH_LEVEL_STATE_STOP                  = (5),
+        FSOE_MASTER_HIGH_LEVEL_STATE_ERROR                 = (6),
+        FSOE_MASTER_HIGH_LEVEL_STATE_ALARM                 = (7),
+        FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK            = (8),
     };
     enum CONFIG_STATUS {
         CONFIG_STATUS_NONE,
