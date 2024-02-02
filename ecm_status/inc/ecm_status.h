@@ -193,6 +193,7 @@ typedef struct {
  *  The other core does have access to dpm so there should be no overlap
 */
 typedef struct {
+    bool safety_state;
     ecm_cyclic_state_t cyclic_state;
     ecm_boot_state_t boot_state;
     ecm_net_scan_state_t net_scan_state;
