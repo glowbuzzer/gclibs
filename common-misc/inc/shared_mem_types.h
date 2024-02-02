@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "5af131e7078c161670efca2664381f26"
+#define GBC_MD5_SUM "30d7426139be9a6301e0dbb2dba2f4df"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -68,6 +68,7 @@
         FSOE_SLAVE_HIGH_LEVEL_STATE_CONNECTION             = (4),
         FSOE_SLAVE_HIGH_LEVEL_STATE_PARAMETER              = (5),
         FSOE_SLAVE_HIGH_LEVEL_STATE_FAILSAFEDATA           = (6),
+        FSOE_SLAVE_HIGH_LEVEL_STATE_UNKNOWN                = (7),
     };
     enum FSOE_SLAVE_TYPE {
         FSOE_SLAVE_TYPE_NONE                               = (0),
