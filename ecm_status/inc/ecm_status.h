@@ -179,7 +179,6 @@ typedef struct {
     uint8_t master_slave_no; //set in control.c
     uint8_t slave_count; // set in ec_functions.c
     enum FSOE_SLAVE_TYPE slave_type[EC_MAXSLAVE]; // set in ec_functions.c
-    uint32_t master_state;
     uint32_t master_error_code;
     uint32_t slave_state[EC_MAXSLAVE];
     uint16_t slave_connection_id[EC_MAXSLAVE];
