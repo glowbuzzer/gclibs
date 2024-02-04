@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "30d7426139be9a6301e0dbb2dba2f4df"
+#define GBC_MD5_SUM "1addf55133876e7060065e7d81958488"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -24,7 +24,7 @@
 
 // ENUMS
     enum FAULT_CAUSE {
-        FAULT_CAUSE_ESTOP_BIT_NUM                          = (0),
+        FAULT_CAUSE_SAFETY_BIT_NUM                          = (0),
         FAULT_CAUSE_DRIVE_FAULT_BIT_NUM                    = (1),
         FAULT_CAUSE_GBC_FAULT_REQUEST_BIT_NUM              = (2),
         FAULT_CAUSE_HEARTBEAT_LOST_BIT_NUM                 = (3),
