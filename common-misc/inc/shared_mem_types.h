@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "b8fa2ad72f9b056597374db9d0ded458"
+#define GBC_MD5_SUM "3a50cd43ee49362d67686f17e66a33d2"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -302,6 +302,17 @@
     enum DIN_SAFETY_TYPE {
         DIN_SAFETY_TYPE_NORMAL,
         DIN_SAFETY_TYPE_HIDDEN,
+    };
+    enum SERIAL_CONTROL_WORD {
+        SERIAL_TRANSMIT_REQUEST_BIT_NUM                     = (0),
+        SERIAL_RECEIVE_ACCEPTED_BIT_NUM                     = (1),
+        SERIAL_INIT_REQUEST_BIT_NUM                         = (2),
+    };
+    enum SERIAL_STATUS_WORD {
+        SERIAL_TRANSMIT_ACCEPTED_BIT_NUM                    = (0),
+        SERIAL_RECEIVE_REQUEST_BIT_NUM                      = (1),
+        SERIAL_INIT_ACCEPTED_BIT_NUM                        = (2),
+        SERIAL_ERROR_BIT_NUM                                = (3),
     };
 
 
@@ -1280,6 +1291,21 @@ struct toolConfig {
         double diameter;
 };
 
+struct serialConfig {
+};
+
+struct serialStatus {
+        uint8_t statusWord;
+        uint8_t length;
+        uint8_t data[22];
+};
+
+struct serialCommand {
+        uint8_t controlWord;
+        uint8_t length;
+        uint8_t data[22];
+};
+
 
 // OFFSETS
 struct offsets {
@@ -1416,6 +1442,11 @@ struct offsets {
     uint32_t addrPointsConfig;
 
 
+    uint32_t addrSerialConfig;
+    uint32_t addrSerialStatus;
+    uint32_t addrSerialCommand;
+
+
 };
 
 // COUNTS
@@ -1448,6 +1479,7 @@ struct counts {
             uint16_t numActivity;
             uint16_t numFrames;
             uint16_t numPoints;
+            uint8_t numSerial;
 };
 
 #pragma pack()

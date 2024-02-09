@@ -24,7 +24,7 @@
 #define SHM_OFFLINE_BUF_SIZE    10000
 
 /**The size of the shared memory buffer for real-time cyclic comms */
-#define SHM_BUF_SIZE            280
+#define SHM_BUF_SIZE            305
 
 
 extern char gbc_shared_mem_name[100];

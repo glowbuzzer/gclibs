@@ -34,6 +34,18 @@
 #define SIZE_OF_GBC_OFFLINE 20000
 
 typedef struct {
+    uint16_t status;
+    uint8_t length;
+    uint8_t data[22];
+}__attribute__((packed)) serial_in_t;
+
+typedef struct {
+    uint16_t control;
+    uint8_t length;
+    uint8_t data[22];
+}__attribute__((packed)) serial_out_t;
+
+typedef struct {
     uint32_t machine_word; //the machine's overall status (CiA-402)
     uint32_t active_fault_word; //bits that define any active faults with the machine
     uint32_t fault_history_word; //bits that define any fault events that resulted in an error
@@ -50,6 +62,7 @@ typedef struct {
     uint8_t reserved[4];
     uint32_t unsigned32[DPM_NUM_UINT32S]; //status of unsigned integer ins
     uint8_t external[DPM_SIZE_OF_EXTERNAL]; //status of external ins
+    serial_in_t serial;
 }__attribute__((packed)) dpm_in_t;
 
 typedef struct {
@@ -69,6 +82,7 @@ typedef struct {
     uint8_t reserved[4];
     int32_t integer32[DPM_NUM_INT32S]; // commanded values for signed integer outs
     uint8_t external[DPM_SIZE_OF_EXTERNAL]; //status of external outs
+    serial_out_t serial;
 }__attribute__((packed)) dpm_out_t;
 
 #define SIZE_OF_GBC_PDO (sizeof(dpm_in_t))
