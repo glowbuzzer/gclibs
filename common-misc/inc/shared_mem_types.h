@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "3a50cd43ee49362d67686f17e66a33d2"
+#define GBC_MD5_SUM "7df9ad202e58f8400b30d5087b90126f"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -1295,13 +1295,13 @@ struct serialConfig {
 };
 
 struct serialStatus {
-        uint8_t statusWord;
+        uint16_t statusWord;
         uint8_t length;
         uint8_t data[22];
 };
 
 struct serialCommand {
-        uint8_t controlWord;
+        uint16_t controlWord;
         uint8_t length;
         uint8_t data[22];
 };
