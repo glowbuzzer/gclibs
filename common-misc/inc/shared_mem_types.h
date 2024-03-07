@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "7df9ad202e58f8400b30d5087b90126f"
+#define GBC_MD5_SUM "62172c29a3503f7cad7be996ee5f2888"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -290,7 +290,11 @@
         TRIGGERON_NONE,
         TRIGGERON_ANALOG_INPUT,
         TRIGGERON_DIGITAL_INPUT,
+        TRIGGERON_SAFE_DIGITAL_INPUT,
+        TRIGGERON_UNSIGNED_INTEGER_INPUT,
         TRIGGERON_INTEGER_INPUT,
+        TRIGGERON_EXTERNAL_UNSIGNED_INTEGER_INPUT,
+        TRIGGERON_EXTERNAL_INTEGER_INPUT,
         TRIGGERON_TIMER,
         TRIGGERON_TICK,
     };
@@ -441,14 +445,19 @@ struct triggerOnAnalogInput {
 
 struct triggerOnDigitalInput {
         uint8_t input;
-        bool safeInput;
         enum TRIGGERTYPE when;
+};
+
+struct triggerOnUnsignedIntegerInput {
+        uint8_t input;
+        enum GTLT when;
+        uint32_t value;
 };
 
 struct triggerOnIntegerInput {
         uint8_t input;
         enum GTLT when;
-        uint32_t value;
+        int32_t value;
 };
 
 struct triggerOnTimer {
@@ -465,6 +474,7 @@ struct triggerParams {
     union {
         struct triggerOnAnalogInput analog;
         struct triggerOnDigitalInput digital;
+        struct triggerOnUnsignedIntegerInput unsignedInteger;
         struct triggerOnIntegerInput integer;
         struct triggerOnTimer timer;
         struct triggerOnTick tick;
@@ -579,6 +589,7 @@ struct sphericalEnvelope {
 struct velocityScaling {
         bool enabled;
         struct triggerOnDigitalInput trigger;
+        bool safeInput;
         double scaleFactor;
 };
 
@@ -1053,7 +1064,7 @@ struct setUioutActivityCommand {
 };
 
 struct dwellActivityParams {
-        uint32_t ticksToDwell;
+        uint32_t msToDwell;
 };
 
 struct dwellActivityStatus {
