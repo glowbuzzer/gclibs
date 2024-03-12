@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "62172c29a3503f7cad7be996ee5f2888"
+#define GBC_MD5_SUM "4be7faae8d9f34bd14e8932f9a9a20a2"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -178,7 +178,7 @@
         ACTIVITYTYPE_SET_EXTERNAL_DOUT,
         ACTIVITYTYPE_TOOLOFFSET,
         ACTIVITYTYPE_SET_EXTERNAL_UIOUT,
-        ACTIVITYTYPE_STRESSTEST,
+        ACTIVITYTYPE_SET_PAYLOAD,
     };
     enum ACTIVITYSTATE {
         ACTIVITY_INACTIVE,
@@ -525,6 +525,7 @@ struct jointConfig {
         uint8_t correspondingJointNumberOnPhysicalFieldbus;
         uint8_t correspondingJointNumberOnVirtualFieldbus;
         struct pidConfig pidConfig[3];
+        double dynamicsVelocityThreshold;
 };
 
 struct jointStatus {
@@ -633,6 +634,7 @@ struct kinematicsConfigurationCommand {
         double fro;
         struct vector3 translation;
         struct quat rotation;
+        double payload;
 };
 
 struct dinConfig {
@@ -1146,16 +1148,15 @@ struct gearInPosActivityCommand {
         struct cartesianPosition updatedSlaveSyncPosition;
 };
 
-struct stressTestActivityParams {
+struct setPayloadActivityStatus {
 };
 
-struct stressTestActivityStatus {
+struct setPayloadActivityCommand {
 };
 
-struct stressTestActivityCommand {
-};
-
-struct stressTestActivityStream {
+struct setPayloadActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        double mass;
 };
 
 struct activityConfig {
@@ -1182,7 +1183,6 @@ struct activityConfig {
         struct setUioutActivityParams setExternalUiout;
         struct dwellActivityParams dwell;
         struct spindleActivityParams spindle;
-        struct stressTestActivityParams stressTest;
     };
 };
 
@@ -1210,7 +1210,6 @@ struct activityStatus {
         struct setUioutActivityStatus setExternalUiout;
         struct dwellActivityStatus dwell;
         struct spindleActivityStatus spindle;
-        struct stressTestActivityStatus stressTest;
     };
 };
 
@@ -1236,7 +1235,8 @@ struct activityCommand {
         struct setUioutActivityCommand setExternalUiout;
         struct dwellActivityCommand dwell;
         struct spindleActivityCommand spindle;
-        struct stressTestActivityCommand stressTest;
+        struct toolOffsetActivityParams setToolOffset;
+        struct setPayloadActivityParams setPayload;
     };
 };
 
@@ -1264,7 +1264,7 @@ struct activityStreamItem {
         struct dwellActivityParams dwell;
         struct spindleActivityParams spindle;
         struct toolOffsetActivityParams setToolOffset;
-        struct stressTestActivityStream stressTest;
+        struct setPayloadActivityParams setPayload;
     };
 };
 
