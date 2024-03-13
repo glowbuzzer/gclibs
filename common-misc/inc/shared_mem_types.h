@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "4be7faae8d9f34bd14e8932f9a9a20a2"
+#define GBC_MD5_SUM "e9b59e74189eec8e883d28465af09402"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -304,8 +304,14 @@
         TRIGGERACTION_START,
     };
     enum DIN_SAFETY_TYPE {
-        DIN_SAFETY_TYPE_NORMAL,
-        DIN_SAFETY_TYPE_HIDDEN,
+        DIN_SAFETY_TYPE_RESERVED,
+        DIN_SAFETY_TYPE_ACKNOWLEDGEABLE,
+        DIN_SAFETY_TYPE_UNACKNOWLEDGEABLE,
+        DIN_SAFETY_TYPE_OVERALL_STATE,
+        DIN_SAFETY_TYPE_DEAD_MAN,
+        DIN_SAFETY_TYPE_KEYSWITCH,
+        DIN_SAFETY_TYPE_SAFE_POS_VALID,
+        DIN_SAFETY_TYPE_MUTED,
     };
     enum SERIAL_CONTROL_WORD {
         SERIAL_TRANSMIT_REQUEST_BIT_NUM                     = (0),
@@ -1300,6 +1306,7 @@ struct toolConfig {
         struct vector3 translation;
         struct quat rotation;
         double diameter;
+        struct rigidBodyInertia rigidBodyInertia;
 };
 
 struct serialConfig {
