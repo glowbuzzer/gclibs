@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "e9b59e74189eec8e883d28465af09402"
+#define GBC_MD5_SUM "1082aeac812d10e71f73ae044e18970d"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -259,6 +259,12 @@
     enum KC_WRISTCONFIGURATION {
         KC_WPOSITIVE,
         KC_WNEGATIVE,
+    };
+    enum KC_AUXILIARYAXISTYPE {
+        KC_AUXILIARYAXIS_NONE,
+        KC_AUXILIARYAXIS_X,
+        KC_AUXILIARYAXIS_Y,
+        KC_AUXILIARYAXIS_Z,
     };
     enum BLENDTYPE {
         BLENDTYPE_NONE,
@@ -619,6 +625,8 @@ struct kinematicsConfigurationConfig {
         struct inverseDynamicParameters inverseDynamicParams[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
         struct sphericalEnvelope sphericalEnvelope;
         double cylindricalEnvelope[2];
+        enum KC_AUXILIARYAXISTYPE auxiliaryAxisType;
+        double auxiliaryAxisFactor;
 };
 
 struct kinematicsConfigurationStatus {
