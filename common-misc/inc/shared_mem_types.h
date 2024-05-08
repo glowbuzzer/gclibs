@@ -16,7 +16,7 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 
-#define GBC_MD5_SUM "1082aeac812d10e71f73ae044e18970d"
+#define GBC_MD5_SUM "0548c9ed9cef19ac60fc3501279ff12f"
 
 // DEFINES
 #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -90,6 +90,10 @@
         FSOE_MASTER_HIGH_LEVEL_STATE_ERROR                 = (6),
         FSOE_MASTER_HIGH_LEVEL_STATE_ALARM                 = (7),
         FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK            = (8),
+    };
+    enum GBEM_REQUEST {
+        GBEM_REQUEST_NONE                                 = (0),
+        GBEM_REQUEST_SDO_READ                             = (1),
     };
     enum CONFIG_STATUS {
         CONFIG_STATUS_NONE,

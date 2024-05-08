@@ -95,14 +95,20 @@ extern uint8_t outB[SIZE_OF_GBC_PDO];
 extern dpm_in_t *dpm_in;
 extern dpm_out_t *dpm_out;
 
+typedef struct {
+    uint8_t request_id[32];
+    uint8_t data[128];
+} ecm_request_response_t;
+
 //gbem->gbc
 typedef struct {
     ecm_status_t ecm_status;
+    ecm_request_response_t ecm_response;
 }__attribute__((packed)) dpm_offline_in_t;
 
 //gbc->gbem
 typedef struct {
-    uint32_t tbd;
+    ecm_request_response_t ecm_request;
 }__attribute__((packed)) dpm_offline_out_t;
 
 
