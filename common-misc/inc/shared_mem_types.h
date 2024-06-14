@@ -17,7 +17,7 @@
 #define MAX_SIZE_OF_MATRIX 100
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 
-#define GBC_MD5_SUM "add058e7ec2f02ad7d73fb49cef8f02d"
+#define GBC_MD5_SUM "aa35b5ae039c24e3139bcdbdc115867e"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -95,6 +95,7 @@
     enum GBEM_REQUEST {
         GBEM_REQUEST_NONE                                 = (0),
         GBEM_REQUEST_SDO_READ                             = (1),
+        GBEM_REQUEST_SDO_WRITE                            = (2),
     };
     enum CONFIG_STATUS {
         CONFIG_STATUS_NONE,
