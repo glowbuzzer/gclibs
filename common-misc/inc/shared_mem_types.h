@@ -17,7 +17,7 @@
 #define MAX_SIZE_OF_MATRIX 100
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 
-#define GBC_MD5_SUM "92bff725fc697cc7094dfad686ee4ecb"
+#define GBC_MD5_SUM "c3d2d68b2e001890eded89d9047329eb"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -44,6 +44,7 @@
         FAULT_CAUSE_MOVE_NOT_OP_EN_BIT_NUM                 = (16),
         FAULT_CAUSE_DRIVE_STATE_MISMATCH_BIT_NUM           = (17),
         FAULT_CAUSE_FSOE_ERROR_BIT_NUM                     = (18),
+        FAULT_CAUSE_MODBUS_WRITE_ERROR_BIT_NUM             = (19),
     };
     enum STATUS_WORD_GBEM {
         STATUS_WORD_GBEM_ALIVE_BIT_NUM                      = (16),
@@ -736,6 +737,7 @@
                     uint16_t address;
                     uint8_t function;
                     bool little_endian;
+                    bool inverted;
         };
 
         struct modbusDinStatus {
