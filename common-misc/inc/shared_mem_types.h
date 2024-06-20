@@ -17,7 +17,7 @@
 #define MAX_SIZE_OF_MATRIX 100
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 
-#define GBC_MD5_SUM "9c684a38e84cdca3777dd3acd83f4a5a"
+#define GBC_MD5_SUM "2499f71f13970977b3e61e1619f5ae2b"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -751,7 +751,6 @@
         };
 
         struct doutConfig {
-                    bool inverted;
                     uint8_t loopback;
         };
 
@@ -765,7 +764,6 @@
         };
 
         struct safetyDoutConfig {
-                    bool inverted;
                     uint8_t loopback;
         };
 
@@ -779,7 +777,6 @@
         };
 
         struct externalDoutConfig {
-                    bool inverted;
                     uint8_t loopback;
         };
 
@@ -796,7 +793,6 @@
                     uint8_t slave_num;
                     uint16_t start_address;
                     uint16_t end_address;
-                    bool inverted;
         };
 
         struct ainConfig {
