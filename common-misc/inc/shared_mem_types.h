@@ -44,7 +44,6 @@
         FAULT_CAUSE_GBC_TO_PLC_CON_ERROR_BIT_NUM           = (15),
         FAULT_CAUSE_MOVE_NOT_OP_EN_BIT_NUM                 = (16),
         FAULT_CAUSE_DRIVE_STATE_MISMATCH_BIT_NUM           = (17),
-        FAULT_CAUSE_FSOE_ERROR_BIT_NUM                     = (18),
     };
     enum STATUS_WORD_GBEM {
         STATUS_WORD_GBEM_ALIVE_BIT_NUM                      = (16),
@@ -162,6 +161,7 @@
         OPERATION_ERROR_CONFIG_RELOADED,
         OPERATION_ERROR_KINEMATICS_ENVELOPE_VIOLATION,
         OPERATION_ERROR_KINEMATICS_NEAR_SINGULARITY,
+        OPERATION_ERROR_MODBUS_WRITE_FAILURE,
     };
     enum POSITIONREFERENCE {
         ABSOLUTE,
@@ -738,6 +738,7 @@
                     uint16_t address;
                     uint8_t function;
                     bool little_endian;
+                    bool inverted;
         };
 
         struct modbusDinStatus {
