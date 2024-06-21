@@ -16,8 +16,9 @@
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
+#define MAX_VELOCITY_SCALING_INPUTS 3
 
-#define GBC_MD5_SUM "92bff725fc697cc7094dfad686ee4ecb"
+#define GBC_MD5_SUM "cadf9f8218688f0aafec70182d23d2e9"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -660,13 +661,14 @@
                     double scaleZ;
                     struct limitConfiguration linearLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
                     struct limitConfiguration angularLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
-                    struct velocityScaling velocityScaling;
+                    struct velocityScaling velocityScaling[MAX_VELOCITY_SCALING_INPUTS];
                     struct matrixInstanceDouble kinChainParams;
                     struct inverseDynamicParameters inverseDynamicParams[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
                     struct sphericalEnvelope sphericalEnvelope;
                     double cylindricalEnvelope[2];
                     enum KC_AUXILIARYAXISTYPE auxiliaryAxisType;
                     double auxiliaryAxisFactor;
+                    uint8_t defaultToolIndex;
         };
 
         struct kinematicsConfigurationStatus {
