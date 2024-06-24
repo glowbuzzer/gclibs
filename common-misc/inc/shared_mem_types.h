@@ -18,7 +18,7 @@
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 #define MAX_VELOCITY_SCALING_INPUTS 3
 
-#define GBC_MD5_SUM "07befb89c57d613a4c8f42e7932c7d2e"
+#define GBC_MD5_SUM "cc05ac7750b33fda4a60d32d9ca0c65a"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -44,6 +44,7 @@
         FAULT_CAUSE_GBC_TO_PLC_CON_ERROR_BIT_NUM           = (15),
         FAULT_CAUSE_MOVE_NOT_OP_EN_BIT_NUM                 = (16),
         FAULT_CAUSE_DRIVE_STATE_MISMATCH_BIT_NUM           = (17),
+        FAULT_CAUSE_FSOE_ERROR_BIT_NUM                     = (18),
     };
     enum STATUS_WORD_GBEM {
         STATUS_WORD_GBEM_ALIVE_BIT_NUM                      = (16),
