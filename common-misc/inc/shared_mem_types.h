@@ -18,7 +18,7 @@
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 #define MAX_VELOCITY_SCALING_INPUTS 3
 
-#define GBC_MD5_SUM "cc05ac7750b33fda4a60d32d9ca0c65a"
+#define GBC_MD5_SUM "04d77671f69d7665724265746bff86aa"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -351,16 +351,6 @@
         TRIGGERACTION_CANCEL,
         TRIGGERACTION_START,
     };
-    enum DIN_SAFETY_TYPE {
-        DIN_SAFETY_TYPE_RESERVED,
-        DIN_SAFETY_TYPE_ACKNOWLEDGEABLE,
-        DIN_SAFETY_TYPE_UNACKNOWLEDGEABLE,
-        DIN_SAFETY_TYPE_OVERALL_STATE,
-        DIN_SAFETY_TYPE_DEAD_MAN,
-        DIN_SAFETY_TYPE_KEYSWITCH,
-        DIN_SAFETY_TYPE_SAFE_POS_VALID,
-        DIN_SAFETY_TYPE_MUTED,
-    };
     enum SERIAL_CONTROL_WORD {
         SERIAL_TRANSMIT_REQUEST_BIT_NUM                     = (0),
         SERIAL_RECEIVE_ACCEPTED_BIT_NUM                     = (1),
@@ -388,8 +378,6 @@
         struct machineConfig {
                     uint16_t busCycleTime;
                     uint16_t statusFrequency;
-                    bool estopEnabled;
-                    uint8_t estopInput;
                     uint32_t heartbeatTimeout;
         };
 
@@ -709,7 +697,6 @@
 
         struct safetyDinConfig {
                     bool inverted;
-                    enum DIN_SAFETY_TYPE type;
         };
 
         struct safetyDinStatus {
