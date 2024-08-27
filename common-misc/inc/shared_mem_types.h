@@ -18,7 +18,7 @@
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 #define MAX_VELOCITY_SCALING_INPUTS 3
 
-#define GBC_MD5_SUM "0101be531d3cbea4de794487ef8fd4d7"
+#define GBC_MD5_SUM "47da47f5094ab3c535d116ebc34b4ed8"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -321,6 +321,10 @@
     enum OPENCLOSED {
         OPEN,
         CLOSED,
+    };
+    enum INTERFACE {
+        IO,
+        Modbus,
     };
     enum STREAMCOMMAND {
         STREAMCOMMAND_RUN,
@@ -1426,6 +1430,11 @@
                     struct quat rotation;
                     double diameter;
                     struct rigidBodyInertia rigidBodyInertia;
+                    enum INTERFACE interface;
+                    uint8_t graspIo;
+                    uint8_t releaseIo;
+                    uint8_t graspSenseIo;
+                    uint8_t releaseSenseIo;
         };
 
         struct serialConfig {
