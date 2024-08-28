@@ -21,7 +21,7 @@
 #include <semaphore.h>
 
 /**The size of the shared memory buffer for offline NON real-time comms */
-#define SHM_OFFLINE_BUF_SIZE    10000
+#define SHM_OFFLINE_BUF_SIZE    20000
 
 /**The size of the shared memory buffer for real-time cyclic comms */
 #define SHM_BUF_SIZE            305
