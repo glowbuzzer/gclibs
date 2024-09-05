@@ -18,7 +18,7 @@
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 #define MAX_VELOCITY_SCALING_INPUTS 3
 
-#define GBC_MD5_SUM "1186c6f4f1ec4c3226a71659c3c75750"
+#define GBC_MD5_SUM "6a2c202c0466466a85b52a0f763f5d8c"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -430,6 +430,7 @@
                     enum SYNCTYPE syncType;
                     uint32_t syncValue;
                     bool optimizeJointDistance;
+                    bool ignoreFeedrateOverride;
         };
 
         struct vector3 {
