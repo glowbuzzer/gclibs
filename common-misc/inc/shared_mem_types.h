@@ -18,7 +18,7 @@
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 #define MAX_VELOCITY_SCALING_INPUTS 3
 
-#define GBC_MD5_SUM "6a2c202c0466466a85b52a0f763f5d8c"
+#define GBC_MD5_SUM "bc517560e589ecb274d8b04a03ec30a6"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -80,6 +80,7 @@
         FSOE_SLAVE_TYPE_SCU_1_EC                           = (4),
         FSOE_SLAVE_TYPE_EL6900                             = (5),
         FSOE_SLAVE_TYPE_EL6910                             = (6),
+        FSOE_SLAVE_TYPE_ELM7231                            = (7),
     };
     enum FSOE_MASTER_HIGH_LEVEL_STATE {
         FSOE_MASTER_HIGH_LEVEL_STATE_NONE                  = (0),
