@@ -6,6 +6,7 @@
 #pragma pack(4)
 
 #define MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION 7
+#define MAX_NUMBER_OF_ENVELOPE_CONSTRAINTS 10
 #define MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION 7
 #define MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION 7
 #define MAX_NUMBER_OF_SUPERIMPOSED_ACTIVITIES 2
@@ -18,7 +19,7 @@
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 #define MAX_VELOCITY_SCALING_INPUTS 3
 
-#define GBC_MD5_SUM "bc517560e589ecb274d8b04a03ec30a6"
+#define GBC_MD5_SUM "9910d773034de08d17706624cec1e30b"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
@@ -308,6 +309,18 @@
         KC_AUXILIARYAXIS_X,
         KC_AUXILIARYAXIS_Y,
         KC_AUXILIARYAXIS_Z,
+    };
+    enum KC_ENVELOPE_CONSTRAINT_TYPE {
+        KC_ENVELOPE_CONSTRAINT_NONE,
+        KC_ENVELOPE_CONSTRAINT_PLANE,
+        KC_ENVELOPE_CONSTRAINT_BOX,
+        KC_ENVELOPE_CONSTRAINT_CYLINDER,
+        KC_ENVELOPE_CONSTRAINT_SPHERE,
+    };
+    enum KC_ENVELOPE_CONSTRAINT_AXIS {
+        KC_ENVELOPE_CONSTRAINT_AXIS_X,
+        KC_ENVELOPE_CONSTRAINT_AXIS_Y,
+        KC_ENVELOPE_CONSTRAINT_AXIS_Z,
     };
     enum BLENDTYPE {
         BLENDTYPE_NONE,
@@ -630,9 +643,40 @@
                     double friction;
         };
 
+        struct planarEnvelope {
+                    enum KC_ENVELOPE_CONSTRAINT_AXIS direction;
+                    double position;
+                    bool outside;
+        };
+
+        struct boxEnvelope {
+                    struct vector3 origin;
+                    struct vector3 extents;
+                    bool outside;
+        };
+
+        struct cylinderEnvelope {
+                    struct vector3 center;
+                    double radius;
+                    double height;
+                    enum KC_ENVELOPE_CONSTRAINT_AXIS axis;
+                    bool outside;
+        };
+
         struct sphericalEnvelope {
                     struct vector3 center;
-                    double radius[2];
+                    double radius;
+                    bool outside;
+        };
+
+        struct envelopeConstraint {
+                    enum KC_ENVELOPE_CONSTRAINT_TYPE constraintType;
+                union {
+                    struct planarEnvelope plane;
+                    struct boxEnvelope box;
+                    struct cylinderEnvelope cylinder;
+                    struct sphericalEnvelope sphere;
+                };
         };
 
         struct velocityScaling {
@@ -648,9 +692,6 @@
                     uint16_t frameIndex;
                     uint8_t participatingJoints[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
                     uint8_t participatingJointsCount;
-                    double extentsX[2];
-                    double extentsY[2];
-                    double extentsZ[2];
                     double scaleX;
                     double scaleY;
                     double scaleZ;
@@ -659,8 +700,7 @@
                     struct velocityScaling velocityScaling[MAX_VELOCITY_SCALING_INPUTS];
                     struct matrixInstanceDouble kinChainParams;
                     struct inverseDynamicParameters inverseDynamicParams[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-                    struct sphericalEnvelope sphericalEnvelope;
-                    double cylindricalEnvelope[2];
+                    struct envelopeConstraint envelopeConstraints[MAX_NUMBER_OF_ENVELOPE_CONSTRAINTS];
                     enum KC_AUXILIARYAXISTYPE auxiliaryAxisType;
                     double auxiliaryAxisFactor;
                     uint8_t defaultToolIndex;
