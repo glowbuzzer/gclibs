@@ -6,7 +6,6 @@
 #pragma pack(4)
 
 #define MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION 7
-#define MAX_NUMBER_OF_ENVELOPE_CONSTRAINTS 10
 #define MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION 7
 #define MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION 7
 #define MAX_NUMBER_OF_SUPERIMPOSED_ACTIVITIES 2
@@ -16,14 +15,12 @@
 #define MAX_NUMBER_OF_DO 32
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
-#define MAX_NUMBER_OF_MODBUS_OUTS 8
-#define MAX_VELOCITY_SCALING_INPUTS 3
 
-#define GBC_MD5_SUM "9910d773034de08d17706624cec1e30b"
+#define GBC_MD5_SUM "7df9ad202e58f8400b30d5087b90126f"
 
 // DEFINES
-    #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
-    #define JOINT_CONTROL_WORD_CST_POS_VEL_DISABLE_BIT 1
+#define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
+#define JOINT_CONTROL_WORD_CST_POS_VEL_DISABLE_BIT 1
 
 // ENUMS
     enum FAULT_CAUSE {
@@ -62,6 +59,7 @@
         CONTROL_WORD_GBEM_START_HOMING_BIT_NUM             = (17),
         CONTROL_WORD_GBC_REQUEST_FAULT_BIT_NUM             = (18),
         CONTROL_WORD_GBEM_REBOOT_BIT_NUM                   = (20),
+        CONTROL_WORD_GBEM_DOWNLOAD_DRIVE_LOGS_BIT_NUM      = (21),
     };
     enum FSOE_SLAVE_HIGH_LEVEL_STATE {
         FSOE_SLAVE_HIGH_LEVEL_STATE_NONE                   = (0),
@@ -81,7 +79,6 @@
         FSOE_SLAVE_TYPE_SCU_1_EC                           = (4),
         FSOE_SLAVE_TYPE_EL6900                             = (5),
         FSOE_SLAVE_TYPE_EL6910                             = (6),
-        FSOE_SLAVE_TYPE_ELM7231                            = (7),
     };
     enum FSOE_MASTER_HIGH_LEVEL_STATE {
         FSOE_MASTER_HIGH_LEVEL_STATE_NONE                  = (0),
@@ -94,13 +91,6 @@
         FSOE_MASTER_HIGH_LEVEL_STATE_ALARM                 = (7),
         FSOE_MASTER_HIGH_LEVEL_STATE_NO_NETWORK            = (8),
     };
-    enum GBEM_REQUEST {
-        GBEM_REQUEST_NONE                                 = (0),
-        GBEM_REQUEST_SDO_READ                             = (1),
-        GBEM_REQUEST_SDO_WRITE                            = (2),
-        GBEM_REQUEST_GET_VERSION                          = (3),
-        GBEM_REQUEST_GET_FILE                             = (4),
-    };
     enum CONFIG_STATUS {
         CONFIG_STATUS_NONE,
         CONFIG_STATUS_RELOAD,
@@ -111,37 +101,6 @@
         LIMITPROFILE_DEFAULT,
         LIMITPROFILE_JOGGING,
         LIMITPROFILE_RAPIDS,
-    };
-    enum MODBUSERRORCODES {
-        MODBUS_NO_SLAVE_INIT,
-        MODBUS_NO_ERROR,
-        MODBUS_COMMS_TIMEOUT,
-        MODBUS_BAD_CRC,
-        MODBUS_BAD_DATA,
-        MODBUS_BAD_FUNCTION,
-        MODBUS_BAD_EXCEPTION,
-        MODBUS_TOO_MUCH_DATA,
-        MODBUS_BAD_SLAVE,
-        MODBUS_INTERNAL_TIMEOUT,
-        MODBUS_CONNECTION_RESET,
-        MODBUS_INVALID_ARGUMENT,
-        MODBUS_INTERRUPTED,
-        MODBUS_EX_ILLEGAL_FUNCTION,
-        MODBUS_EX_ILLEGAL_DATA_ADDRESS,
-        MODBUS_EX_ILLEGAL_DATA_VALUE,
-        MODBUS_EX_SLAVE_OR_SERVER_FAILURE,
-        MODBUS_EX_ACKNOWLEDGE,
-        MODBUS_EX_SLAVE_OR_SERVER_BUSY,
-        MODBUS_EX_NEGATIVE_ACKNOWLEDGE,
-        MODBUS_EX_MEMORY_PARITY,
-        MODBUS_EX_GATEWAY_PATH,
-        MODBUS_EX_GATEWAY_TARGET,
-        MODBUS_EL6021_RX_FIFO_FULL,
-        MODBUS_EL6021_PARITY_ERROR,
-        MODBUS_EL6021_FRAMING_ERROR,
-        MODBUS_EL6021_OVERRUN_ERROR,
-        MODBUS_EL6021_NO_SLAVE_INIT,
-        MODBUS_GENERAL_ERROR,
     };
     enum MACHINETARGET {
         MACHINETARGET_NONE,
@@ -164,7 +123,6 @@
         OPERATION_ERROR_CONFIG_RELOADED,
         OPERATION_ERROR_KINEMATICS_ENVELOPE_VIOLATION,
         OPERATION_ERROR_KINEMATICS_NEAR_SINGULARITY,
-        OPERATION_ERROR_MODBUS_WRITE_FAILURE,
     };
     enum POSITIONREFERENCE {
         ABSOLUTE,
@@ -220,9 +178,7 @@
         ACTIVITYTYPE_SET_EXTERNAL_DOUT,
         ACTIVITYTYPE_TOOLOFFSET,
         ACTIVITYTYPE_SET_EXTERNAL_UIOUT,
-        ACTIVITYTYPE_SET_PAYLOAD,
-        ACTIVITYTYPE_SETMODBUSDOUT,
-        ACTIVITYTYPE_SETMODBUSUIOUT,
+        ACTIVITYTYPE_STRESSTEST,
     };
     enum ACTIVITYSTATE {
         ACTIVITY_INACTIVE,
@@ -304,24 +260,6 @@
         KC_WPOSITIVE,
         KC_WNEGATIVE,
     };
-    enum KC_AUXILIARYAXISTYPE {
-        KC_AUXILIARYAXIS_NONE,
-        KC_AUXILIARYAXIS_X,
-        KC_AUXILIARYAXIS_Y,
-        KC_AUXILIARYAXIS_Z,
-    };
-    enum KC_ENVELOPE_CONSTRAINT_TYPE {
-        KC_ENVELOPE_CONSTRAINT_NONE,
-        KC_ENVELOPE_CONSTRAINT_PLANE,
-        KC_ENVELOPE_CONSTRAINT_BOX,
-        KC_ENVELOPE_CONSTRAINT_CYLINDER,
-        KC_ENVELOPE_CONSTRAINT_SPHERE,
-    };
-    enum KC_ENVELOPE_CONSTRAINT_AXIS {
-        KC_ENVELOPE_CONSTRAINT_AXIS_X,
-        KC_ENVELOPE_CONSTRAINT_AXIS_Y,
-        KC_ENVELOPE_CONSTRAINT_AXIS_Z,
-    };
     enum BLENDTYPE {
         BLENDTYPE_NONE,
         BLENDTYPE_OVERLAPPED,
@@ -334,10 +272,6 @@
     enum OPENCLOSED {
         OPEN,
         CLOSED,
-    };
-    enum INTERFACE {
-        IO,
-        Modbus,
     };
     enum STREAMCOMMAND {
         STREAMCOMMAND_RUN,
@@ -356,11 +290,7 @@
         TRIGGERON_NONE,
         TRIGGERON_ANALOG_INPUT,
         TRIGGERON_DIGITAL_INPUT,
-        TRIGGERON_SAFE_DIGITAL_INPUT,
-        TRIGGERON_UNSIGNED_INTEGER_INPUT,
         TRIGGERON_INTEGER_INPUT,
-        TRIGGERON_EXTERNAL_UNSIGNED_INTEGER_INPUT,
-        TRIGGERON_EXTERNAL_INTEGER_INPUT,
         TRIGGERON_TIMER,
         TRIGGERON_TICK,
     };
@@ -368,6 +298,10 @@
         TRIGGERACTION_NONE,
         TRIGGERACTION_CANCEL,
         TRIGGERACTION_START,
+    };
+    enum DIN_SAFETY_TYPE {
+        DIN_SAFETY_TYPE_NORMAL,
+        DIN_SAFETY_TYPE_HIDDEN,
     };
     enum SERIAL_CONTROL_WORD {
         SERIAL_TRANSMIT_REQUEST_BIT_NUM                     = (0),
@@ -383,1271 +317,1134 @@
 
 
 // STRUCTS
-        struct sharedMemHeader {
-                    enum CONFIG_STATUS status;
-        };
-
-        struct limitConfiguration {
-                    double vmax;
-                    double amax;
-                    double jmax;
-        };
-
-        struct machineConfig {
-                    uint16_t busCycleTime;
-                    uint16_t statusFrequency;
-                    uint32_t heartbeatTimeout;
-        };
-
-        struct machineStatus {
-                    uint32_t statusWord;
-                    uint32_t activeFault;
-                    uint32_t faultHistory;
-                    uint32_t heartbeat;
-                    enum MACHINETARGET target;
-                    uint16_t targetConnectRetryCnt;
-                    enum OPERATION_ERROR operationError;
-                    char operationErrorMessage[256];
-        };
-
-        struct machineCommand {
-                    uint32_t controlWord;
-                    uint32_t hlcControlWord;
-                    uint32_t heartbeat;
-                    enum MACHINETARGET target;
-        };
-
-        struct streamConfig {
-                    bool enableEndProgram;
-        };
-
-        struct streamStatus {
-                    enum STREAMSTATE streamState;
-                    uint32_t tag;
-                    uint32_t time;
-        };
-
-        struct streamCommand {
-                    enum STREAMCOMMAND streamCommand;
-        };
-
-        struct moveParametersConfig {
-                    double vmax;
-                    uint8_t vmaxPercentage;
-                    uint8_t amaxPercentage;
-                    uint8_t jmaxPercentage;
-                    uint8_t limitConfigurationIndex;
-                    enum BLENDTYPE blendType;
-                    uint16_t blendTimePercentage;
-                    double blendTolerance;
-                    uint8_t toolIndex;
-                    enum SYNCTYPE syncType;
-                    uint32_t syncValue;
-                    bool optimizeJointDistance;
-                    bool ignoreFeedrateOverride;
-        };
-
-        struct vector3 {
-                    double x;
-                    double y;
-                    double z;
-        };
-
-        struct quat {
-                    double w;
-                    double x;
-                    double y;
-                    double z;
-        };
-
-        struct cartesianPosition {
-                    enum POSITIONREFERENCE positionReference;
-                    struct vector3 translation;
-                    struct quat rotation;
-                    uint16_t frameIndex;
-        };
-
-        struct positionAbsRel {
-                    enum POSITIONREFERENCE positionReference;
-                    struct vector3 translation;
-        };
-
-        struct cartesianVector {
-                    struct vector3 vector;
-                    uint16_t frameIndex;
-        };
-
-        struct doubleValue {
-                    double value;
-        };
-
-        struct arcsConfig {
-                    enum ARCTYPE arcType;
-                    enum ARCDIRECTION arcDirection;
-                    struct cartesianPosition destination;
-                    struct quat plane;
-                    enum ROTATIONINTERPOLATION rotationInterpolation;
-                union {
-                    struct positionAbsRel centre;
-                    struct doubleValue radius;
-                };
-        };
-
-        struct cartesianPositionsConfig {
-                    struct cartesianPosition position;
-                    uint32_t configuration;
-        };
-
-        struct triggerOnAnalogInput {
-                    uint8_t input;
-                    enum GTLT when;
-                    double value;
-        };
-
-        struct triggerOnDigitalInput {
-                    uint8_t input;
-                    enum TRIGGERTYPE when;
-        };
-
-        struct triggerOnUnsignedIntegerInput {
-                    uint8_t input;
-                    enum GTLT when;
-                    uint32_t value;
-        };
-
-        struct triggerOnIntegerInput {
-                    uint8_t input;
-                    enum GTLT when;
-                    int32_t value;
-        };
-
-        struct triggerOnTimer {
-                    uint32_t delay;
-        };
-
-        struct triggerOnTick {
-                    uint32_t value;
-        };
-
-        struct triggerParams {
-                    enum TRIGGERON type;
-                    enum TRIGGERACTION action;
-                union {
-                    struct triggerOnAnalogInput analog;
-                    struct triggerOnDigitalInput digital;
-                    struct triggerOnUnsignedIntegerInput unsignedInteger;
-                    struct triggerOnIntegerInput integer;
-                    struct triggerOnTimer timer;
-                    struct triggerOnTick tick;
-                };
-        };
-
-        struct taskConfig {
-                    uint16_t activityCount;
-                    uint16_t firstActivityIndex;
-                    struct triggerParams triggers[3];
-        };
-
-        struct taskStatus {
-                    enum TASK_STATE taskState;
-                    uint16_t currentActivityIndex;
-        };
-
-        struct taskCommand {
-                    enum TASK_COMMAND taskCommand;
-        };
-
-        struct pidConfig {
-                    double kp;
-                    double ki;
-                    double kd;
-                    double maxIntegral;
-                    double minIntegral;
-                    uint16_t sampleTime;
-        };
-
-        struct jointConfig {
-                    enum JOINT_TYPE jointType;
-                    struct limitConfiguration limits[MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION];
-                    enum JOINT_MODEOFOPERATION preferredMode;
-                    uint8_t supportedModes;
-                    uint8_t supportedTorqueModes;
-                    double scale;
-                    double scalePos;
-                    double scaleVel;
-                    double scaleTorque;
-                    uint8_t pow10;
-                    double negLimit;
-                    double posLimit;
-                    bool inverted;
-                    enum JOINT_FINITECONTINUOUS finiteContinuous;
-                    bool isVirtualInternal;
-                    bool isVirtualFromEncoder;
-                    uint8_t correspondingJointNumberOnPhysicalFieldbus;
-                    uint8_t correspondingJointNumberOnVirtualFieldbus;
-                    struct pidConfig pidConfig[3];
-                    double dynamicsVelocityThreshold;
-        };
-
-        struct jointStatus {
-                    uint16_t statusWord;
-                    double actPos;
-                    double actVel;
-                    double actTorque;
-                    int32_t actControlEffort;
-        };
-
-        struct jointCommand {
-                    uint16_t controlWord;
-                    double setTorque;
-                    enum JOINT_TORQUE_MODE torqueMode;
-        };
-
-        struct matrixInstanceDouble {
-                    uint16_t numRows;
-                    uint16_t numCols;
-                    double data[MAX_SIZE_OF_MATRIX];
-                    uint8_t invJointAngles[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-        };
-
-        struct rollPitchYaw {
-                    double r;
-                    double p;
-                    double y;
-        };
-
-        struct urdfFrame {
-                    struct vector3 translation;
-                    struct rollPitchYaw rpy;
-        };
-
-        struct rigidBodyInertia {
-                    double m;
-                    struct vector3 h;
-                    double Ixx;
-                    double Iyy;
-                    double Izz;
-                    double Ixy;
-                    double Ixz;
-                    double Iyz;
-        };
-
-        struct inverseDynamicParameters {
-                    struct urdfFrame urdfFrame;
-                    struct rigidBodyInertia rigidBodyInertia;
-                    double jointOffset;
-                    double jointScale;
-                    double jointInertia;
-                    struct vector3 jointAxis;
-                    double damping;
-                    double friction;
-        };
-
-        struct planarEnvelope {
-                    enum KC_ENVELOPE_CONSTRAINT_AXIS direction;
-                    double position;
-                    bool outside;
-        };
-
-        struct boxEnvelope {
-                    struct vector3 origin;
-                    struct vector3 extents;
-                    bool outside;
-        };
-
-        struct cylinderEnvelope {
-                    struct vector3 center;
-                    double radius;
-                    double height;
-                    enum KC_ENVELOPE_CONSTRAINT_AXIS axis;
-                    bool outside;
-        };
-
-        struct sphericalEnvelope {
-                    struct vector3 center;
-                    double radius;
-                    bool outside;
-        };
-
-        struct envelopeConstraint {
-                    enum KC_ENVELOPE_CONSTRAINT_TYPE constraintType;
-                union {
-                    struct planarEnvelope plane;
-                    struct boxEnvelope box;
-                    struct cylinderEnvelope cylinder;
-                    struct sphericalEnvelope sphere;
-                };
-        };
-
-        struct velocityScaling {
-                    bool enabled;
-                    struct triggerOnDigitalInput trigger;
-                    bool safeInput;
-                    double scaleFactor;
-        };
-
-        struct kinematicsConfigurationConfig {
-                    enum KC_KINEMATICSCONFIGURATIONTYPE kinematicsConfigurationType;
-                    uint8_t supportedConfigurationBits;
-                    uint16_t frameIndex;
-                    uint8_t participatingJoints[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-                    uint8_t participatingJointsCount;
-                    double scaleX;
-                    double scaleY;
-                    double scaleZ;
-                    struct limitConfiguration linearLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
-                    struct limitConfiguration angularLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
-                    struct velocityScaling velocityScaling[MAX_VELOCITY_SCALING_INPUTS];
-                    struct matrixInstanceDouble kinChainParams;
-                    struct inverseDynamicParameters inverseDynamicParams[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-                    struct envelopeConstraint envelopeConstraints[MAX_NUMBER_OF_ENVELOPE_CONSTRAINTS];
-                    enum KC_AUXILIARYAXISTYPE auxiliaryAxisType;
-                    double auxiliaryAxisFactor;
-                    uint8_t defaultToolIndex;
-        };
-
-        struct kinematicsConfigurationStatus {
-                    double froTarget;
-                    double froActual;
-                    uint8_t configuration;
-                    struct vector3 cartesianActPos;
-                    struct quat cartesianActOrientation;
-                    struct vector3 cartesianActVel;
-                    struct vector3 cartesianActAcc;
-                    bool limitsDisabled;
-                    uint8_t isNearSingularity;
-                    uint8_t toolIndex;
-        };
-
-        struct kinematicsConfigurationCommand {
-                    bool doStop;
-                    bool disableLimits;
-                    double fro;
-                    struct vector3 translation;
-                    struct quat rotation;
-                    double payload;
-        };
-
-        struct dinConfig {
-                    bool inverted;
-        };
-
-        struct dinStatus {
-                    bool actValue;
-        };
-
-        struct dinCommand {
-                    bool override;
-                    bool setValue;
-        };
-
-        struct safetyDinConfig {
-                    bool inverted;
-        };
-
-        struct safetyDinStatus {
-                    bool actValue;
-        };
-
-        struct safetyDinCommand {
-                    bool override;
-                    bool setValue;
-        };
-
-        struct externalDinConfig {
-                    bool inverted;
-        };
-
-        struct externalDinStatus {
-                    bool actValue;
-        };
-
-        struct externalDinCommand {
-                    bool override;
-                    bool setValue;
-        };
-
-        struct modbusDinConfig {
-                    uint8_t slaveNum;
-                    uint16_t address;
-                    uint8_t function;
-                    bool littleEndian;
-                    bool inverted;
-        };
-
-        struct modbusDinStatus {
-                    bool actValue;
-                    int32_t errorCode;
-                    bool isError;
-        };
-
-        struct modbusDinCommand {
-                    bool override;
-                    bool setValue;
-        };
-
-        struct doutConfig {
-                    uint8_t loopback;
-        };
-
-        struct doutStatus {
-                    bool effectiveValue;
-        };
-
-        struct doutCommand {
-                    bool override;
-                    bool setValue;
-        };
-
-        struct safetyDoutConfig {
-                    uint8_t loopback;
-        };
-
-        struct safetyDoutStatus {
-                    bool effectiveValue;
-        };
-
-        struct safetyDoutCommand {
-                    bool override;
-                    bool setValue;
-        };
-
-        struct externalDoutConfig {
-                    uint8_t loopback;
-        };
-
-        struct externalDoutStatus {
-                    bool effectiveValue;
-        };
-
-        struct externalDoutCommand {
-                    bool override;
-                    bool setValue;
-        };
-
-        struct modbusDoutConfig {
-                    uint8_t slaveNum;
-                    uint16_t startAddress;
-                    uint16_t endAddress;
-        };
-
-        struct ainConfig {
-                    bool useForVirtualAxis;
-                    uint8_t jointIndexForVirtualAxis;
-        };
-
-        struct ainStatus {
-                    float actValue;
-        };
-
-        struct ainCommand {
-                    bool override;
-                    float setValue;
-        };
-
-        struct aoutConfig {
-        };
-
-        struct aoutStatus {
-                    float effectiveValue;
-        };
-
-        struct aoutCommand {
-                    bool override;
-                    float setValue;
-        };
-
-        struct uiinConfig {
-        };
-
-        struct uiinStatus {
-                    uint32_t actValue;
-        };
-
-        struct uiinCommand {
-                    bool override;
-                    uint32_t setValue;
-        };
-
-        struct iinConfig {
-        };
-
-        struct iinStatus {
-                    int32_t actValue;
-        };
-
-        struct iinCommand {
-                    bool override;
-                    int32_t setValue;
-        };
-
-        struct externalUiinConfig {
-        };
-
-        struct externalUiinStatus {
-                    uint32_t actValue;
-        };
-
-        struct externalUiinCommand {
-                    bool override;
-                    uint32_t setValue;
-        };
-
-        struct externalIinConfig {
-        };
-
-        struct externalIinStatus {
-                    int32_t actValue;
-        };
-
-        struct externalIinCommand {
-                    bool override;
-                    int32_t setValue;
-        };
-
-        struct modbusUiinConfig {
-                    uint8_t slaveNum;
-                    uint16_t address;
-                    uint8_t function;
-        };
-
-        struct modbusUiinStatus {
-                    uint32_t actValue;
-                    int32_t errorCode;
-                    bool isError;
-        };
-
-        struct modbusUiinCommand {
-                    bool override;
-                    uint32_t setValue;
-        };
-
-        struct uioutConfig {
-        };
-
-        struct uioutStatus {
-                    uint32_t effectiveValue;
-        };
-
-        struct uioutCommand {
-                    bool override;
-                    uint32_t setValue;
-        };
-
-        struct ioutConfig {
-        };
-
-        struct ioutStatus {
-                    int32_t effectiveValue;
-        };
-
-        struct ioutCommand {
-                    bool override;
-                    int32_t setValue;
-        };
-
-        struct externalUioutConfig {
-        };
-
-        struct externalUioutStatus {
-                    uint32_t effectiveValue;
-        };
-
-        struct externalUioutCommand {
-                    bool override;
-                    uint32_t setValue;
-        };
-
-        struct externalIoutConfig {
-        };
-
-        struct externalIoutStatus {
-                    int32_t effectiveValue;
-        };
-
-        struct externalIoutCommand {
-                    bool override;
-                    int32_t setValue;
-        };
-
-        struct modbusUioutConfig {
-                    uint8_t slaveNum;
-                    uint16_t startAddress;
-                    uint16_t endAddress;
-                    bool littleEndian;
-        };
-
-        struct moveJointsActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-                    enum POSITIONREFERENCE positionReference;
-                    uint16_t moveParamsIndex;
-        };
-
-        struct moveJointsActivityStatus {
-                    uint8_t percentageComplete;
-        };
-
-        struct moveJointsActivityCommand {
-                    bool skipToNext;
-        };
-
-        struct moveJointsStream {
-                    uint8_t kinematicsConfigurationIndex;
-                    enum POSITIONREFERENCE positionReference;
-                    double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-                    struct moveParametersConfig moveParams;
-        };
-
-        struct moveJointsInterpolatedActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-                    double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-                    double timecode;
-                    uint16_t moveParamsIndex;
-        };
-
-        struct moveJointsInterpolatedActivityStatus {
-        };
-
-        struct moveJointsInterpolatedActivityCommand {
-        };
-
-        struct moveJointsInterpolatedStream {
-                    uint8_t kinematicsConfigurationIndex;
-                    double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-                    double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-                    double duration;
-                    struct moveParametersConfig moveParams;
-        };
-
-        struct moveJointsAtVelocityActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    uint16_t moveParamsIndex;
-                    double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-        };
-
-        struct moveJointsAtVelocityActivityStatus {
-        };
-
-        struct moveJointsAtVelocityActivityCommand {
-                    bool skipToNext;
-        };
-
-        struct moveJointsAtVelocityStream {
-                    uint8_t kinematicsConfigurationIndex;
-                    struct moveParametersConfig moveParams;
-                    double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
-        };
-
-        struct moveLineActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    uint16_t moveParamsIndex;
-                    struct cartesianPosition line;
-                    uint8_t superimposedIndex;
-        };
-
-        struct moveLineActivityStatus {
-        };
-
-        struct moveLineActivityCommand {
-                    bool skipToNext;
-        };
-
-        struct moveLineStream {
-                    uint8_t kinematicsConfigurationIndex;
-                    struct moveParametersConfig moveParams;
-                    struct cartesianPosition line;
-                    uint8_t superimposedIndex;
-        };
-
-        struct moveVectorAtVelocityActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    uint16_t moveParamsIndex;
-                    struct cartesianVector vector;
-        };
-
-        struct moveVectorAtVelocityActivityStatus {
-        };
-
-        struct moveVectorAtVelocityActivityCommand {
-                    bool skipToNext;
-        };
-
-        struct moveVectorAtVelocityStream {
-                    uint8_t kinematicsConfigurationIndex;
-                    struct moveParametersConfig moveParams;
-                    struct cartesianVector vector;
-        };
-
-        struct moveRotationAtVelocityActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    uint16_t moveParamsIndex;
-                    struct cartesianVector axis;
-        };
-
-        struct moveRotationAtVelocityActivityStatus {
-        };
-
-        struct moveRotationAtVelocityActivityCommand {
-                    bool skipToNext;
-        };
-
-        struct moveRotationAtVelocityStream {
-                    uint8_t kinematicsConfigurationIndex;
-                    struct moveParametersConfig moveParams;
-                    struct cartesianVector axis;
-        };
-
-        struct moveArcActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    uint8_t superimposedIndex;
-                    uint16_t moveParamsIndex;
-                    struct arcsConfig arc;
-        };
-
-        struct moveArcActivityStatus {
-        };
-
-        struct moveArcActivityCommand {
-                    bool skipToNext;
-        };
-
-        struct moveArcStream {
-                    uint8_t kinematicsConfigurationIndex;
-                    struct moveParametersConfig moveParams;
-                    struct arcsConfig arc;
-                    uint8_t superimposedIndex;
-        };
-
-        struct moveInstantActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    struct moveParametersConfig moveParams;
-                    struct cartesianPosition position;
-        };
-
-        struct moveInstantActivityStatus {
-        };
-
-        struct moveInstantActivityCommand {
-        };
-
-        struct moveInstantStream {
-                    uint8_t kinematicsConfigurationIndex;
-                    struct moveParametersConfig moveParams;
-                    struct cartesianPosition position;
-        };
-
-        struct moveToPositionActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    uint16_t moveParamsIndex;
-                    struct cartesianPositionsConfig cartesianPosition;
-        };
-
-        struct moveToPositionActivityStatus {
-        };
-
-        struct moveToPositionActivityCommand {
-                    bool skipToNext;
-        };
-
-        struct moveToPositionStream {
-                    uint8_t kinematicsConfigurationIndex;
-                    struct moveParametersConfig moveParams;
-                    struct cartesianPositionsConfig cartesianPosition;
-        };
-
-        struct setDoutActivityParams {
-                    uint8_t doutToSet;
-                    bool valueToSet;
-        };
-
-        struct setDoutActivityStatus {
-        };
-
-        struct setDoutActivityCommand {
-        };
-
-        struct setModbusDoutActivityParams {
-                    uint8_t doutToSet;
-                    bool valueToSetArray[MAX_NUMBER_OF_MODBUS_OUTS];
-        };
-
-        struct setModbusDoutActivityStatus {
-                    int32_t errorCode;
-                    bool isError;
-        };
-
-        struct setModbusDoutActivityCommand {
-        };
-
-        struct setAoutActivityParams {
-                    uint8_t aoutToSet;
-                    float valueToSet;
-        };
-
-        struct setAoutActivityStatus {
-        };
-
-        struct setAoutActivityCommand {
-        };
-
-        struct setIoutActivityParams {
-                    uint8_t ioutToSet;
-                    int32_t valueToSet;
-        };
-
-        struct setIoutActivityStatus {
-        };
-
-        struct setIoutActivityCommand {
-        };
-
-        struct setUioutActivityParams {
-                    uint8_t ioutToSet;
-                    uint32_t valueToSet;
-        };
-
-        struct setUioutActivityStatus {
-        };
-
-        struct setUioutActivityCommand {
-        };
-
-        struct setModbusUioutActivityParams {
-                    uint8_t uioutToSet;
-                    uint16_t valueToSetArray[MAX_NUMBER_OF_MODBUS_OUTS];
-        };
-
-        struct setModbusUioutActivityStatus {
-                    int32_t errorCode;
-                    bool isError;
-        };
-
-        struct setModbusUioutActivityCommand {
-        };
-
-        struct dwellActivityParams {
-                    uint32_t msToDwell;
-        };
-
-        struct dwellActivityStatus {
-        };
-
-        struct dwellActivityCommand {
-                    bool skipToNext;
-        };
-
-        struct spindleConfig {
-                    uint16_t enableDigitalOutIndex;
-                    uint16_t directionDigitalOutIndex;
-                    bool directionInvert;
-                    uint16_t speedAnalogOutIndex;
-        };
-
-        struct spindleActivityParams {
-                    uint16_t spindleIndex;
-                    bool enable;
-                    enum SPINDLEDIRECTION direction;
-                    float speed;
-        };
-
-        struct spindleActivityStatus {
-        };
-
-        struct spindleActivityCommand {
-        };
-
-        struct toolOffsetActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    uint8_t toolIndex;
-        };
-
-        struct gearInVeloActivityParams {
-                    uint8_t masterKinematicsConfigurationIndex;
-                    uint8_t slaveKinematicsConfigurationIndex;
-                    uint32_t gearingFrameIndex;
-                    double gearRatio;
-                    uint32_t syncActivationDelay;
-        };
-
-        struct gearInVeloActivityStatus {
-                    uint8_t percentageComplete;
-                    bool gearInFailed;
-                    bool gearedIn;
-        };
-
-        struct gearInVeloActivityCommand {
-                    bool skipToNext;
-                    double updatedRatio;
-                    bool updateRation;
-        };
-
-        struct gearInPosActivityParams {
-                    uint8_t masterKinematicsConfigurationIndex;
-                    uint8_t slaveKinematicsConfigurationIndex;
-                    uint8_t gearingFrameIndex;
-                    double gearRatio;
-                    enum STRATEGYGEARINPOS strategyToUse;
-                    double gearRatioMaster;
-                    double gearRatioSlave;
-                    struct cartesianPosition masterSyncPosition;
-                    struct cartesianPosition slaveSyncPosition;
-                    uint32_t syncActivationDelay;
-        };
-
-        struct gearInPosActivityStatus {
-                    uint8_t percentageComplete;
-                    bool gearInFailed;
-                    bool gearedIn;
-        };
-
-        struct gearInPosActivityCommand {
-                    bool skipToNext;
-                    double updatedRatioMaster;
-                    double updatedRatioSlave;
-                    struct cartesianPosition updatedMasterSyncPosition;
-                    struct cartesianPosition updatedSlaveSyncPosition;
-        };
-
-        struct setPayloadActivityStatus {
-        };
-
-        struct setPayloadActivityCommand {
-        };
-
-        struct setPayloadActivityParams {
-                    uint8_t kinematicsConfigurationIndex;
-                    double mass;
-        };
-
-        struct activityConfig {
-                    enum ACTIVITYTYPE activityType;
-                    struct triggerParams triggers[3];
-                union {
-                    struct moveJointsActivityParams moveJoints;
-                    struct moveJointsInterpolatedActivityParams moveJointsInterpolated;
-                    struct moveJointsAtVelocityActivityParams moveJointsAtVelocity;
-                    struct moveLineActivityParams moveLine;
-                    struct moveVectorAtVelocityActivityParams moveVectorAtVelocity;
-                    struct moveRotationAtVelocityActivityParams moveRotationAtVelocity;
-                    struct moveArcActivityParams moveArc;
-                    struct moveInstantActivityParams moveInstant;
-                    struct moveToPositionActivityParams moveToPosition;
-                    struct gearInPosActivityParams gearInPos;
-                    struct gearInVeloActivityParams gearInVelo;
-                    struct setDoutActivityParams setDout;
-                    struct setDoutActivityParams setExternalDout;
-                    struct setAoutActivityParams setAout;
-                    struct setIoutActivityParams setIout;
-                    struct setUioutActivityParams setUiout;
-                    struct setIoutActivityParams setExternalIout;
-                    struct setUioutActivityParams setExternalUiout;
-                    struct dwellActivityParams dwell;
-                    struct spindleActivityParams spindle;
-                    struct setModbusDoutActivityParams setModbusDout;
-                    struct setModbusUioutActivityParams setModbusUiout;
-                };
-        };
-
-        struct activityStatus {
-                    enum ACTIVITYSTATE state;
-                    uint32_t tag;
-                union {
-                    struct moveJointsActivityStatus moveJoints;
-                    struct moveJointsInterpolatedActivityStatus moveJointsInterpolated;
-                    struct moveJointsAtVelocityActivityStatus moveJointsAtVelocity;
-                    struct moveLineActivityStatus moveLine;
-                    struct moveVectorAtVelocityActivityStatus moveVectorAtVelocity;
-                    struct moveRotationAtVelocityActivityStatus moveRotationAtVelocity;
-                    struct moveArcActivityStatus moveArc;
-                    struct moveInstantActivityStatus moveInstant;
-                    struct moveToPositionActivityStatus moveToPosition;
-                    struct gearInPosActivityStatus gearInPos;
-                    struct gearInVeloActivityStatus gearInVelo;
-                    struct setDoutActivityStatus setDout;
-                    struct setDoutActivityStatus setExternalDout;
-                    struct setAoutActivityStatus setAout;
-                    struct setIoutActivityStatus setIout;
-                    struct setUioutActivityStatus setUiout;
-                    struct setIoutActivityStatus setExternalIout;
-                    struct setUioutActivityStatus setExternalUiout;
-                    struct dwellActivityStatus dwell;
-                    struct spindleActivityStatus spindle;
-                    struct setModbusDoutActivityStatus setModbusDout;
-                    struct setModbusUioutActivityStatus setModbusUiout;
-                };
-        };
-
-        struct activityCommand {
-                union {
-                    struct moveJointsActivityCommand moveJoints;
-                    struct moveJointsInterpolatedActivityCommand moveJointsInterpolated;
-                    struct moveJointsAtVelocityActivityCommand moveJointsAtVelocity;
-                    struct moveLineActivityCommand moveLine;
-                    struct moveVectorAtVelocityActivityCommand moveVectorAtVelocity;
-                    struct moveRotationAtVelocityActivityCommand moveRotationAtVelocity;
-                    struct moveArcActivityCommand moveArc;
-                    struct moveInstantActivityCommand moveInstant;
-                    struct moveToPositionActivityCommand moveToPosition;
-                    struct gearInPosActivityCommand gearInPos;
-                    struct gearInVeloActivityCommand gearInVelo;
-                    struct setDoutActivityCommand setDout;
-                    struct setDoutActivityCommand setExternalDout;
-                    struct setAoutActivityCommand setAout;
-                    struct setIoutActivityCommand setIout;
-                    struct setUioutActivityCommand setUiout;
-                    struct setIoutActivityCommand setExternalIout;
-                    struct setUioutActivityCommand setExternalUiout;
-                    struct dwellActivityCommand dwell;
-                    struct spindleActivityCommand spindle;
-                    struct toolOffsetActivityParams setToolOffset;
-                    struct setPayloadActivityParams setPayload;
-                    struct setModbusDoutActivityCommand setModbusDout;
-                    struct setModbusUioutActivityCommand setModbusUiout;
-                };
-        };
-
-        struct activityStreamItem {
-                    enum ACTIVITYTYPE activityType;
-                    uint32_t tag;
-                    struct triggerParams triggers[3];
-                union {
-                    struct moveJointsStream moveJoints;
-                    struct moveJointsInterpolatedStream moveJointsInterpolated;
-                    struct moveJointsAtVelocityStream moveJointsAtVelocity;
-                    struct moveLineStream moveLine;
-                    struct moveVectorAtVelocityStream moveVectorAtVelocity;
-                    struct moveRotationAtVelocityStream moveRotationAtVelocity;
-                    struct moveArcStream moveArc;
-                    struct moveInstantStream moveInstant;
-                    struct moveToPositionStream moveToPosition;
-                    struct setDoutActivityParams setDout;
-                    struct setDoutActivityParams setExternalDout;
-                    struct setModbusDoutActivityParams setModbusDout;
-                    struct setAoutActivityParams setAout;
-                    struct setIoutActivityParams setIout;
-                    struct setUioutActivityParams setUiout;
-                    struct setIoutActivityParams setExternalIout;
-                    struct setUioutActivityParams setExternalUiout;
-                    struct setModbusUioutActivityParams setModbusUiout;
-                    struct dwellActivityParams dwell;
-                    struct spindleActivityParams spindle;
-                    struct toolOffsetActivityParams setToolOffset;
-                    struct setPayloadActivityParams setPayload;
-                };
-        };
-
-        struct soloActivityConfig {
-        };
-
-        typedef struct activityStatus soloActivityStatus;
-
-        typedef struct activityStreamItem soloActivityCommand;
-
-        struct framesConfig {
-                    struct vector3 translation;
-                    struct quat rotation;
-                    uint16_t parentFrameIndex;
-                    enum POSITIONREFERENCE positionReference;
-                    uint8_t workspaceOffset;
-        };
-
-        struct framesCommand {
-        };
-
-        struct framesStatus {
-        };
-
-        struct pointsConfig {
-                    uint8_t frameIndex;
-                    struct vector3 translation;
-                    struct quat rotation;
-                    uint8_t configuration;
-        };
-
-        struct toolConfig {
-                    struct vector3 translation;
-                    struct quat rotation;
-                    double diameter;
-                    struct rigidBodyInertia rigidBodyInertia;
-                    enum INTERFACE interface;
-                    uint8_t graspIo;
-                    uint8_t releaseIo;
-                    uint8_t graspSenseIo;
-                    uint8_t releaseSenseIo;
-        };
-
-        struct serialConfig {
-        };
-
-        struct serialStatus {
-                    uint16_t statusWord;
-                    uint8_t length;
-                    uint8_t data[22];
-        };
-
-        struct serialCommand {
-                    uint16_t controlWord;
-                    uint8_t length;
-                    uint8_t data[22];
-        };
+struct sharedMemHeader {
+        enum CONFIG_STATUS status;
+};
+
+struct limitConfiguration {
+        double vmax;
+        double amax;
+        double jmax;
+};
+
+struct machineConfig {
+        uint16_t busCycleTime;
+        uint16_t statusFrequency;
+        bool estopEnabled;
+        uint8_t estopInput;
+        uint32_t heartbeatTimeout;
+};
+
+struct machineStatus {
+        uint32_t statusWord;
+        uint32_t activeFault;
+        uint32_t faultHistory;
+        uint32_t heartbeat;
+        enum MACHINETARGET target;
+        uint16_t targetConnectRetryCnt;
+        enum OPERATION_ERROR operationError;
+        char operationErrorMessage[256];
+};
+
+struct machineCommand {
+        uint32_t controlWord;
+        uint32_t hlcControlWord;
+        uint32_t heartbeat;
+        enum MACHINETARGET target;
+};
+
+struct streamConfig {
+        bool enableEndProgram;
+};
+
+struct streamStatus {
+        enum STREAMSTATE streamState;
+        uint32_t tag;
+        uint32_t time;
+};
+
+struct streamCommand {
+        enum STREAMCOMMAND streamCommand;
+};
+
+struct moveParametersConfig {
+        double vmax;
+        uint8_t vmaxPercentage;
+        uint8_t amaxPercentage;
+        uint8_t jmaxPercentage;
+        uint8_t limitConfigurationIndex;
+        enum BLENDTYPE blendType;
+        uint16_t blendTimePercentage;
+        double blendTolerance;
+        uint8_t toolIndex;
+        enum SYNCTYPE syncType;
+        uint32_t syncValue;
+        bool optimizeJointDistance;
+};
+
+struct vector3 {
+        double x;
+        double y;
+        double z;
+};
+
+struct quat {
+        double w;
+        double x;
+        double y;
+        double z;
+};
+
+struct cartesianPosition {
+        enum POSITIONREFERENCE positionReference;
+        struct vector3 translation;
+        struct quat rotation;
+        uint16_t frameIndex;
+};
+
+struct positionAbsRel {
+        enum POSITIONREFERENCE positionReference;
+        struct vector3 translation;
+};
+
+struct cartesianVector {
+        struct vector3 vector;
+        uint16_t frameIndex;
+};
+
+struct doubleValue {
+        double value;
+};
+
+struct arcsConfig {
+        enum ARCTYPE arcType;
+        enum ARCDIRECTION arcDirection;
+        struct cartesianPosition destination;
+        struct quat plane;
+        enum ROTATIONINTERPOLATION rotationInterpolation;
+    union {
+        struct positionAbsRel centre;
+        struct doubleValue radius;
+    };
+};
+
+struct cartesianPositionsConfig {
+        struct cartesianPosition position;
+        uint32_t configuration;
+};
+
+struct triggerOnAnalogInput {
+        uint8_t input;
+        enum GTLT when;
+        double value;
+};
+
+struct triggerOnDigitalInput {
+        uint8_t input;
+        bool safeInput;
+        enum TRIGGERTYPE when;
+};
+
+struct triggerOnIntegerInput {
+        uint8_t input;
+        enum GTLT when;
+        uint32_t value;
+};
+
+struct triggerOnTimer {
+        uint32_t delay;
+};
+
+struct triggerOnTick {
+        uint32_t value;
+};
+
+struct triggerParams {
+        enum TRIGGERON type;
+        enum TRIGGERACTION action;
+    union {
+        struct triggerOnAnalogInput analog;
+        struct triggerOnDigitalInput digital;
+        struct triggerOnIntegerInput integer;
+        struct triggerOnTimer timer;
+        struct triggerOnTick tick;
+    };
+};
+
+struct taskConfig {
+        uint16_t activityCount;
+        uint16_t firstActivityIndex;
+        struct triggerParams triggers[3];
+};
+
+struct taskStatus {
+        enum TASK_STATE taskState;
+        uint16_t currentActivityIndex;
+};
+
+struct taskCommand {
+        enum TASK_COMMAND taskCommand;
+};
+
+struct pidConfig {
+        double kp;
+        double ki;
+        double kd;
+        double maxIntegral;
+        double minIntegral;
+        uint16_t sampleTime;
+};
+
+struct jointConfig {
+        enum JOINT_TYPE jointType;
+        struct limitConfiguration limits[MAX_NUMBER_OF_LIMITS_IN_JOINT_CONFIGURATION];
+        enum JOINT_MODEOFOPERATION preferredMode;
+        uint8_t supportedModes;
+        uint8_t supportedTorqueModes;
+        double scale;
+        double scalePos;
+        double scaleVel;
+        double scaleTorque;
+        uint8_t pow10;
+        double negLimit;
+        double posLimit;
+        bool inverted;
+        enum JOINT_FINITECONTINUOUS finiteContinuous;
+        bool isVirtualInternal;
+        bool isVirtualFromEncoder;
+        uint8_t correspondingJointNumberOnPhysicalFieldbus;
+        uint8_t correspondingJointNumberOnVirtualFieldbus;
+        struct pidConfig pidConfig[3];
+};
+
+struct jointStatus {
+        uint16_t statusWord;
+        double actPos;
+        double actVel;
+        double actTorque;
+        int32_t actControlEffort;
+};
+
+struct jointCommand {
+        uint16_t controlWord;
+        double setTorque;
+        enum JOINT_TORQUE_MODE torqueMode;
+};
+
+struct matrixInstanceDouble {
+        uint16_t numRows;
+        uint16_t numCols;
+        double data[MAX_SIZE_OF_MATRIX];
+        uint8_t invJointAngles[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+};
+
+struct rollPitchYaw {
+        double r;
+        double p;
+        double y;
+};
+
+struct urdfFrame {
+        struct vector3 translation;
+        struct rollPitchYaw rpy;
+};
+
+struct rigidBodyInertia {
+        double m;
+        struct vector3 h;
+        double Ixx;
+        double Iyy;
+        double Izz;
+        double Ixy;
+        double Ixz;
+        double Iyz;
+};
+
+struct inverseDynamicParameters {
+        struct urdfFrame urdfFrame;
+        struct rigidBodyInertia rigidBodyInertia;
+        double jointOffset;
+        double jointScale;
+        double jointInertia;
+        struct vector3 jointAxis;
+        double damping;
+        double friction;
+};
+
+struct sphericalEnvelope {
+        struct vector3 center;
+        double radius[2];
+};
+
+struct velocityScaling {
+        bool enabled;
+        struct triggerOnDigitalInput trigger;
+        double scaleFactor;
+};
+
+struct kinematicsConfigurationConfig {
+        enum KC_KINEMATICSCONFIGURATIONTYPE kinematicsConfigurationType;
+        uint8_t supportedConfigurationBits;
+        uint16_t frameIndex;
+        uint8_t participatingJoints[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        uint8_t participatingJointsCount;
+        double extentsX[2];
+        double extentsY[2];
+        double extentsZ[2];
+        double scaleX;
+        double scaleY;
+        double scaleZ;
+        struct limitConfiguration linearLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
+        struct limitConfiguration angularLimits[MAX_NUMBER_OF_LIMITS_IN_KINEMATICS_CONFIGURATION];
+        struct velocityScaling velocityScaling;
+        struct matrixInstanceDouble kinChainParams;
+        struct inverseDynamicParameters inverseDynamicParams[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        struct sphericalEnvelope sphericalEnvelope;
+        double cylindricalEnvelope[2];
+};
+
+struct kinematicsConfigurationStatus {
+        double froTarget;
+        double froActual;
+        uint8_t configuration;
+        struct vector3 cartesianActPos;
+        struct quat cartesianActOrientation;
+        struct vector3 cartesianActVel;
+        struct vector3 cartesianActAcc;
+        bool limitsDisabled;
+        uint8_t isNearSingularity;
+        uint8_t toolIndex;
+};
+
+struct kinematicsConfigurationCommand {
+        bool doStop;
+        bool disableLimits;
+        double fro;
+        struct vector3 translation;
+        struct quat rotation;
+};
+
+struct dinConfig {
+        bool inverted;
+};
+
+struct dinStatus {
+        bool actValue;
+};
+
+struct dinCommand {
+        bool override;
+        bool setValue;
+};
+
+struct safetyDinConfig {
+        bool inverted;
+        enum DIN_SAFETY_TYPE type;
+};
+
+struct safetyDinStatus {
+        bool actValue;
+};
+
+struct safetyDinCommand {
+        bool override;
+        bool setValue;
+};
+
+struct externalDinConfig {
+        bool inverted;
+};
+
+struct externalDinStatus {
+        bool actValue;
+};
+
+struct externalDinCommand {
+        bool override;
+        bool setValue;
+};
+
+struct doutConfig {
+        bool inverted;
+        uint8_t loopback;
+};
+
+struct doutStatus {
+        bool effectiveValue;
+};
+
+struct doutCommand {
+        bool override;
+        bool setValue;
+};
+
+struct safetyDoutConfig {
+        bool inverted;
+        uint8_t loopback;
+};
+
+struct safetyDoutStatus {
+        bool effectiveValue;
+};
+
+struct safetyDoutCommand {
+        bool override;
+        bool setValue;
+};
+
+struct externalDoutConfig {
+        bool inverted;
+        uint8_t loopback;
+};
+
+struct externalDoutStatus {
+        bool effectiveValue;
+};
+
+struct externalDoutCommand {
+        bool override;
+        bool setValue;
+};
+
+struct ainConfig {
+        bool useForVirtualAxis;
+        uint8_t jointIndexForVirtualAxis;
+};
+
+struct ainStatus {
+        float actValue;
+};
+
+struct ainCommand {
+        bool override;
+        float setValue;
+};
+
+struct aoutConfig {
+};
+
+struct aoutStatus {
+        float effectiveValue;
+};
+
+struct aoutCommand {
+        bool override;
+        float setValue;
+};
+
+struct uiinConfig {
+};
+
+struct uiinStatus {
+        uint32_t actValue;
+};
+
+struct uiinCommand {
+        bool override;
+        uint32_t setValue;
+};
+
+struct iinConfig {
+};
+
+struct iinStatus {
+        int32_t actValue;
+};
+
+struct iinCommand {
+        bool override;
+        int32_t setValue;
+};
+
+struct externalUiinConfig {
+};
+
+struct externalUiinStatus {
+        uint32_t actValue;
+};
+
+struct externalUiinCommand {
+        bool override;
+        uint32_t setValue;
+};
+
+struct externalIinConfig {
+};
+
+struct externalIinStatus {
+        int32_t actValue;
+};
+
+struct externalIinCommand {
+        bool override;
+        int32_t setValue;
+};
+
+struct uioutConfig {
+};
+
+struct uioutStatus {
+        uint32_t effectiveValue;
+};
+
+struct uioutCommand {
+        bool override;
+        uint32_t setValue;
+};
+
+struct ioutConfig {
+};
+
+struct ioutStatus {
+        int32_t effectiveValue;
+};
+
+struct ioutCommand {
+        bool override;
+        int32_t setValue;
+};
+
+struct externalUioutConfig {
+};
+
+struct externalUioutStatus {
+        uint32_t effectiveValue;
+};
+
+struct externalUioutCommand {
+        bool override;
+        uint32_t setValue;
+};
+
+struct externalIoutConfig {
+};
+
+struct externalIoutStatus {
+        int32_t effectiveValue;
+};
+
+struct externalIoutCommand {
+        bool override;
+        int32_t setValue;
+};
+
+struct moveJointsActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        enum POSITIONREFERENCE positionReference;
+        uint16_t moveParamsIndex;
+};
+
+struct moveJointsActivityStatus {
+        uint8_t percentageComplete;
+};
+
+struct moveJointsActivityCommand {
+        bool skipToNext;
+};
+
+struct moveJointsStream {
+        uint8_t kinematicsConfigurationIndex;
+        enum POSITIONREFERENCE positionReference;
+        double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        struct moveParametersConfig moveParams;
+};
+
+struct moveJointsInterpolatedActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        double timecode;
+        uint16_t moveParamsIndex;
+};
+
+struct moveJointsInterpolatedActivityStatus {
+};
+
+struct moveJointsInterpolatedActivityCommand {
+};
+
+struct moveJointsInterpolatedStream {
+        uint8_t kinematicsConfigurationIndex;
+        double jointPositionArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+        double duration;
+        struct moveParametersConfig moveParams;
+};
+
+struct moveJointsAtVelocityActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        uint16_t moveParamsIndex;
+        double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+};
+
+struct moveJointsAtVelocityActivityStatus {
+};
+
+struct moveJointsAtVelocityActivityCommand {
+        bool skipToNext;
+};
+
+struct moveJointsAtVelocityStream {
+        uint8_t kinematicsConfigurationIndex;
+        struct moveParametersConfig moveParams;
+        double jointVelocityArray[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+};
+
+struct moveLineActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        uint16_t moveParamsIndex;
+        struct cartesianPosition line;
+        uint8_t superimposedIndex;
+};
+
+struct moveLineActivityStatus {
+};
+
+struct moveLineActivityCommand {
+        bool skipToNext;
+};
+
+struct moveLineStream {
+        uint8_t kinematicsConfigurationIndex;
+        struct moveParametersConfig moveParams;
+        struct cartesianPosition line;
+        uint8_t superimposedIndex;
+};
+
+struct moveVectorAtVelocityActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        uint16_t moveParamsIndex;
+        struct cartesianVector vector;
+};
+
+struct moveVectorAtVelocityActivityStatus {
+};
+
+struct moveVectorAtVelocityActivityCommand {
+        bool skipToNext;
+};
+
+struct moveVectorAtVelocityStream {
+        uint8_t kinematicsConfigurationIndex;
+        struct moveParametersConfig moveParams;
+        struct cartesianVector vector;
+};
+
+struct moveRotationAtVelocityActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        uint16_t moveParamsIndex;
+        struct cartesianVector axis;
+};
+
+struct moveRotationAtVelocityActivityStatus {
+};
+
+struct moveRotationAtVelocityActivityCommand {
+        bool skipToNext;
+};
+
+struct moveRotationAtVelocityStream {
+        uint8_t kinematicsConfigurationIndex;
+        struct moveParametersConfig moveParams;
+        struct cartesianVector axis;
+};
+
+struct moveArcActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        uint8_t superimposedIndex;
+        uint16_t moveParamsIndex;
+        struct arcsConfig arc;
+};
+
+struct moveArcActivityStatus {
+};
+
+struct moveArcActivityCommand {
+        bool skipToNext;
+};
+
+struct moveArcStream {
+        uint8_t kinematicsConfigurationIndex;
+        struct moveParametersConfig moveParams;
+        struct arcsConfig arc;
+        uint8_t superimposedIndex;
+};
+
+struct moveInstantActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        struct moveParametersConfig moveParams;
+        struct cartesianPosition position;
+};
+
+struct moveInstantActivityStatus {
+};
+
+struct moveInstantActivityCommand {
+};
+
+struct moveInstantStream {
+        uint8_t kinematicsConfigurationIndex;
+        struct moveParametersConfig moveParams;
+        struct cartesianPosition position;
+};
+
+struct moveToPositionActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        uint16_t moveParamsIndex;
+        struct cartesianPositionsConfig cartesianPosition;
+};
+
+struct moveToPositionActivityStatus {
+};
+
+struct moveToPositionActivityCommand {
+        bool skipToNext;
+};
+
+struct moveToPositionStream {
+        uint8_t kinematicsConfigurationIndex;
+        struct moveParametersConfig moveParams;
+        struct cartesianPositionsConfig cartesianPosition;
+};
+
+struct setDoutActivityParams {
+        uint8_t doutToSet;
+        bool valueToSet;
+};
+
+struct setDoutActivityStatus {
+};
+
+struct setDoutActivityCommand {
+};
+
+struct setAoutActivityParams {
+        uint8_t aoutToSet;
+        float valueToSet;
+};
+
+struct setAoutActivityStatus {
+};
+
+struct setAoutActivityCommand {
+};
+
+struct setIoutActivityParams {
+        uint8_t ioutToSet;
+        int32_t valueToSet;
+};
+
+struct setIoutActivityStatus {
+};
+
+struct setIoutActivityCommand {
+};
+
+struct setUioutActivityParams {
+        uint8_t ioutToSet;
+        uint32_t valueToSet;
+};
+
+struct setUioutActivityStatus {
+};
+
+struct setUioutActivityCommand {
+};
+
+struct dwellActivityParams {
+        uint32_t ticksToDwell;
+};
+
+struct dwellActivityStatus {
+};
+
+struct dwellActivityCommand {
+        bool skipToNext;
+};
+
+struct spindleConfig {
+        uint16_t enableDigitalOutIndex;
+        uint16_t directionDigitalOutIndex;
+        bool directionInvert;
+        uint16_t speedAnalogOutIndex;
+};
+
+struct spindleActivityParams {
+        uint16_t spindleIndex;
+        bool enable;
+        enum SPINDLEDIRECTION direction;
+        float speed;
+};
+
+struct spindleActivityStatus {
+};
+
+struct spindleActivityCommand {
+};
+
+struct toolOffsetActivityParams {
+        uint8_t kinematicsConfigurationIndex;
+        uint8_t toolIndex;
+};
+
+struct gearInVeloActivityParams {
+        uint8_t masterKinematicsConfigurationIndex;
+        uint8_t slaveKinematicsConfigurationIndex;
+        uint32_t gearingFrameIndex;
+        double gearRatio;
+        uint32_t syncActivationDelay;
+};
+
+struct gearInVeloActivityStatus {
+        uint8_t percentageComplete;
+        bool gearInFailed;
+        bool gearedIn;
+};
+
+struct gearInVeloActivityCommand {
+        bool skipToNext;
+        double updatedRatio;
+        bool updateRation;
+};
+
+struct gearInPosActivityParams {
+        uint8_t masterKinematicsConfigurationIndex;
+        uint8_t slaveKinematicsConfigurationIndex;
+        uint8_t gearingFrameIndex;
+        double gearRatio;
+        enum STRATEGYGEARINPOS strategyToUse;
+        double gearRatioMaster;
+        double gearRatioSlave;
+        struct cartesianPosition masterSyncPosition;
+        struct cartesianPosition slaveSyncPosition;
+        uint32_t syncActivationDelay;
+};
+
+struct gearInPosActivityStatus {
+        uint8_t percentageComplete;
+        bool gearInFailed;
+        bool gearedIn;
+};
+
+struct gearInPosActivityCommand {
+        bool skipToNext;
+        double updatedRatioMaster;
+        double updatedRatioSlave;
+        struct cartesianPosition updatedMasterSyncPosition;
+        struct cartesianPosition updatedSlaveSyncPosition;
+};
+
+struct stressTestActivityParams {
+};
+
+struct stressTestActivityStatus {
+};
+
+struct stressTestActivityCommand {
+};
+
+struct stressTestActivityStream {
+};
+
+struct activityConfig {
+        enum ACTIVITYTYPE activityType;
+        struct triggerParams triggers[3];
+    union {
+        struct moveJointsActivityParams moveJoints;
+        struct moveJointsInterpolatedActivityParams moveJointsInterpolated;
+        struct moveJointsAtVelocityActivityParams moveJointsAtVelocity;
+        struct moveLineActivityParams moveLine;
+        struct moveVectorAtVelocityActivityParams moveVectorAtVelocity;
+        struct moveRotationAtVelocityActivityParams moveRotationAtVelocity;
+        struct moveArcActivityParams moveArc;
+        struct moveInstantActivityParams moveInstant;
+        struct moveToPositionActivityParams moveToPosition;
+        struct gearInPosActivityParams gearInPos;
+        struct gearInVeloActivityParams gearInVelo;
+        struct setDoutActivityParams setDout;
+        struct setDoutActivityParams setExternalDout;
+        struct setAoutActivityParams setAout;
+        struct setIoutActivityParams setIout;
+        struct setUioutActivityParams setUiout;
+        struct setIoutActivityParams setExternalIout;
+        struct setUioutActivityParams setExternalUiout;
+        struct dwellActivityParams dwell;
+        struct spindleActivityParams spindle;
+        struct stressTestActivityParams stressTest;
+    };
+};
+
+struct activityStatus {
+        enum ACTIVITYSTATE state;
+        uint32_t tag;
+    union {
+        struct moveJointsActivityStatus moveJoints;
+        struct moveJointsInterpolatedActivityStatus moveJointsInterpolated;
+        struct moveJointsAtVelocityActivityStatus moveJointsAtVelocity;
+        struct moveLineActivityStatus moveLine;
+        struct moveVectorAtVelocityActivityStatus moveVectorAtVelocity;
+        struct moveRotationAtVelocityActivityStatus moveRotationAtVelocity;
+        struct moveArcActivityStatus moveArc;
+        struct moveInstantActivityStatus moveInstant;
+        struct moveToPositionActivityStatus moveToPosition;
+        struct gearInPosActivityStatus gearInPos;
+        struct gearInVeloActivityStatus gearInVelo;
+        struct setDoutActivityStatus setDout;
+        struct setDoutActivityStatus setExternalDout;
+        struct setAoutActivityStatus setAout;
+        struct setIoutActivityStatus setIout;
+        struct setUioutActivityStatus setUiout;
+        struct setIoutActivityStatus setExternalIout;
+        struct setUioutActivityStatus setExternalUiout;
+        struct dwellActivityStatus dwell;
+        struct spindleActivityStatus spindle;
+        struct stressTestActivityStatus stressTest;
+    };
+};
+
+struct activityCommand {
+    union {
+        struct moveJointsActivityCommand moveJoints;
+        struct moveJointsInterpolatedActivityCommand moveJointsInterpolated;
+        struct moveJointsAtVelocityActivityCommand moveJointsAtVelocity;
+        struct moveLineActivityCommand moveLine;
+        struct moveVectorAtVelocityActivityCommand moveVectorAtVelocity;
+        struct moveRotationAtVelocityActivityCommand moveRotationAtVelocity;
+        struct moveArcActivityCommand moveArc;
+        struct moveInstantActivityCommand moveInstant;
+        struct moveToPositionActivityCommand moveToPosition;
+        struct gearInPosActivityCommand gearInPos;
+        struct gearInVeloActivityCommand gearInVelo;
+        struct setDoutActivityCommand setDout;
+        struct setDoutActivityCommand setExternalDout;
+        struct setAoutActivityCommand setAout;
+        struct setIoutActivityCommand setIout;
+        struct setUioutActivityCommand setUiout;
+        struct setIoutActivityCommand setExternalIout;
+        struct setUioutActivityCommand setExternalUiout;
+        struct dwellActivityCommand dwell;
+        struct spindleActivityCommand spindle;
+        struct stressTestActivityCommand stressTest;
+    };
+};
+
+struct activityStreamItem {
+        enum ACTIVITYTYPE activityType;
+        uint32_t tag;
+        struct triggerParams triggers[3];
+    union {
+        struct moveJointsStream moveJoints;
+        struct moveJointsInterpolatedStream moveJointsInterpolated;
+        struct moveJointsAtVelocityStream moveJointsAtVelocity;
+        struct moveLineStream moveLine;
+        struct moveVectorAtVelocityStream moveVectorAtVelocity;
+        struct moveRotationAtVelocityStream moveRotationAtVelocity;
+        struct moveArcStream moveArc;
+        struct moveInstantStream moveInstant;
+        struct moveToPositionStream moveToPosition;
+        struct setDoutActivityParams setDout;
+        struct setDoutActivityParams setExternalDout;
+        struct setAoutActivityParams setAout;
+        struct setIoutActivityParams setIout;
+        struct setUioutActivityParams setUiout;
+        struct setIoutActivityParams setExternalIout;
+        struct setUioutActivityParams setExternalUiout;
+        struct dwellActivityParams dwell;
+        struct spindleActivityParams spindle;
+        struct toolOffsetActivityParams setToolOffset;
+        struct stressTestActivityStream stressTest;
+    };
+};
+
+struct soloActivityConfig {
+};
+
+typedef struct activityStatus soloActivityStatus;
+
+typedef struct activityStreamItem soloActivityCommand;
+
+struct framesConfig {
+        struct vector3 translation;
+        struct quat rotation;
+        uint16_t parentFrameIndex;
+        enum POSITIONREFERENCE positionReference;
+        uint8_t workspaceOffset;
+};
+
+struct framesCommand {
+};
+
+struct framesStatus {
+};
+
+struct pointsConfig {
+        uint8_t frameIndex;
+        struct vector3 translation;
+        struct quat rotation;
+        uint8_t configuration;
+};
+
+struct toolConfig {
+        struct vector3 translation;
+        struct quat rotation;
+        double diameter;
+};
+
+struct serialConfig {
+};
+
+struct serialStatus {
+        uint16_t statusWord;
+        uint8_t length;
+        uint8_t data[22];
+};
+
+struct serialCommand {
+        uint16_t controlWord;
+        uint8_t length;
+        uint8_t data[22];
+};
 
 
 // OFFSETS
 struct offsets {
-uint32_t addrCounts;
-            uint32_t addrMachineConfig;
-            uint32_t addrMachineStatus;
-            uint32_t addrMachineCommand;
+    uint32_t addrCounts;
+    uint32_t addrMachineConfig;
+    uint32_t addrMachineStatus;
+    uint32_t addrMachineCommand;
 
 
-            uint32_t addrStreamConfig;
-            uint32_t addrStreamStatus;
-            uint32_t addrStreamCommand;
+    uint32_t addrStreamConfig;
+    uint32_t addrStreamStatus;
+    uint32_t addrStreamCommand;
 
 
-            uint32_t addrMoveParametersConfig;
+    uint32_t addrMoveParametersConfig;
 
 
-            uint32_t addrJointConfig;
-            uint32_t addrJointStatus;
-            uint32_t addrJointCommand;
+    uint32_t addrJointConfig;
+    uint32_t addrJointStatus;
+    uint32_t addrJointCommand;
 
 
-            uint32_t addrKinematicsConfigurationConfig;
-            uint32_t addrKinematicsConfigurationStatus;
-            uint32_t addrKinematicsConfigurationCommand;
+    uint32_t addrKinematicsConfigurationConfig;
+    uint32_t addrKinematicsConfigurationStatus;
+    uint32_t addrKinematicsConfigurationCommand;
 
 
-            uint32_t addrDoutConfig;
-            uint32_t addrDoutStatus;
-            uint32_t addrDoutCommand;
+    uint32_t addrDoutConfig;
+    uint32_t addrDoutStatus;
+    uint32_t addrDoutCommand;
 
 
-            uint32_t addrSafetyDoutConfig;
-            uint32_t addrSafetyDoutStatus;
-            uint32_t addrSafetyDoutCommand;
+    uint32_t addrSafetyDoutConfig;
+    uint32_t addrSafetyDoutStatus;
+    uint32_t addrSafetyDoutCommand;
 
 
-            uint32_t addrExternalDoutConfig;
-            uint32_t addrExternalDoutStatus;
-            uint32_t addrExternalDoutCommand;
+    uint32_t addrExternalDoutConfig;
+    uint32_t addrExternalDoutStatus;
+    uint32_t addrExternalDoutCommand;
 
 
-            uint32_t addrModbusDoutConfig;
+    uint32_t addrDinConfig;
+    uint32_t addrDinStatus;
+    uint32_t addrDinCommand;
 
 
-            uint32_t addrDinConfig;
-            uint32_t addrDinStatus;
-            uint32_t addrDinCommand;
+    uint32_t addrSafetyDinConfig;
+    uint32_t addrSafetyDinStatus;
+    uint32_t addrSafetyDinCommand;
 
 
-            uint32_t addrSafetyDinConfig;
-            uint32_t addrSafetyDinStatus;
-            uint32_t addrSafetyDinCommand;
+    uint32_t addrExternalDinConfig;
+    uint32_t addrExternalDinStatus;
+    uint32_t addrExternalDinCommand;
 
 
-            uint32_t addrExternalDinConfig;
-            uint32_t addrExternalDinStatus;
-            uint32_t addrExternalDinCommand;
+    uint32_t addrAoutConfig;
+    uint32_t addrAoutStatus;
+    uint32_t addrAoutCommand;
 
 
-            uint32_t addrModbusDinConfig;
-            uint32_t addrModbusDinStatus;
-            uint32_t addrModbusDinCommand;
+    uint32_t addrAinConfig;
+    uint32_t addrAinStatus;
+    uint32_t addrAinCommand;
 
 
-            uint32_t addrAoutConfig;
-            uint32_t addrAoutStatus;
-            uint32_t addrAoutCommand;
+    uint32_t addrIoutConfig;
+    uint32_t addrIoutStatus;
+    uint32_t addrIoutCommand;
 
 
-            uint32_t addrAinConfig;
-            uint32_t addrAinStatus;
-            uint32_t addrAinCommand;
+    uint32_t addrUioutConfig;
+    uint32_t addrUioutStatus;
+    uint32_t addrUioutCommand;
 
 
-            uint32_t addrIoutConfig;
-            uint32_t addrIoutStatus;
-            uint32_t addrIoutCommand;
+    uint32_t addrExternalIoutConfig;
+    uint32_t addrExternalIoutStatus;
+    uint32_t addrExternalIoutCommand;
 
 
-            uint32_t addrUioutConfig;
-            uint32_t addrUioutStatus;
-            uint32_t addrUioutCommand;
+    uint32_t addrExternalUioutConfig;
+    uint32_t addrExternalUioutStatus;
+    uint32_t addrExternalUioutCommand;
 
 
-            uint32_t addrExternalIoutConfig;
-            uint32_t addrExternalIoutStatus;
-            uint32_t addrExternalIoutCommand;
+    uint32_t addrIinConfig;
+    uint32_t addrIinStatus;
+    uint32_t addrIinCommand;
 
 
-            uint32_t addrExternalUioutConfig;
-            uint32_t addrExternalUioutStatus;
-            uint32_t addrExternalUioutCommand;
+    uint32_t addrUiinConfig;
+    uint32_t addrUiinStatus;
+    uint32_t addrUiinCommand;
 
 
-            uint32_t addrModbusUioutConfig;
+    uint32_t addrExternalIinConfig;
+    uint32_t addrExternalIinStatus;
+    uint32_t addrExternalIinCommand;
 
 
-            uint32_t addrIinConfig;
-            uint32_t addrIinStatus;
-            uint32_t addrIinCommand;
+    uint32_t addrExternalUiinConfig;
+    uint32_t addrExternalUiinStatus;
+    uint32_t addrExternalUiinCommand;
 
 
-            uint32_t addrUiinConfig;
-            uint32_t addrUiinStatus;
-            uint32_t addrUiinCommand;
+    uint32_t addrSpindleConfig;
 
 
-            uint32_t addrExternalIinConfig;
-            uint32_t addrExternalIinStatus;
-            uint32_t addrExternalIinCommand;
+    uint32_t addrSoloActivityConfig;
+    uint32_t addrSoloActivityStatus;
+    uint32_t addrSoloActivityCommand;
 
 
-            uint32_t addrExternalUiinConfig;
-            uint32_t addrExternalUiinStatus;
-            uint32_t addrExternalUiinCommand;
+    uint32_t addrToolConfig;
 
 
-            uint32_t addrModbusUiinConfig;
-            uint32_t addrModbusUiinStatus;
-            uint32_t addrModbusUiinCommand;
+    uint32_t addrTaskConfig;
+    uint32_t addrTaskStatus;
+    uint32_t addrTaskCommand;
 
 
-            uint32_t addrSpindleConfig;
+    uint32_t addrActivityConfig;
+    uint32_t addrActivityStatus;
+    uint32_t addrActivityCommand;
 
 
-            uint32_t addrSoloActivityConfig;
-            uint32_t addrSoloActivityStatus;
-            uint32_t addrSoloActivityCommand;
+    uint32_t addrFramesConfig;
+    uint32_t addrFramesStatus;
+    uint32_t addrFramesCommand;
 
 
-            uint32_t addrToolConfig;
+    uint32_t addrPointsConfig;
 
 
-            uint32_t addrTaskConfig;
-            uint32_t addrTaskStatus;
-            uint32_t addrTaskCommand;
-
-
-            uint32_t addrActivityConfig;
-            uint32_t addrActivityStatus;
-            uint32_t addrActivityCommand;
-
-
-            uint32_t addrFramesConfig;
-            uint32_t addrFramesStatus;
-            uint32_t addrFramesCommand;
-
-
-            uint32_t addrPointsConfig;
-
-
-            uint32_t addrSerialConfig;
-            uint32_t addrSerialStatus;
-            uint32_t addrSerialCommand;
+    uint32_t addrSerialConfig;
+    uint32_t addrSerialStatus;
+    uint32_t addrSerialCommand;
 
 
 };
@@ -1662,23 +1459,19 @@ struct counts {
             uint16_t numDout;
             uint16_t numSafetyDout;
             uint16_t numExternalDout;
-            uint16_t numModbusDout;
             uint16_t numDin;
             uint16_t numSafetyDin;
             uint16_t numExternalDin;
-            uint16_t numModbusDin;
             uint16_t numAout;
             uint16_t numAin;
             uint16_t numIout;
             uint16_t numUiout;
             uint16_t numExternalIout;
             uint16_t numExternalUiout;
-            uint16_t numModbusUiout;
             uint16_t numIin;
             uint16_t numUiin;
             uint16_t numExternalIin;
             uint16_t numExternalUiin;
-            uint16_t numModbusUiin;
             uint16_t numSpindle;
             uint16_t numSoloActivity;
             uint16_t numTool;
