@@ -22,7 +22,7 @@
 
 #include <stdint.h>
 
-#define DPM_NUM_JOINTS 10
+#define DPM_NUM_JOINTS 14
 #define DPM_NUM_ANALOGS 6
 #define DPM_NUM_INT32S 2
 #define DPM_NUM_UINT32S 0

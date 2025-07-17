@@ -12,17 +12,18 @@
 #define MAX_NUMBER_OF_SUPERIMPOSED_ACTIVITIES 2
 #define MAX_NUMBER_OF_SPLINE_POINTS 24
 #define MAX_NUMBER_OF_KINEMATICS_CONFIGURATIONS 3
-#define MAX_NUMBER_OF_JOINTS 12
+#define MAX_NUMBER_OF_JOINTS 14
 #define MAX_NUMBER_OF_DO 32
 #define MAX_NUMBER_OF_AO 32
 #define MAX_SIZE_OF_MATRIX 100
 #define MAX_NUMBER_OF_MODBUS_OUTS 8
 #define MAX_VELOCITY_SCALING_INPUTS 3
 
-#define GBC_MD5_SUM "d0df184699f40d376b2767cc8062b4d4"
+#define GBC_MD5_SUM "74ffb7a2ff153f5677b6e4766ed5a9f0"
 
 // DEFINES
     #define DEFAULT_HLC_HEARTBEAT_TOLERANCE 2000
+    #define MAX_NUMBER_OF_WHEELS_IN_AGV 4
     #define JOINT_CONTROL_WORD_CST_POS_VEL_DISABLE_BIT 1
 
 // ENUMS
@@ -223,6 +224,7 @@
         ACTIVITYTYPE_SET_PAYLOAD,
         ACTIVITYTYPE_SETMODBUSDOUT,
         ACTIVITYTYPE_SETMODBUSUIOUT,
+        ACTIVITYTYPE_SETINITIALPOSITION,
     };
     enum ACTIVITYSTATE {
         ACTIVITY_INACTIVE,
@@ -292,6 +294,9 @@
         KC_FIVE_AXIS,
         KC_WMR,
         KC_MOVEABLE_SIXDOF,
+        KC_AGV,
+        KC_KX2,
+        KC_SLAB2,
     };
     enum KC_SHOULDERCONFIGURATION {
         KC_LEFTY,
@@ -687,6 +692,11 @@
                     double scaleFactor;
         };
 
+        struct agvWheel {
+                    struct vector3 position;
+                    double radius;
+        };
+
         struct kinematicsConfigurationConfig {
                     enum KC_KINEMATICSCONFIGURATIONTYPE kinematicsConfigurationType;
                     uint8_t supportedConfigurationBits;
@@ -701,6 +711,7 @@
                     struct velocityScaling velocityScaling[MAX_VELOCITY_SCALING_INPUTS];
                     struct matrixInstanceDouble kinChainParams;
                     struct inverseDynamicParameters inverseDynamicParams[MAX_NUMBER_OF_JOINTS_IN_KINEMATICS_CONFIGURATION];
+                    struct agvWheel agvWheels[MAX_NUMBER_OF_WHEELS_IN_AGV];
                     struct envelopeConstraint envelopeConstraints[MAX_NUMBER_OF_ENVELOPE_CONSTRAINTS];
                     enum KC_AUXILIARYAXISTYPE auxiliaryAxisType;
                     double auxiliaryAxisFactor;
@@ -1158,6 +1169,22 @@
                     struct cartesianPositionsConfig cartesianPosition;
         };
 
+        struct setInitialPositionActivityParams {
+                    uint8_t kinematicsConfigurationIndex;
+                    struct cartesianPositionsConfig cartesianPosition;
+        };
+
+        struct setInitialPositionActivityStatus {
+        };
+
+        struct setInitialPositionActivityCommand {
+        };
+
+        struct setInitialPositionStream {
+                    uint8_t kinematicsConfigurationIndex;
+                    struct cartesianPositionsConfig cartesianPosition;
+        };
+
         struct setDoutActivityParams {
                     uint8_t doutToSet;
                     bool valueToSet;
@@ -1335,6 +1362,7 @@
                     struct moveArcActivityParams moveArc;
                     struct moveInstantActivityParams moveInstant;
                     struct moveToPositionActivityParams moveToPosition;
+                    struct setInitialPositionActivityParams setInitialPosition;
                     struct gearInPosActivityParams gearInPos;
                     struct gearInVeloActivityParams gearInVelo;
                     struct setDoutActivityParams setDout;
@@ -1364,6 +1392,7 @@
                     struct moveArcActivityStatus moveArc;
                     struct moveInstantActivityStatus moveInstant;
                     struct moveToPositionActivityStatus moveToPosition;
+                    struct setInitialPositionActivityStatus setInitialPosition;
                     struct gearInPosActivityStatus gearInPos;
                     struct gearInVeloActivityStatus gearInVelo;
                     struct setDoutActivityStatus setDout;
@@ -1391,6 +1420,7 @@
                     struct moveArcActivityCommand moveArc;
                     struct moveInstantActivityCommand moveInstant;
                     struct moveToPositionActivityCommand moveToPosition;
+                    struct setInitialPositionActivityCommand setInitialPosition;
                     struct gearInPosActivityCommand gearInPos;
                     struct gearInVeloActivityCommand gearInVelo;
                     struct setDoutActivityCommand setDout;
@@ -1423,6 +1453,7 @@
                     struct moveArcStream moveArc;
                     struct moveInstantStream moveInstant;
                     struct moveToPositionStream moveToPosition;
+                    struct setInitialPositionStream setInitialPosition;
                     struct setDoutActivityParams setDout;
                     struct setDoutActivityParams setExternalDout;
                     struct setModbusDoutActivityParams setModbusDout;
