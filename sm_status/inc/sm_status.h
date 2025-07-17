@@ -58,7 +58,7 @@ typedef struct {
     bool active_overtemperature;
     bool historic_overtemperature;
 
-bool active_overcurrent_a;
+    bool active_overcurrent_a;
     bool historic_overcurrent_a;
     bool active_overcurrent_b;
     bool historic_overcurrent_b;
