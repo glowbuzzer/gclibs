@@ -78,7 +78,7 @@ typedef struct {
     sm_status_homing_t homing_status[6];
     uint64_t cycle_count; //linked
     uint8_t drive_count; // linked
-    bool gbc_connected;
+    // bool gbc_connected;
     sm_status_drive_t drives[6];
     cia_state_t machine_state; // linked
     cia_state_t commanded_machine_state; // linked
