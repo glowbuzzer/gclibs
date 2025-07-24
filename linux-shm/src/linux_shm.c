@@ -61,19 +61,19 @@ establish_shared_mem_and_signal_con(struct shm_msg **shared_mem, int um_en, bool
             gbc_named_offline_mem_protection_semaphore = create_named_semaphore(
                     GBC_NAMED_OFFLINE_MEM_PROTECTION_SEMAPHORE_NAME, 1);
 
-            if (sem_init(gbc_named_trigger_semaphore, 1, 1) == -1) {
-                UM_FATAL("LINUX_SHM: Could not reset gbc_named_trigger_semaphore semaphore [%s]", strerror(errno));
-            }
-
-            if (sem_init(gbc_named_mem_protection_semaphore, 1, 1) == -1) {
-                UM_FATAL("LINUX_SHM: Could not reset gbc_named_mem_protection_semaphore semaphore [%s]",
-                         strerror(errno));
-            }
-
-            if (sem_init(gbc_named_offline_mem_protection_semaphore, 1, 1) == -1) {
-                UM_FATAL("LINUX_SHM: Could not reset gbc_named_offline_mem_protection_semaphore semaphore [%s]",
-                         strerror(errno));
-            }
+            // if (sem_init(gbc_named_trigger_semaphore, 1, 1) == -1) {
+            //     UM_FATAL("LINUX_SHM: Could not reset gbc_named_trigger_semaphore semaphore [%s]", strerror(errno));
+            // }
+            //
+            // if (sem_init(gbc_named_mem_protection_semaphore, 1, 1) == -1) {
+            //     UM_FATAL("LINUX_SHM: Could not reset gbc_named_mem_protection_semaphore semaphore [%s]",
+            //              strerror(errno));
+            // }
+            //
+            // if (sem_init(gbc_named_offline_mem_protection_semaphore, 1, 1) == -1) {
+            //     UM_FATAL("LINUX_SHM: Could not reset gbc_named_offline_mem_protection_semaphore semaphore [%s]",
+            //              strerror(errno));
+            // }
 
 
         } else {
@@ -163,12 +163,30 @@ gberror_t establish_shared_mem_con(struct shm_msg **shared_mem, int um_en) {
 
 
 /** create a named sempahore */
+// sem_t *create_named_semaphore(const char *name, const int value) {
+//     sem_t *semaphore = sem_open(name, O_CREAT, 0777, value);
+//     if (semaphore == SEM_FAILED) {
+//         UM_FATAL("LINUX_SHM: Could not create semaphore [%s]", strerror(errno));
+//         return NULL;
+//     }
+//     return semaphore;
+// }
+
 sem_t *create_named_semaphore(const char *name, const int value) {
-    sem_t *semaphore = sem_open(name, O_CREAT, 0777, value);
+    sem_t *semaphore = sem_open(name, O_CREAT | O_EXCL, 0777, value);
     if (semaphore == SEM_FAILED) {
-        UM_FATAL("LINUX_SHM: Could not create semaphore [%s]", strerror(errno));
-        return NULL;
+        if (errno == EEXIST) {
+            // Someone else already created it — just open it
+            UM_INFO(1, "LINUX_SHM: Semaphore [%s] already exists, opening it", name);
+            semaphore = sem_open(name, 0);
+            if (semaphore == SEM_FAILED) {
+                UM_FATAL("LINUX_SHM: Failed to open existing semaphore [%s]", strerror(errno));
+                return NULL;
+            }
+        } else {
+            UM_FATAL("LINUX_SHM: Failed to create semaphore [%s]", strerror(errno));
+            return NULL;
+        }
     }
     return semaphore;
 }
-
