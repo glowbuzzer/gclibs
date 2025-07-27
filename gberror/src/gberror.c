@@ -67,6 +67,9 @@ struct _gberrordesc {
         {E_SLAVE_EEP_MAN_MATCH_FAILURE, "Slave EEP MAN match failure"},
         {E_SLAVE_EEP_ID_MATCH_FAILURE, "Slave EEP ID match failure"},
         {E_SLAVE_EEP_REV_MATCH_FAILURE, "Slave EEP REV match failure"},
+    {E_INVALID_MAGIC, "Invalid magic number"},
+    {E_SIZE_MISMATCH, "The sizes of the two objects do not match"},
+    {E_TOO_SMALL, "The object is too small"},
 };
 
 int gb_perror(int return_value){

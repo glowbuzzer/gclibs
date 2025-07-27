@@ -65,7 +65,10 @@ typedef enum {
     E_SLAVE_NAME_MATCH_FAILURE = -43,
     E_SLAVE_EEP_MAN_MATCH_FAILURE = -44,
     E_SLAVE_EEP_ID_MATCH_FAILURE = -45,
-    E_SLAVE_EEP_REV_MATCH_FAILURE = -46
+    E_SLAVE_EEP_REV_MATCH_FAILURE = -46,
+    E_INVALID_MAGIC = -47,
+    E_SIZE_MISMATCH = -48,
+    E_TOO_SMALL = -49,
 } gberror_t;
 
 char * gb_strerror(int return_value);
