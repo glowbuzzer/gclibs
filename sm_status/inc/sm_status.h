@@ -72,6 +72,7 @@ typedef struct {
     bool active_r_vstop;
     bool historic_r_vstop;
     bool frozen;
+    bool active_51x0_error;
 } sm_status_drive_t;
 
 
