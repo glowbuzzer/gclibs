@@ -24,7 +24,7 @@
 #define SHM_OFFLINE_BUF_SIZE    20000
 
 /**The size of the shared memory buffer for real-time cyclic comms */
-#if defined(STEP_MASTER_MODE)
+#if !defined(STEP_MASTER_MODE)
 #define SHM_BUF_SIZE            305
 #else
 #define SHM_BUF_SIZE            377
