@@ -15,12 +15,8 @@
 #ifndef GCLIB__DPM_H
 #define GCLIB__DPM_H
 
-
-//#include "std_headers.h"
-//#include "shared.h"
-#include "ecm_status.h"
-
 #include <stdint.h>
+#include "dpm_status.h"
 
 #define DPM_NUM_JOINTS 14
 #define DPM_NUM_ANALOGS 6
@@ -31,7 +27,6 @@
 // NOTE: if more than a single uint64_t is used, order will be confusing - be warned!
 #define DPM_NUM_DIGITALS 64
 #define DPM_NUM_SAFETY_DIGITALS 64
-#define SIZE_OF_GBC_OFFLINE 20000
 
 typedef struct {
     uint16_t status;
@@ -70,7 +65,7 @@ typedef struct {
     uint32_t hlc_control_word; // we dont what this is for
     uint32_t gbc_control_word; // move gbc fault and move not op en
     uint32_t heartbeat; // a periodically increasing heartbeat used to detect we are connected
-    uint16_t joint_controlword[DPM_NUM_JOINTS]; // CiA-402 control word for the drives (not used if say GBEM is commanding teh drives)
+    uint16_t joint_controlword[DPM_NUM_JOINTS]; // CiA-402 control word for the drives (not used if say GBEM is commanding the drives)
     int32_t joint_set_position[DPM_NUM_JOINTS]; // set position for drives (usually only this is used not velocity and torque)
     int32_t joint_set_velocity[DPM_NUM_JOINTS]; // set velocity for drives
     int32_t joint_set_torque[DPM_NUM_JOINTS]; // set torque for drives
@@ -102,18 +97,21 @@ extern dpm_out_t *dpm_out;
 typedef struct {
     uint8_t request_id[DPM_REQUEST_ID_LENGTH];
     uint8_t data[DPM_REQUEST_RESPONSE_DATA_LENGTH];
-} ecm_request_response_t;
+} request_response_t;
 
 //gbem->gbc
 typedef struct {
-    ecm_status_t ecm_status;
-    ecm_request_response_t ecm_response;
+    dpm_status_t m_status;
+    request_response_t m_response;
 }__attribute__((packed)) dpm_offline_in_t;
 
 //gbc->gbem
 typedef struct {
-    ecm_request_response_t ecm_request;
+    request_response_t m_request;
 }__attribute__((packed)) dpm_offline_out_t;
+
+// use the bigger one for size
+#define SIZE_OF_GBC_OFFLINE (sizeof(dpm_offline_in_t))
 
 
 #endif

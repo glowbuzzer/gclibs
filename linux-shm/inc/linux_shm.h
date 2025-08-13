@@ -19,16 +19,11 @@
 #include "gberror.h"
 #include <stdbool.h>
 #include <semaphore.h>
-
-/**The size of the shared memory buffer for offline NON real-time comms */
-#define SHM_OFFLINE_BUF_SIZE    20000
+#include <dpm.h>
 
 /**The size of the shared memory buffer for real-time cyclic comms */
-#if !defined(STEP_MASTER_MODE)
-#define SHM_BUF_SIZE            305
-#else
-#define SHM_BUF_SIZE            377
-#endif
+#define SHM_BUF_SIZE            (SIZE_OF_GBC_PDO)
+#define SHM_OFFLINE_BUF_SIZE    (SIZE_OF_GBC_OFFLINE)
 
 extern char gbc_shared_mem_name[100];
 
@@ -41,10 +36,10 @@ struct shm_msg {
     int gbc_alive;
     int in_busy;
     int out_busy;
-    uint8_t sm_buf_in[SHM_BUF_SIZE];
-    uint8_t sm_buf_out[SHM_BUF_SIZE];
-    uint8_t sm_offline_buf_in[SHM_OFFLINE_BUF_SIZE];
-    uint8_t sm_offline_buf_out[SHM_OFFLINE_BUF_SIZE];
+    uint8_t sm_buf_in[SIZE_OF_GBC_PDO];
+    uint8_t sm_buf_out[SIZE_OF_GBC_PDO];
+    uint8_t sm_offline_buf_in[SIZE_OF_GBC_OFFLINE];
+    uint8_t sm_offline_buf_out[SIZE_OF_GBC_OFFLINE];
 };
 
 
