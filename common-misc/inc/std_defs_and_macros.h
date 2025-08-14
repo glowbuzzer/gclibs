@@ -147,5 +147,9 @@
 #define REGISTER_SET(data, mask, shift, value) \
 	(((data) & (~(mask))) | (((value) << (shift)) & (mask)))
 
+#define SIGN_EXTEND_7BIT(x) (((x) & 0x40) ? ((x) | ~0x7F) : (x))
+
+#define REGISTER_SET_SIGNED7(data, mask, shift, value) (((data) & ~(mask)) | ((((uint32_t)((value) & 0x7F)) << (shift)) & (mask)))
+
 
 #endif
