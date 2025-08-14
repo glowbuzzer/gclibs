@@ -23,7 +23,7 @@
 #include <string.h>
 #include <sys/sem.h>
 
-#define GBC_SHARED_MEMORY_NAME "gbc_shared_memory"
+#define GBC_SHARED_MEMORY_NAME "/gbc_shared_memory"
 #define GBC_NAMED_TRIGGER_SEMAPHORE_NAME "/gbc_named_trigger_semaphore"
 #define GBC_NAMED_MEM_PROTECTION_SEMAPHORE_NAME "/gbc_named_mem_protection_semaphore"
 #define GBC_NAMED_OFFLINE_MEM_PROTECTION_SEMAPHORE_NAME "/gbc_named_offline_mem_protection_semaphore"
